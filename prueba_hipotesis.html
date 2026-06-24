@@ -384,10 +384,16 @@
           <td>—</td>
         </tr>
         <tr>
-          <td><strong>1 pob. · media</strong> con s (σ desconocida)</td>
+          <td><strong>1 pob. · media</strong> con s (σ desconocida) · <em>n &lt; 30</em></td>
           <td>t</td>
           <td>$\dfrac{\bar X - \mu_0}{s/\sqrt{n}}$</td>
           <td>$n-1$</td>
+        </tr>
+        <tr style="background:rgba(59,79,176,.04)">
+          <td><strong>1 pob. · media</strong> con s (σ desconocida) · <em>n ≥ 30</em></td>
+          <td><strong>Z</strong></td>
+          <td>$\dfrac{\bar X - \mu_0}{s/\sqrt{n}}$</td>
+          <td>— (TCL)</td>
         </tr>
         <tr>
           <td><strong>1 pob. · proporción</strong></td>
@@ -402,10 +408,16 @@
           <td>—</td>
         </tr>
         <tr>
-          <td><strong>2 pob. · medias</strong> σ desconocidas <em>iguales</em></td>
+          <td><strong>2 pob. · medias</strong> σ desconocidas <em>iguales</em> · <em>n₁,n₂ &lt; 30</em></td>
           <td>t</td>
           <td>$\dfrac{(\bar X_1-\bar X_2)-\delta_0}{s_p\sqrt{1/n_1+1/n_2}}$</td>
           <td>$n_1+n_2-2$</td>
+        </tr>
+        <tr style="background:rgba(59,79,176,.04)">
+          <td><strong>2 pob. · medias</strong> σ desconocidas · <em>n₁,n₂ ≥ 30</em></td>
+          <td><strong>Z</strong></td>
+          <td>$\dfrac{(\bar X_1-\bar X_2)-\delta_0}{\sqrt{s_1^2/n_1+s_2^2/n_2}}$</td>
+          <td>— (TCL)</td>
         </tr>
         <tr>
           <td><strong>2 pob. · proporciones</strong> (H₀: p₁=p₂)</td>
@@ -415,6 +427,12 @@
         </tr>
       </tbody>
     </table>
+    <div class="note" style="background:rgba(59,79,176,.07);border-left-color:var(--indigo)">
+      <span class="lbl" style="color:var(--indigo)">Regla del n ≥ 30 · Teorema Central del Límite</span>
+      Cuando el tamaño de muestra es <strong>mayor o igual a 30</strong>, el TCL garantiza que $\bar X$ se distribuye aproximadamente normal <em>sin importar la distribución de la población</em>. Consecuencia práctica: aunque <strong>no conozcas σ</strong>, puedes usar <strong>Z con s</strong> en vez de t — la distribución t con df ≥ 29 es prácticamente indistinguible de la normal.<br><br>
+      <strong>Señal en el enunciado:</strong> n grande (≥ 30) + solo te dan s (sin σ) = usar Z igualmente.<br>
+      <strong>Para 2 poblaciones:</strong> ambas muestras deben ser ≥ 30; si una sola es pequeña, se usa t.
+    </div>
     <div class="note blue">
       <span class="lbl">δ₀ en dos poblaciones</span>
       Normalmente H₀: μ₁ − μ₂ = 0, así que δ₀ = 0 y el término desaparece. Si el enunciado pide probar que la diferencia es, por ejemplo, 5, entonces δ₀ = 5.
