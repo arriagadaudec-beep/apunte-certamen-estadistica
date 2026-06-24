@@ -248,6 +248,19 @@
   .preanalysis table{margin:0;font-size:.88rem}
   .preanalysis th{font-size:.66rem}
 
+  /* ---- Tarjeta narrativa "cuento de la calle" ---- */
+  .story{
+    background:#FFFBEB;border:1px solid #D97706;border-left:4px solid #D97706;
+    border-radius:0 10px 10px 0;padding:18px 22px;margin:0 0 22px;
+  }
+  .story h4{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;color:#92400E;margin:0 0 12px;
+  }
+  .story .sc{font-weight:700;color:#92400E}
+  .story p{margin:0 0 10px;font-size:.94rem}
+  .story p:last-child{margin:0}
+
   /* ---- Section divider ---- */
   .sec-divider{border-top:3px dashed var(--line);margin:34px 0 26px;padding-top:26px}
   .sec-divider .eyebrow{margin:0 0 3px}
@@ -529,6 +542,14 @@
     <span class="tag">📋 L4 · Ejercicio 1 · Solución oficial</span>
     <h2>Sueldos por género: ¿más de $20 de diferencia?</h2>
 
+    <div class="story">
+      <h4>El cuento de la calle · Antes de calcular nada</h4>
+      <p><span class="sc">El chisme:</span> La empresa sostiene que sus hombres ganan más de 20 dólares semanales que las mujeres. El sindicato lo duda. Tú tienes datos de 60 hombres y 60 mujeres y quieres ver si los datos contradicen esa afirmación.</p>
+      <p><span class="sc">Por qué H₀ lleva la afirmación de la empresa:</span> En estadística, ponemos en H₀ lo que queremos intentar refutar. Si no logramos rechazarlo al 99% de confianza, la afirmación queda en pie. No significa que sea verdad absoluta; significa que los datos no tienen fuerza suficiente para descartarla.</p>
+      <p><span class="sc">Por qué δ₀ = 20 y no 0:</span> La empresa no dice solo "los hombres ganan más". Dice exactamente "más de 20 dólares". Eso es lo que H₀ defiende: μ₁ − μ₂ ≥ 20. Por eso el numerador del estadístico resta 20, no 0.</p>
+      <p><span class="sc">Qué significa el resultado final:</span> Z_c = 2,068 es positivo, lo que indica que los datos muestran una diferencia de 26,40 — mayor que 20. H₁ decía que la diferencia era menor de 20. Los propios datos van en sentido contrario a H₁. No hay evidencia para refutar a la empresa.</p>
+    </div>
+
     <div class="note warn">
       <span class="lbl">Enunciado · Listado 4 Ejercicio 1</span>
       En una empresa se afirma que el sueldo promedio de un hombre excede al de una mujer en <strong>más de 20,00 dólares por semana</strong>. Los datos revelan:
@@ -583,11 +604,11 @@
       </table>
     </div>
     <div class="note">
-      <span class="lbl">¿Por qué hacer la prueba F aunque n ≥ 30?</span>
-      El TCL dice que <em>podemos usar Z</em>, pero aún necesitamos elegir el denominador correcto:<br>
-      &bull; Si σ₁² = σ₂² → calcular <strong>Sp pooled</strong> y usar $S_p\sqrt{1/n_1+1/n_2}$<br>
-      &bull; Si σ₁² ≠ σ₂² → usar varianzas separadas $\sqrt{S_1^2/n_1+S_2^2/n_2}$<br>
-      La prueba F decide cuál denominador corresponde.
+      <span class="lbl">¿Por qué hacer la prueba F aunque n ≥ 30? — El problema del denominador</span>
+      El TCL resuelve <em>qué distribución usar</em> (Z, no t). Pero <strong>no resuelve cómo calcular el error estándar del denominador</strong>. Para eso necesitamos saber si σ₁² y σ₂² son iguales o distintas:<br><br>
+      <strong>Caso A — Varianzas iguales (σ₁² = σ₂² = σ²):</strong> Ambos grupos comparten la misma varianza poblacional desconocida. Tiene sentido combinar S₁² y S₂² en una sola estimación más precisa llamada Sp². Denominador: $S_p\sqrt{1/n_1+1/n_2}$<br><br>
+      <strong>Caso B — Varianzas distintas (σ₁² ≠ σ₂²):</strong> Cada grupo tiene su propia varianza. Mezclarlas sería como promediar manzanas con naranjas. Cada grupo aporta la suya. Denominador: $\sqrt{S_1^2/n_1+S_2^2/n_2}$<br><br>
+      La <strong>prueba F</strong> es el árbitro: decide a cuál de estos dos casos pertenece el problema. Sin ella, no sabes qué denominador usar.
     </div>
 
     <h3>Paso previo · Prueba F de igualdad de varianzas</h3>
@@ -601,10 +622,23 @@
       $$F_{obs}=\frac{S_1^2}{S_2^2}=\frac{(15{,}60)^2}{(18{,}20)^2}=\frac{243{,}36}{331{,}24}=0{,}735$$
     </div>
     <div class="note blue">
-      <span class="lbl">Valores críticos de la tabla F</span>
-      gl₁ = n₁ − 1 = 59 ≈ 60 &nbsp;·&nbsp; gl₂ = n₂ − 1 = 59 ≈ 60 &nbsp;·&nbsp; α/2 = 0,005<br><br>
-      $F_{60,\,60;\;0{,}995} = 1{,}96$ &nbsp;(cola superior, de tabla)<br>
-      $F_{60,\,60;\;0{,}005} = 1 / F_{60,\,60;\;0{,}995} = 1/1{,}96 = 0{,}510$ &nbsp;(por simetría, cola inferior)
+      <span class="lbl">Cómo se obtienen los valores críticos de la tabla F — cuatro preguntas</span>
+
+      <strong>1. ¿Por qué gl = n − 1 y no gl = n?</strong><br>
+      F_obs = S₁²/S₂² es un cociente de dos varianzas muestrales. Cada varianza muestral S² se calcula como Σ(Xᵢ − X̄)²/(n−1). Ese "(n−1)" aparece porque al usar X̄ en lugar de μ "consumimos" una observación. Resultado: cada S² tiene (n−1) grados de libertad, no n.<br>
+      gl₁ = n₁ − 1 = 60 − 1 = <strong>59 ≈ 60</strong> (numerador, proviene de S₁²)<br>
+      gl₂ = n₂ − 1 = 60 − 1 = <strong>59 ≈ 60</strong> (denominador, proviene de S₂²)<br><br>
+
+      <strong>2. ¿Por qué α/2 = 0,005 si α = 0,01?</strong><br>
+      El test de F es <strong>bilateral</strong>: H₁ dice σ₁²/σ₂² ≠ 1, lo que incluye tanto "σ₁² mucho mayor" (F muy grande) como "σ₁² mucho menor" (F muy pequeño). Dividimos el error α entre las dos colas: 0,5% en la cola derecha y 0,5% en la cola izquierda. De ahí los percentiles 0,995 y 0,005.<br><br>
+
+      <strong>3. ¿De dónde sale F_{60,60;0,995} = 1,96?</strong><br>
+      Se lee directamente de la <strong>tabla de distribución F</strong> para (gl₁=60, gl₂=60) en el percentil 99,5% (columna que deja 0,5% en la cola derecha). Para esa combinación de grados de libertad, el valor tabulado es 1,96. Es coincidencia numérica con Z_{0,975}=1,96; son distribuciones distintas.<br><br>
+
+      <strong>4. ¿Por qué el límite inferior = 1/1,96 = 0,510?</strong><br>
+      La distribución F tiene esta propiedad: $F_{gl_1,\,gl_2;\;\alpha} = 1\,/\,F_{gl_2,\,gl_1;\;1-\alpha}$. Cuando gl₁ = gl₂ = gl, se simplifica a $F_{gl,\,gl;\;\alpha/2} = 1\,/\,F_{gl,\,gl;\;1-\alpha/2}$.<br>
+      Entonces: $F_{60,60;\;0{,}005} = 1/F_{60,60;\;0{,}995} = 1/1{,}96 = 0{,}510$<br>
+      <em>Intuición:</em> si S₁²/S₂² = 0,510 (cociente muy pequeño), significa S₂²/S₁² = 1/0,510 = 1,96 (el cociente inverso es muy grande). La misma asimetría, detectada "al revés".
     </div>
     <div class="formula">
       <span class="cap">Comparación: F_obs debe caer fuera del intervalo (0,510 ; 1,96) para rechazar</span>
@@ -614,9 +648,21 @@
       <span class="rk">Conclusión paso previo</span>
       <span class="rv">Varianzas iguales: σ₁² = σ₂² → usar Sp pooled</span>
     </div>
+    <div class="note ok">
+      <span class="lbl">¿Por qué varianzas iguales implica usar Sp y no S₁ o S₂ por separado?</span>
+      Si el test F concluye σ₁² = σ₂², ambas varianzas muestrales S₁² y S₂² son estimaciones del <strong>mismo</strong> parámetro desconocido σ². Tienes dos estimaciones de lo mismo: ¿por qué usar solo una?<br><br>
+      <strong>Analogía:</strong> Tienes dos termómetros igualmente precisos midiendo la misma temperatura. Lo más inteligente es promediar sus lecturas para reducir el error. Eso es Sp²: un <em>promedio ponderado</em> de S₁² y S₂², donde el peso de cada uno es su cantidad de grados de libertad:<br>
+      $$S_p^2 = \frac{(n_1-1)\cdot S_1^2 + (n_2-1)\cdot S_2^2}{(n_1-1)+(n_2-1)}$$
+      El grupo más grande (más grados de libertad = más información) influye más en el resultado. Si el test F hubiera dicho "varianzas distintas", no podríamos mezclarlas — estarías promediando temperaturas de dos habitaciones a distintas alturas.
+    </div>
 
     <h3>Cálculo de Sp · Varianza pooled</h3>
-    <p class="lead">Al confirmar igualdad de varianzas, combinamos ambas muestras para estimar σ² con más información (más grados de libertad).</p>
+    <p class="lead">Como σ₁² = σ₂², usamos todos los 120 datos para estimar σ² con más precisión de la que daría usar solo uno de los grupos.</p>
+    <div class="note">
+      <span class="lbl">¿Qué significa "más grados de libertad"?</span>
+      Piensa en encuestar personas para estimar la estatura promedio de tu carrera. Si encuestas a 5, tu estimación es incierta. Si encuestas a 100, mucho más confiable. Los grados de libertad funcionan igual: son las piezas de información independientes disponibles para estimar σ².<br><br>
+      Sin pooling: S₁² tiene <strong>59 gl</strong> (solo información de los 60 hombres). Con pooling: Sp² tiene <strong>118 gl</strong> (información de los 120 participantes). El doble de información → estimación más precisa de σ² → error estándar más confiable → test con más potencia para detectar diferencias reales.
+    </div>
     <div class="formula">
       $$S_p^2=\frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}=\frac{59\times 243{,}36\;+\;59\times 331{,}24}{118}=\frac{14\,358{,}24\;+\;19\,543{,}16}{118}=\frac{33\,901{,}40}{118}=287{,}30$$
     </div>
@@ -686,6 +732,14 @@
   <section class="solved2" id="l4ej2">
     <span class="tag">📋 L4 · Ejercicio 2 · Solución oficial</span>
     <h2>Resistencia de dos tipos de acero</h2>
+
+    <div class="story">
+      <h4>El cuento de la calle · Antes de calcular nada</h4>
+      <p><span class="sc">El chisme:</span> Una empresa siderúrgica fabrica dos tipos de acero. El ingeniero de control de calidad quiere saber si tienen la misma resistencia a la tensión, o si uno es más fuerte que el otro. No sospecha en qué dirección, solo quiere saber si son iguales o no.</p>
+      <p><span class="sc">Por qué Z directo y sin pasos previos:</span> El enunciado entrega σ₁ y σ₂ como datos conocidos (propiedades del proceso de fabricación, verificadas por años de registros). Cuando σ es conocida, no hay incertidumbre sobre la varianza: la fórmula Z la usa directamente. Sin σ desconocida → sin prueba F → sin pooling. El camino más corto.</p>
+      <p><span class="sc">Por qué bilateral:</span> La pregunta es "¿hay diferencias?" sin especificar dirección. Se rechaza tanto si el acero 1 es claramente más resistente como si es claramente menos resistente que el acero 2.</p>
+      <p><span class="sc">Qué significa Z_c = 3,53:</span> El estadístico está a 3,53 desviaciones estándar del valor que esperaríamos si H₀ fuera cierta. El umbral de rechazo era solo 2,58. Un resultado tan extremo es muy poco probable si los aceros fueran iguales. Los datos son incompatibles con H₀ al 1%.</p>
+    </div>
 
     <div class="note warn">
       <span class="lbl">Enunciado · Listado 4 Ejercicio 2</span>
@@ -796,6 +850,13 @@
   <section class="solved2" id="l4ej3">
     <span class="tag">📋 L4 · Ejercicio 3 · Solución oficial</span>
     <h2>Efectividad del anuncio en dos ciudades</h2>
+
+    <div class="story">
+      <h4>El cuento de la calle · Antes de calcular nada</h4>
+      <p><span class="sc">El chisme:</span> Un comerciante puso el mismo anuncio en los diarios de dos ciudades. Quiere saber si el anuncio llegó igual a ambas ciudades o si hubo diferencia. El ejercicio tiene tres preguntas anidadas que van de lo general a lo específico: (a) ¿cuál es el rango de la diferencia? → (b) ¿son significativamente distintas? → (c) ¿la diferencia supera el 10%?</p>
+      <p><span class="sc">Por qué el denominador cambia entre IC y PH:</span> En el IC (parte a) no asumimos nada sobre si p₁=p₂; cada ciudad mantiene su propio p̂. En la PH bilateral (parte b) usamos un atajo: si 0 no está en el IC, la diferencia ya es significativa, sin calcular otro estadístico. En la PH de la parte c hay un δ₀=0,1 que entra en el numerador.</p>
+      <p><span class="sc">Qué significa cada resultado:</span> El IC (0,008 ; 0,072) dice que la diferencia real está entre 0,8% y 7,2% — pequeña pero real. En la parte b, el 0 queda fuera del IC, entonces hay diferencia significativa. En la parte c, Z_c = −3,66 está muy lejos de 1,65 y encima es negativo: los datos no apuntan en absoluto hacia "la diferencia supera el 10%".</p>
+    </div>
 
     <div class="note warn">
       <span class="lbl">Enunciado · Listado 4 Ejercicio 3</span>
