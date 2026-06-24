@@ -236,6 +236,23 @@
     .conclusion{grid-template-columns:1fr}
     .nav-links a{padding:13px 9px;font-size:.62rem}
   }
+  /* ---- Pre-analysis decision map ---- */
+  .preanalysis{
+    background:rgba(59,79,176,.04);border:1px solid rgba(59,79,176,.22);
+    border-radius:12px;padding:18px 22px;margin:16px 0;
+  }
+  .preanalysis h4{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin:0 0 12px;
+  }
+  .preanalysis table{margin:0;font-size:.88rem}
+  .preanalysis th{font-size:.66rem}
+
+  /* ---- Section divider ---- */
+  .sec-divider{border-top:3px dashed var(--line);margin:34px 0 26px;padding-top:26px}
+  .sec-divider .eyebrow{margin:0 0 3px}
+  .sec-divider h2{font-family:'Spectral',serif;font-size:1.7rem;font-weight:800;margin:0}
+
   @media print{
     .site-nav{display:none}
     nav.toc{display:none}
@@ -264,7 +281,7 @@
   <header class="top">
     <p class="eyebrow">Estadística · Listado 4 · Prueba de Hipótesis</p>
     <h1>Prueba de Hipótesis</h1>
-    <p class="sub">Protocolo de 5 pasos para una y dos poblaciones: media (Z y t) y proporción, con cuatro ejemplos resueltos.</p>
+    <p class="sub">Protocolo de 5 pasos · mapa de decisión Z / t · bloques por caso · y los tres ejercicios oficiales del Listado 4 resueltos paso a paso con análisis de cada decisión.</p>
   </header>
 
   <nav class="toc">
@@ -276,6 +293,9 @@
     <a href="#ej2">Ej. 2 · Z prop. (1 pob.)</a>
     <a href="#ej3">Ej. 3 · t (2 pob.)</a>
     <a href="#ej4">Ej. 4 · Z prop. (2 pob.)</a>
+    <a href="#l4ej1">L4 · Ej.1 · Sueldos género</a>
+    <a href="#l4ej2">L4 · Ej.2 · Resistencia acero</a>
+    <a href="#l4ej3">L4 · Ej.3 · Proporciones ciudades</a>
   </nav>
 
   <!-- ======== PROTOCOLO 5 PASOS ======== -->
@@ -680,6 +700,406 @@
       <span class="rv">No rechazar H₀</span>
     </div>
     <p style="margin-top:12px">Con α = 0.05, <strong>no hay evidencia estadística</strong> para afirmar que las tasas de respuesta de ambas empresas son distintas.</p>
+  </section>
+
+  <!-- ======== SEPARADOR ======== -->
+  <div class="sec-divider">
+    <p class="eyebrow">Ejercicios oficiales · Solución del profesor</p>
+    <h2>Listado 4 · Resueltos paso a paso</h2>
+  </div>
+
+  <!-- ======== L4 · EJERCICIO 1 ======== -->
+  <section class="solved2" id="l4ej1">
+    <span class="tag">📋 L4 · Ejercicio 1 · Solución oficial</span>
+    <h2>Sueldos por género: ¿más de $20 de diferencia?</h2>
+
+    <div class="note warn">
+      <span class="lbl">Enunciado · Listado 4 Ejercicio 1</span>
+      En una empresa se afirma que el sueldo promedio de un hombre excede al de una mujer en <strong>más de 20,00 dólares por semana</strong>. Los datos revelan:
+      <table style="margin:10px 0 6px;font-size:.9rem">
+        <thead><tr><th>Grupo</th><th>n</th><th class="num">X̄</th><th class="num">S</th></tr></thead>
+        <tbody>
+          <tr><td>Hombres · Pob. 1</td><td class="num">60</td><td class="num">292,50</td><td class="num">15,60</td></tr>
+          <tr><td>Mujeres · Pob. 2</td><td class="num">60</td><td class="num">266,10</td><td class="num">18,20</td></tr>
+        </tbody>
+      </table>
+      ¿Qué puede concluir a un nivel de significación del <strong>1%</strong>?
+    </div>
+
+    <h3>Análisis previo · ¿Qué fórmula usar y por qué?</h3>
+    <p class="lead">Antes de entrar al protocolo, responde estas preguntas. Cada respuesta te lleva a una decisión concreta.</p>
+    <div class="preanalysis">
+      <h4>Mapa de decisión</h4>
+      <table>
+        <thead><tr><th>Pregunta</th><th>Respuesta</th><th>Consecuencia</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>¿Cuántas poblaciones?</td>
+            <td><strong style="color:var(--b2)">2</strong> — hombres y mujeres</td>
+            <td>Estadístico de diferencia de medias $\bar X_1 - \bar X_2$</td>
+          </tr>
+          <tr>
+            <td>¿Qué parámetro se compara?</td>
+            <td><strong style="color:var(--b2)">Medias</strong> μ₁, μ₂</td>
+            <td>Fórmula de diferencia de medias (no proporciones)</td>
+          </tr>
+          <tr>
+            <td>¿Se conocen σ₁, σ₂?</td>
+            <td><strong style="color:var(--ph)">NO</strong> — solo hay S₁ y S₂</td>
+            <td>Paso previo obligatorio: <strong>Prueba F</strong> de igualdad de varianzas</td>
+          </tr>
+          <tr>
+            <td>¿n₁ ≥ 30 y n₂ ≥ 30?</td>
+            <td><strong style="color:var(--b1)">SÍ</strong> — n₁ = n₂ = 60</td>
+            <td>TCL aplica → usar <strong>Z</strong>, aunque σ sea desconocida</td>
+          </tr>
+          <tr>
+            <td>¿δ₀ = 0?</td>
+            <td><strong style="color:var(--ph)">NO</strong> — δ₀ = 20</td>
+            <td>Numerador lleva $(\bar X_1 - \bar X_2 - \mathbf{20})$, no $(\bar X_1 - \bar X_2)$</td>
+          </tr>
+          <tr>
+            <td>¿Qué cola?</td>
+            <td><strong style="color:var(--ph)">Cola izquierda</strong></td>
+            <td>H₁: μ₁−μ₂ &lt; 20 → rechazar si $Z_c &lt; -Z_\alpha$</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <span class="lbl">¿Por qué hacer la prueba F aunque n ≥ 30?</span>
+      El TCL dice que <em>podemos usar Z</em>, pero aún necesitamos elegir el denominador correcto:<br>
+      &bull; Si σ₁² = σ₂² → calcular <strong>Sp pooled</strong> y usar $S_p\sqrt{1/n_1+1/n_2}$<br>
+      &bull; Si σ₁² ≠ σ₂² → usar varianzas separadas $\sqrt{S_1^2/n_1+S_2^2/n_2}$<br>
+      La prueba F decide cuál denominador corresponde.
+    </div>
+
+    <h3>Paso previo · Prueba F de igualdad de varianzas</h3>
+    <p class="lead">Bilateral con α = 0,01. Decidimos si σ₁² = σ₂² antes de calcular el estadístico principal.</p>
+    <div class="formula">
+      <span class="cap">Hipótesis del paso previo</span>
+      $$H_0^F:\;\frac{\sigma_1^2}{\sigma_2^2}=1 \qquad H_1^F:\;\frac{\sigma_1^2}{\sigma_2^2}\neq 1 \qquad \alpha=0{,}01$$
+    </div>
+    <div class="formula">
+      <span class="cap">Estadístico F observado</span>
+      $$F_{obs}=\frac{S_1^2}{S_2^2}=\frac{(15{,}60)^2}{(18{,}20)^2}=\frac{243{,}36}{331{,}24}=0{,}735$$
+    </div>
+    <div class="note blue">
+      <span class="lbl">Valores críticos de la tabla F</span>
+      gl₁ = n₁ − 1 = 59 ≈ 60 &nbsp;·&nbsp; gl₂ = n₂ − 1 = 59 ≈ 60 &nbsp;·&nbsp; α/2 = 0,005<br><br>
+      $F_{60,\,60;\;0{,}995} = 1{,}96$ &nbsp;(cola superior, de tabla)<br>
+      $F_{60,\,60;\;0{,}005} = 1 / F_{60,\,60;\;0{,}995} = 1/1{,}96 = 0{,}510$ &nbsp;(por simetría, cola inferior)
+    </div>
+    <div class="formula">
+      <span class="cap">Comparación: F_obs debe caer fuera del intervalo (0,510 ; 1,96) para rechazar</span>
+      $$0{,}510 \;<\; 0{,}735 \;<\; 1{,}96 \quad\Rightarrow\quad F_{obs}\text{ está DENTRO} \Rightarrow \textbf{No se rechaza }H_0^F$$
+    </div>
+    <div class="result">
+      <span class="rk">Conclusión paso previo</span>
+      <span class="rv">Varianzas iguales: σ₁² = σ₂² → usar Sp pooled</span>
+    </div>
+
+    <h3>Cálculo de Sp · Varianza pooled</h3>
+    <p class="lead">Al confirmar igualdad de varianzas, combinamos ambas muestras para estimar σ² con más información (más grados de libertad).</p>
+    <div class="formula">
+      $$S_p^2=\frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}=\frac{59\times 243{,}36\;+\;59\times 331{,}24}{118}=\frac{14\,358{,}24\;+\;19\,543{,}16}{118}=\frac{33\,901{,}40}{118}=287{,}30$$
+    </div>
+    <div class="formula">
+      $$S_p=\sqrt{287{,}30}=16{,}95$$
+    </div>
+
+    <h3><span class="step">Paso 1</span>Plantear H₀ y H₁</h3>
+    <div class="note">
+      <span class="lbl">¿Cómo se construyen las hipótesis?</span>
+      La empresa <em>afirma</em> que μ₁ − μ₂ &gt; 20. Lo que se afirma va en H₀ (lo que hay que intentar refutar). Si no se puede rechazar H₀, la afirmación es consistente con los datos.
+    </div>
+    <div class="formula">
+      $$H_0:\;\mu_1-\mu_2\geq 20{,}00 \qquad H_1:\;\mu_1-\mu_2<20{,}00 \qquad\text{(cola izquierda)}$$
+    </div>
+
+    <h3><span class="step">Paso 2</span>Nivel de significancia y valor crítico</h3>
+    <p class="lead">α = 0,01. Cola izquierda → se rechaza H₀ si $Z_c &lt; -Z_{0{,}99}$.</p>
+    <div class="formula">
+      $$Z_{0{,}99}=2{,}33 \qquad \text{Región crítica: } Z_c<-2{,}33$$
+    </div>
+
+    <h3><span class="step">Paso 3</span>Estadístico de prueba Z</h3>
+    <p class="lead">n₁ = n₂ = 60 ≥ 30 → TCL aplica → Z. Varianzas verificadas como iguales → denominador con Sp.</p>
+    <div class="formula">
+      <span class="cap">Error estándar con Sp pooled</span>
+      $$SE=S_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}=16{,}95\cdot\sqrt{\frac{1}{60}+\frac{1}{60}}=16{,}95\cdot\sqrt{\frac{2}{60}}=16{,}95\times 0{,}1826=3{,}094$$
+    </div>
+    <div class="formula">
+      <span class="cap">Estadístico Z calculado (con δ₀ = 20, no 0)</span>
+      $$Z_c=\frac{(\bar X_1-\bar X_2)-\delta_0}{SE}=\frac{(292{,}50-266{,}10)-20{,}00}{3{,}094}=\frac{26{,}40-20{,}00}{3{,}094}=\frac{6{,}40}{3{,}094}=\mathbf{2{,}068}$$
+    </div>
+    <div class="note blue">
+      <span class="lbl">Verificación con varianzas separadas (fórmula alternativa del profesor)</span>
+      Ambas versiones dan el mismo resultado porque Sp² ≈ promedio de S₁² y S₂²:
+      $$Z_c=\frac{6{,}40}{\sqrt{S_1^2/n_1+S_2^2/n_2}}=\frac{6{,}40}{\sqrt{243{,}36/60+331{,}24/60}}=\frac{6{,}40}{\sqrt{9{,}577}}=\frac{6{,}40}{3{,}095}=2{,}068$$
+    </div>
+
+    <h3><span class="step">Paso 4</span>Región de rechazo</h3>
+    <div class="conclusion">
+      <div class="concl-r">
+        <span class="cl">Región crítica (rechazar H₀)</span>
+        <span class="cv">$Z_c < -2{,}33$</span>
+      </div>
+      <div class="concl-f">
+        <span class="cl">No rechazar H₀</span>
+        <span class="cv">$Z_c \geq -2{,}33$</span>
+      </div>
+    </div>
+
+    <h3><span class="step">Paso 5</span>Conclusión</h3>
+    <div class="formula">
+      $$Z_c=2{,}068\;>\;-2{,}33\quad\Rightarrow\quad Z_c\text{ NO está en la región de rechazo}\quad\Rightarrow\quad\textbf{No se rechaza }H_0$$
+    </div>
+    <div class="note ok">
+      <span class="lbl">Observación clave del profesor</span>
+      $Z_c = 2{,}068$ es <strong>positivo</strong>: los datos observados van en sentido <em>opuesto</em> a H₁ (que dice μ₁−μ₂ &lt; 20). La diferencia muestral es $\bar X_1-\bar X_2=26{,}40 > 20$, o sea los datos ya apoyan H₀ sin necesidad de zona de rechazo.
+    </div>
+    <div class="result">
+      <span class="rk">Decisión</span>
+      <span class="rv">No rechazar H₀</span>
+    </div>
+    <p style="margin-top:12px">Al 1% de significación, la afirmación de la empresa es <strong>consistente con los datos</strong>: los hombres ganan en promedio <strong>más de 20 dólares semanales</strong> que las mujeres.</p>
+  </section>
+
+  <!-- ======== L4 · EJERCICIO 2 ======== -->
+  <section class="solved2" id="l4ej2">
+    <span class="tag">📋 L4 · Ejercicio 2 · Solución oficial</span>
+    <h2>Resistencia de dos tipos de acero</h2>
+
+    <div class="note warn">
+      <span class="lbl">Enunciado · Listado 4 Ejercicio 2</span>
+      Se compara la resistencia a la tensión de dos tipos de acero. Muestras de tamaño <strong>n₁ = 40</strong> y <strong>n₂ = 32</strong>, con medias $\bar X_1=18{,}12$ y $\bar X_2=16{,}87$ Kg/cm².<br><br>
+      <strong>a)</strong> Si σ₁ = 1,6 y σ₂ = 1,4 (conocidas). ¿Hay diferencias en las resistencias medias? α = 0,01.<br>
+      <strong>b)</strong> ¿Modificaría su respuesta si solo dispone de S₁ = 1,6 y S₂ = 1,4?
+    </div>
+
+    <!-- ---- PARTE A ---- -->
+    <h3>Parte a) · σ₁ y σ₂ conocidas → Z bilateral directo</h3>
+
+    <div class="preanalysis">
+      <h4>Mapa de decisión · Parte a)</h4>
+      <table>
+        <thead><tr><th>Pregunta</th><th>Respuesta</th><th>Consecuencia</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>¿σ₁, σ₂ conocidas?</td>
+            <td><strong style="color:var(--b1)">SÍ</strong> — σ₁=1,6 y σ₂=1,4</td>
+            <td>Z directamente, sin prueba F ni Sp</td>
+          </tr>
+          <tr>
+            <td>¿δ₀ = 0?</td>
+            <td><strong style="color:var(--b1)">SÍ</strong> — H₀: μ₁ = μ₂</td>
+            <td>Numerador: $\bar X_1-\bar X_2$ (el cero desaparece)</td>
+          </tr>
+          <tr>
+            <td>¿Qué cola?</td>
+            <td><strong style="color:var(--b2)">Bilateral</strong> — "¿hay diferencias?"</td>
+            <td>Rechazar si $|Z_c|>Z_{\alpha/2}$</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><span class="step">Paso 1</span>H₀ y H₁</h3>
+    <div class="formula">
+      $$H_0:\mu_1=\mu_2 \qquad H_1:\mu_1\neq\mu_2 \qquad\text{(bilateral, "¿difieren?")}$$
+    </div>
+
+    <h3><span class="step">Paso 2</span>Nivel de significancia</h3>
+    <p class="lead">α = 0,01. Bilateral → $Z_{\alpha/2}=Z_{0{,}005}=Z_{0{,}995}=\mathbf{2{,}58}$. Región de rechazo: $|Z_c|>2{,}58$.</p>
+
+    <h3><span class="step">Paso 3</span>Estadístico Z con σ conocidas</h3>
+    <div class="formula">
+      <span class="cap">Error estándar — σ conocidas, sin pooling</span>
+      $$SE=\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}=\sqrt{\frac{(1{,}6)^2}{40}+\frac{(1{,}4)^2}{32}}=\sqrt{\frac{2{,}56}{40}+\frac{1{,}96}{32}}=\sqrt{0{,}064+0{,}0613}=\sqrt{0{,}1253}=0{,}3539$$
+    </div>
+    <div class="formula">
+      <span class="cap">Estadístico calculado</span>
+      $$Z_c=\frac{\bar X_1-\bar X_2}{SE}=\frac{18{,}12-16{,}87}{0{,}3539}=\frac{1{,}25}{0{,}3539}=\mathbf{3{,}53}$$
+    </div>
+
+    <h3><span class="step">Paso 4 y 5</span>Región de rechazo y conclusión</h3>
+    <div class="formula">
+      $$|Z_c|=3{,}53\;>\;2{,}58=Z^*\quad\Rightarrow\quad\textbf{Se rechaza }H_0$$
+    </div>
+    <div class="result reject">
+      <span class="rk">Decisión parte a)</span>
+      <span class="rv">Rechazar H₀ — las resistencias medias difieren al 1%</span>
+    </div>
+
+    <!-- ---- PARTE B ---- -->
+    <h3>Parte b) · Solo se dispone de S₁ y S₂ — ¿cambia la respuesta?</h3>
+
+    <div class="preanalysis">
+      <h4>Análisis: ¿qué cambia cuando σ es desconocida?</h4>
+      <table>
+        <thead><tr><th>Aspecto</th><th>Parte a)</th><th>Parte b)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Desviación estándar disponible</td>
+            <td>σ₁, σ₂ (poblacional, conocida)</td>
+            <td>S₁, S₂ (muestral, desconocida)</td>
+          </tr>
+          <tr>
+            <td>¿n₁ ≥ 30 y n₂ ≥ 30?</td>
+            <td>—</td>
+            <td><strong style="color:var(--b1)">SÍ</strong>: n₁=40 &gt; 30 y n₂=32 &gt; 30</td>
+          </tr>
+          <tr>
+            <td>¿Qué estadístico usar?</td>
+            <td>Z (σ conocida)</td>
+            <td><strong>Z también</strong> — TCL aplica, se reemplaza σ por S</td>
+          </tr>
+          <tr>
+            <td>¿Varía el resultado?</td>
+            <td>Z_c = 3,53</td>
+            <td><strong style="color:var(--b1)">Z_c = 3,53</strong> — mismos números, misma conclusión</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note ok">
+      <span class="lbl">Respuesta del profesor — El TCL en acción</span>
+      <strong>No cambia la respuesta.</strong> Como n₁ = 40 &gt; 30 y n₂ = 32 &gt; 30, el TCL garantiza que $\bar X_1-\bar X_2$ se distribuye aproximadamente normal, aunque σ sea desconocida. Se usa la misma fórmula Z reemplazando σ por S:
+      $$Z_c=\frac{\bar X_1-\bar X_2}{\sqrt{S_1^2/n_1+S_2^2/n_2}}=\frac{1{,}25}{\sqrt{(1{,}6)^2/40+(1{,}4)^2/32}}=3{,}53$$
+      Los valores numéricos de S coinciden con σ → estadístico idéntico → <strong>se rechaza H₀</strong> al 1%.
+    </div>
+    <div class="result reject">
+      <span class="rk">Decisión parte b)</span>
+      <span class="rv">Rechazar H₀ — el resultado no cambia (TCL con n ≥ 30)</span>
+    </div>
+  </section>
+
+  <!-- ======== L4 · EJERCICIO 3 ======== -->
+  <section class="solved2" id="l4ej3">
+    <span class="tag">📋 L4 · Ejercicio 3 · Solución oficial</span>
+    <h2>Efectividad del anuncio en dos ciudades</h2>
+
+    <div class="note warn">
+      <span class="lbl">Enunciado · Listado 4 Ejercicio 3</span>
+      Un comerciante comparó la efectividad de un anuncio en dos ciudades. Encuesta a <strong>n = 1.000 personas</strong> por ciudad. Proporción que leyó el anuncio: <strong>p̂₁ = 0,18</strong> (ciudad 1) y <strong>p̂₂ = 0,14</strong> (ciudad 2).<br><br>
+      <strong>a)</strong> IC del 95% para la diferencia p₁ − p₂.<br>
+      <strong>b)</strong> Concluir sobre H₀: p₁ = p₂ vs H₁: p₁ ≠ p₂ a partir del IC anterior.<br>
+      <strong>c)</strong> PH: H₀: p₁ − p₂ ≤ 0,1 vs H₁: p₁ − p₂ > 0,1. α = 5%.<br>
+      <strong>d)</strong> Conclusión en contexto.
+    </div>
+
+    <!-- PARTE A -->
+    <h3>Parte a) · IC del 95% para p₁ − p₂</h3>
+
+    <div class="preanalysis">
+      <h4>Decisiones clave para el IC de proporciones</h4>
+      <table>
+        <thead><tr><th>Punto</th><th>Decisión</th><th>Por qué</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Fórmula del SE</td>
+            <td><strong>Proporciones separadas</strong>:<br>$\sqrt{\hat p_1\hat q_1/n_1+\hat p_2\hat q_2/n_2}$</td>
+            <td>En un IC <em>no</em> se asume H₀; cada ciudad mantiene su propio p̂</td>
+          </tr>
+          <tr>
+            <td>¿p̂ combinada?</td>
+            <td><strong style="color:var(--ph)">NO</strong> — eso es solo para la PH</td>
+            <td>La p̂ combinada asume H₀: p₁=p₂, algo que el IC no asume</td>
+          </tr>
+          <tr>
+            <td>Z crítico NC=95%</td>
+            <td>$Z_{0{,}025}=1{,}96$</td>
+            <td>Bilateral, α/2 = 0,025</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="formula">
+      <span class="cap">Error estándar de la diferencia (proporciones separadas)</span>
+      $$SE=\sqrt{\frac{\hat p_1\hat q_1}{n_1}+\frac{\hat p_2\hat q_2}{n_2}}=\sqrt{\frac{0{,}18\times 0{,}82}{1000}+\frac{0{,}14\times 0{,}86}{1000}}=\sqrt{\frac{0{,}1476+0{,}1204}{1000}}=\sqrt{0{,}000268}=0{,}01637$$
+    </div>
+    <div class="formula">
+      <span class="cap">Intervalo de confianza</span>
+      $$IC_{95\%}(p_1-p_2)=(\hat p_1-\hat p_2)\pm Z_{0{,}025}\cdot SE=0{,}04\pm 1{,}96\times 0{,}01637=0{,}04\pm 0{,}0321$$
+    </div>
+    <div class="formula">
+      $$\boxed{IC_{95\%}(p_1-p_2)=\bigl(0{,}008\;;\;0{,}072\bigr)}$$
+    </div>
+
+    <!-- PARTE B -->
+    <h3>Parte b) · Concluir sobre H₀: p₁ = p₂ a partir del IC</h3>
+
+    <div class="note blue">
+      <span class="lbl">Atajo: el IC como prueba de hipótesis</span>
+      Si el IC para $p_1-p_2$ <strong>no contiene el 0</strong>, hay evidencia de que la diferencia es significativamente distinta de cero → se rechaza H₀: p₁ = p₂ al nivel correspondiente. Este método <em>evita calcular</em> el estadístico de prueba cuando ya tienes el IC.
+    </div>
+    <div class="formula">
+      $$IC=(0{,}008\;;\;0{,}072)\quad\Rightarrow\quad 0\notin IC\quad\Rightarrow\quad\textbf{Se rechaza }H_0:\,p_1=p_2\text{ al 5\%}$$
+    </div>
+    <div class="result reject">
+      <span class="rk">Decisión parte b)</span>
+      <span class="rv">Rechazar H₀ — las proporciones son significativamente distintas</span>
+    </div>
+
+    <!-- PARTE C -->
+    <h3>Parte c) · PH: H₀: p₁ − p₂ ≤ 0,1 vs H₁: p₁ − p₂ > 0,1 · α = 5%</h3>
+
+    <div class="preanalysis">
+      <h4>Mapa de decisión · Parte c)</h4>
+      <table>
+        <thead><tr><th>Pregunta</th><th>Respuesta</th><th>Consecuencia</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>¿δ₀ = 0?</td>
+            <td><strong style="color:var(--ph)">NO</strong> — δ₀ = 0,1</td>
+            <td>Numerador: $(p̂_1-p̂_2)-\mathbf{0{,}1}$, no solo $p̂_1-p̂_2$</td>
+          </tr>
+          <tr>
+            <td>¿Qué SE usar?</td>
+            <td>Proporciones separadas (misma que el IC)</td>
+            <td>SE = 0,01637 ya calculado en parte a)</td>
+          </tr>
+          <tr>
+            <td>¿Qué cola?</td>
+            <td><strong style="color:var(--b2)">Cola derecha</strong> — H₁: &gt; 0,1</td>
+            <td>Rechazar si $Z_c>Z_{0{,}05}=1{,}65$</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><span class="step">Paso 1</span>H₀ y H₁</h3>
+    <div class="formula">
+      $$H_0:\,p_1-p_2\leq 0{,}1 \qquad H_1:\,p_1-p_2>0{,}1 \qquad\text{(cola derecha)}$$
+    </div>
+
+    <h3><span class="step">Paso 2</span>Nivel de significancia</h3>
+    <p class="lead">α = 0,05. Cola derecha → $Z_{0{,}95}=1{,}65$. Región de rechazo: $Z_c>1{,}65$.</p>
+
+    <h3><span class="step">Paso 3</span>Estadístico Z</h3>
+    <div class="formula">
+      $$Z_c=\frac{(\hat p_1-\hat p_2)-\delta_0}{SE}=\frac{0{,}04-0{,}1}{0{,}01637}=\frac{-0{,}06}{0{,}01637}=\mathbf{-3{,}66}$$
+    </div>
+
+    <h3><span class="step">Paso 4 y 5</span>Región de rechazo y conclusión</h3>
+    <div class="formula">
+      $$Z_c=-3{,}66\;<\;1{,}65\quad\Rightarrow\quad Z_c\text{ NO está en la región de rechazo}\quad\Rightarrow\quad\textbf{No se rechaza }H_0$$
+    </div>
+    <div class="result">
+      <span class="rk">Decisión parte c)</span>
+      <span class="rv">No rechazar H₀</span>
+    </div>
+
+    <!-- PARTE D -->
+    <h3>Parte d) · Conclusión en contexto</h3>
+    <div class="result">
+      <span class="rk">Conclusión</span>
+      <span class="rv" style="font-size:1.05rem">La diferencia de proporciones de lectores del anuncio entre ambas ciudades no supera el 10%.</span>
+    </div>
+    <p style="margin-top:12px">Al 5% de significación, no hay evidencia suficiente para afirmar que la proporción de ciudad 1 supera a la de ciudad 2 en <strong>más de 10 puntos porcentuales</strong>. El valor observado $\hat p_1-\hat p_2=0{,}04$ está muy por debajo de 0,1 y el estadístico Z_c negativo ni siquiera apunta hacia la zona de rechazo.</p>
   </section>
 
   <footer>
