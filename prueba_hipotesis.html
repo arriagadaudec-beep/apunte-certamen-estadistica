@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prueba de Hipótesis · Estadística</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<script>
+  window.MathJax = {
+    loader: { load: ['[tex]/cancel', '[tex]/color'] },
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      packages: { '[+]': ['cancel', 'color'] }
+    },
+    svg: { fontCache: 'global' },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root{
+    --paper:#F6F7FB;
+    --card:#FFFFFF;
+    --ink:#1A2230;
+    --ink-soft:#4A5468;
+    --line:#E4E7F0;
+    --indigo:#3B4FB0;
+    --indigo-deep:#2A3680;
+    --ph:#B91C1C;
+    --ph-light:rgba(185,28,28,.07);
+    --b1:#1E7A4D;    /* 1 pob */
+    --b2:#C2570B;    /* 2 pob */
+    --solved:#1E7A4D;
+    --reject:#B91C1C;
+    --fail:#0E7490;
+    --mathbg:#F2F4FC;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- Nav ---- */
+  .site-nav{background:var(--ink);position:sticky;top:0;z-index:100;border-bottom:2px solid var(--ph)}
+  .nav-wrap{max-width:880px;margin:0 auto;padding:0 22px;display:flex;align-items:center}
+  .nav-home{font-family:'Spectral',serif;font-size:.95rem;font-weight:800;color:#fff;text-decoration:none;padding:13px 0;margin-right:auto}
+  .nav-links{display:flex}
+  .nav-links a{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,255,255,.6);text-decoration:none;
+    padding:14px 13px;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s;
+  }
+  .nav-links a:hover,.nav-links a.active{color:#fff;border-bottom-color:var(--ph)}
+
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px 90px}
+
+  header.top{padding:56px 0 30px;border-bottom:2px solid var(--ink);margin-bottom:34px}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--ph);font-weight:700;margin:0 0 14px;
+  }
+  header.top h1{
+    font-family:'Spectral',serif;font-weight:800;font-size:clamp(2rem,5.5vw,3.1rem);
+    line-height:1.05;margin:0 0 12px;letter-spacing:-.01em;
+  }
+  header.top p.sub{font-size:1.02rem;color:var(--ink-soft);margin:0;max-width:60ch}
+
+  nav.toc{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 40px}
+  nav.toc a{
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:500;
+    text-decoration:none;color:var(--ink);
+    border:1px solid var(--line);background:var(--card);
+    padding:8px 14px;border-radius:999px;transition:.15s;
+  }
+  nav.toc a:hover{border-color:var(--ph);color:var(--ph);transform:translateY(-1px)}
+
+  section{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:30px 32px;margin:0 0 28px;
+    box-shadow:0 1px 2px rgba(26,34,48,.03),0 8px 24px rgba(26,34,48,.04);
+    scroll-margin-top:20px;
+  }
+  section.fase{border-top:4px solid var(--ph)}
+  section.b1{border-top:4px solid var(--b1)}
+  section.b2{border-top:4px solid var(--b2)}
+  section.solved{border-top:4px solid var(--solved);background:#FAFFFB}
+  section.solved2{border-top:4px solid var(--b2);background:#FFF8F2}
+
+  .tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;
+    padding:5px 11px;border-radius:6px;margin-bottom:14px;
+  }
+  .fase .tag{background:var(--ph-light);color:var(--ph)}
+  .b1 .tag{background:rgba(30,122,77,.1);color:var(--b1)}
+  .b2 .tag{background:rgba(194,87,11,.1);color:var(--b2)}
+  .solved .tag{background:rgba(30,122,77,.12);color:var(--solved)}
+  .solved2 .tag{background:rgba(194,87,11,.1);color:var(--b2)}
+
+  h2{font-family:'Spectral',serif;font-weight:800;font-size:1.7rem;line-height:1.15;margin:0 0 6px;letter-spacing:-.01em}
+  h3{font-family:'Spectral',serif;font-weight:600;font-size:1.18rem;margin:26px 0 8px}
+  h3 .step{font-family:'JetBrains Mono',monospace;font-size:.85em;color:var(--ph);font-weight:700;margin-right:6px}
+  p{margin:0 0 12px}
+  .lead{color:var(--ink-soft);font-size:1rem;margin:0 0 8px}
+  strong{font-weight:700}
+
+  ul,ol{margin:0 0 14px;padding-left:22px}
+  li{margin:0 0 7px}
+  li::marker{color:var(--ph)}
+
+  .var{
+    font-family:'JetBrains Mono',monospace;font-size:.92em;font-weight:700;
+    background:var(--mathbg);color:var(--indigo-deep);
+    padding:1px 6px;border-radius:5px;
+  }
+
+  .note{
+    border-left:3px solid var(--ph);background:var(--ph-light);
+    border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;font-size:.95rem;
+  }
+  .note.ok{border-left-color:var(--b1);background:rgba(30,122,77,.06)}
+  .note.warn{border-left-color:var(--b2);background:rgba(194,87,11,.06)}
+  .note.blue{border-left-color:var(--indigo);background:rgba(59,79,176,.06)}
+  .note .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--ph);
+  }
+  .note.ok .lbl{color:var(--b1)}
+  .note.warn .lbl{color:var(--b2)}
+  .note.blue .lbl{color:var(--indigo)}
+
+  .mean{
+    border-left:3px solid var(--indigo);background:rgba(59,79,176,.05);
+    border-radius:0 8px 8px 0;padding:11px 15px;margin:10px 0 0;font-size:.93rem;
+  }
+  .mean .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--indigo);
+  }
+
+  .formula{
+    background:var(--mathbg);border:1px solid var(--line);
+    border-radius:10px;padding:8px 18px;margin:14px 0;overflow-x:auto;
+  }
+  .formula .cap{
+    display:block;font-size:.82rem;color:var(--ink-soft);
+    font-weight:600;margin-bottom:-4px;padding-top:4px;
+  }
+
+  .data{list-style:none;padding:0;margin:14px 0}
+  .data li{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .data li:last-child{border-bottom:none}
+  .data .k{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--indigo-deep);min-width:70px;flex-shrink:0}
+
+  /* 5-step protocol */
+  .protocol{display:flex;flex-direction:column;gap:0;margin:18px 0}
+  .proto-step{
+    display:flex;gap:18px;padding:16px 0;
+    border-bottom:1px dashed var(--line);align-items:flex-start;
+  }
+  .proto-step:last-child{border-bottom:none}
+  .proto-num{
+    flex-shrink:0;width:36px;height:36px;border-radius:50%;
+    background:var(--ph);color:#fff;
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;
+    display:flex;align-items:center;justify-content:center;margin-top:2px;
+  }
+  .proto-body{flex:1;min-width:0}
+  .proto-body .pt{font-weight:700;font-size:1rem;margin:0 0 4px;font-family:'Spectral',serif}
+  .proto-body .ps{font-size:.92rem;color:var(--ink-soft);margin:0 0 6px}
+
+  /* decision table */
+  .dec-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.91rem}
+  .dec-table th,.dec-table td{padding:10px 14px;border:1px solid var(--line);text-align:left}
+  .dec-table th{
+    background:var(--mathbg);
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-soft);font-weight:700;
+  }
+  .dec-table tr:hover td{background:rgba(59,79,176,.03)}
+
+  /* reject / no-reject conclusion boxes */
+  .conclusion{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 0;
+  }
+  .concl-r{
+    background:rgba(185,28,28,.07);border:1px solid rgba(185,28,28,.25);
+    border-radius:12px;padding:14px 18px;
+  }
+  .concl-f{
+    background:rgba(14,116,144,.07);border:1px solid rgba(14,116,144,.25);
+    border-radius:12px;padding:14px 18px;
+  }
+  .concl-r .cl{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--reject);display:block;margin-bottom:4px}
+  .concl-f .cl{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fail);display:block;margin-bottom:4px}
+  .concl-r .cv,.concl-f .cv{font-family:'Spectral',serif;font-size:1.1rem;font-weight:700}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.94rem}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  th{
+    font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-soft);font-weight:700;
+    border-bottom:2px solid var(--ink);
+  }
+  td.num{font-family:'JetBrains Mono',monospace;text-align:right}
+  tr.total td{font-weight:700;border-top:2px solid var(--ink);border-bottom:none}
+
+  .result{
+    margin-top:18px;padding:16px 20px;border-radius:12px;
+    background:rgba(30,122,77,.08);border:1px solid rgba(30,122,77,.25);
+  }
+  .result.reject{background:rgba(185,28,28,.08);border-color:rgba(185,28,28,.25)}
+  .result .rk{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--solved);display:block;margin-bottom:4px;
+  }
+  .result.reject .rk{color:var(--reject)}
+  .result .rv{font-family:'Spectral',serif;font-size:1.35rem;font-weight:800}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:.82rem;margin-top:40px;padding-top:20px;border-top:1px solid var(--line)}
+
+  @media(max-width:560px){
+    section{padding:24px 20px}
+    .conclusion{grid-template-columns:1fr}
+    .nav-links a{padding:13px 9px;font-size:.62rem}
+  }
+  @media print{
+    .site-nav{display:none}
+    nav.toc{display:none}
+    body{background:#fff}
+    section{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-wrap">
+    <a class="nav-home" href="index.html">Estadística</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="intervalos_2pob.html">IC · 2 Pob.</a>
+      <a href="prueba_hipotesis.html" class="active">Hipótesis</a>
+      <a href="Apunte_Tamano_Muestra (2).html">Muestreo</a>
+      <a href="certamen_anterior.html">Certamen Ant.</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">Estadística · Listado 4 · Prueba de Hipótesis</p>
+    <h1>Prueba de Hipótesis</h1>
+    <p class="sub">Protocolo de 5 pasos para una y dos poblaciones: media (Z y t) y proporción, con cuatro ejemplos resueltos.</p>
+  </header>
+
+  <nav class="toc">
+    <a href="#protocolo">Protocolo · 5 pasos</a>
+    <a href="#filtro">Filtro · qué test</a>
+    <a href="#b1">Bloque 1 · 1 Pob.</a>
+    <a href="#b2">Bloque 2 · 2 Pob.</a>
+    <a href="#ej1">Ej. 1 · t (1 pob.)</a>
+    <a href="#ej2">Ej. 2 · Z prop. (1 pob.)</a>
+    <a href="#ej3">Ej. 3 · t (2 pob.)</a>
+    <a href="#ej4">Ej. 4 · Z prop. (2 pob.)</a>
+  </nav>
+
+  <!-- ======== PROTOCOLO 5 PASOS ======== -->
+  <section class="fase" id="protocolo">
+    <span class="tag">📋 Protocolo · Los 5 pasos siempre iguales</span>
+    <h2>El método de examen</h2>
+    <p class="lead">Toda prueba de hipótesis sigue este mismo esquema, sin importar si es Z, t, una o dos poblaciones. Apréndetelo de memoria.</p>
+
+    <div class="protocol">
+      <div class="proto-step">
+        <div class="proto-num">1</div>
+        <div class="proto-body">
+          <p class="pt">Plantear H₀ y H₁</p>
+          <p class="ps">H₀ es la hipótesis que asumes cierta (la "no pasa nada"). H₁ es lo que quieres probar. El signo de H₁ determina si la prueba es bilateral (≠) o unilateral (> o &lt;).</p>
+          <div class="note blue" style="margin-top:8px">
+            <span class="lbl">Regla del signo de H₁</span>
+            "¿Difiere?" → <strong>H₁: ≠</strong> (bilateral) &nbsp;|&nbsp;
+            "¿Es mayor?" → <strong>H₁: &gt;</strong> (cola derecha) &nbsp;|&nbsp;
+            "¿Es menor?" → <strong>H₁: &lt;</strong> (cola izquierda)
+          </div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">2</div>
+        <div class="proto-body">
+          <p class="pt">Fijar el nivel de significancia α</p>
+          <p class="ps">El enunciado te lo da (5%, 1%, 10%). Determina el valor crítico de la tabla. Si no lo menciona, usa α = 0.05.</p>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">3</div>
+        <div class="proto-body">
+          <p class="pt">Calcular el estadístico de prueba</p>
+          <p class="ps">Según el filtro de la siguiente sección, aplica la fórmula correcta (Z o t). Este es el valor que "sale de tus datos".</p>
+          <p class="ps" style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--indigo-deep)">Zc = … o tc = … (siempre con subíndice "c" de calculado)</p>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">4</div>
+        <div class="proto-body">
+          <p class="pt">Determinar la región de rechazo (valor crítico)</p>
+          <p class="ps">Con α y los grados de libertad, buscas en la tabla el <strong>valor crítico</strong> Z* o t*. La región de rechazo es:</p>
+          <div class="conclusion" style="margin-top:8px">
+            <div class="concl-r">
+              <span class="cl">Bilateral (H₁: ≠)</span>
+              <span class="cv">|Ec| > Z<sub>α/2</sub> o t<sub>α/2</sub></span>
+            </div>
+            <div class="concl-f" style="background:rgba(59,79,176,.07);border-color:rgba(59,79,176,.25)">
+              <span class="cl" style="color:var(--indigo)">Unilateral derecha (H₁: &gt;)</span>
+              <span class="cv">Ec > Z<sub>α</sub> o t<sub>α</sub></span>
+            </div>
+          </div>
+          <div class="concl-f" style="background:rgba(59,79,176,.07);border-color:rgba(59,79,176,.25);border-radius:12px;padding:14px 18px;margin-top:10px">
+            <span class="cl" style="color:var(--indigo)">Unilateral izquierda (H₁: &lt;)</span>
+            <span class="cv">Ec &lt; −Z<sub>α</sub> o −t<sub>α</sub></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">5</div>
+        <div class="proto-body">
+          <p class="pt">Conclusión</p>
+          <p class="ps">Compara el estadístico calculado con el valor crítico y concluye en palabras del contexto del problema:</p>
+          <div class="conclusion" style="margin-top:8px">
+            <div class="concl-r">
+              <span class="cl">Rechazar H₀</span>
+              <span class="cv">Hay evidencia estadística (al nivel α) para afirmar que [lo que dice H₁].</span>
+            </div>
+            <div class="concl-f">
+              <span class="cl">No rechazar H₀</span>
+              <span class="cv">No hay evidencia suficiente para afirmar que [lo que dice H₁].</span>
+            </div>
+          </div>
+          <div class="note" style="margin-top:12px">
+            <span class="lbl">Nunca se "acepta" H₀</span>
+            La conclusión correcta es "no se rechaza H₀", nunca "se acepta H₀". No rechazar no prueba que H₀ sea cierta; solo significa que los datos no tienen suficiente fuerza para descartarla.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== FILTRO ======== -->
+  <section class="fase" id="filtro">
+    <span class="tag">🔍 Filtro · ¿Qué estadístico usar?</span>
+    <h2>Mapa de decisión</h2>
+
+    <table class="dec-table">
+      <thead>
+        <tr>
+          <th>Situación</th>
+          <th>Estadístico</th>
+          <th>Fórmula</th>
+          <th>Grados de libertad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1 pob. · media</strong> con σ conocida</td>
+          <td>Z</td>
+          <td>$\dfrac{\bar X - \mu_0}{\sigma/\sqrt{n}}$</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>1 pob. · media</strong> con s (σ desconocida)</td>
+          <td>t</td>
+          <td>$\dfrac{\bar X - \mu_0}{s/\sqrt{n}}$</td>
+          <td>$n-1$</td>
+        </tr>
+        <tr>
+          <td><strong>1 pob. · proporción</strong></td>
+          <td>Z</td>
+          <td>$\dfrac{\hat p - p_0}{\sqrt{p_0 q_0/n}}$</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>2 pob. · medias</strong> con σ₁,σ₂ conocidas</td>
+          <td>Z</td>
+          <td>$\dfrac{(\bar X_1-\bar X_2)-\delta_0}{\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}}$</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>2 pob. · medias</strong> σ desconocidas <em>iguales</em></td>
+          <td>t</td>
+          <td>$\dfrac{(\bar X_1-\bar X_2)-\delta_0}{s_p\sqrt{1/n_1+1/n_2}}$</td>
+          <td>$n_1+n_2-2$</td>
+        </tr>
+        <tr>
+          <td><strong>2 pob. · proporciones</strong> (H₀: p₁=p₂)</td>
+          <td>Z</td>
+          <td>$\dfrac{\hat p_1-\hat p_2}{\sqrt{\hat p(1-\hat p)(1/n_1+1/n_2)}}$</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note blue">
+      <span class="lbl">δ₀ en dos poblaciones</span>
+      Normalmente H₀: μ₁ − μ₂ = 0, así que δ₀ = 0 y el término desaparece. Si el enunciado pide probar que la diferencia es, por ejemplo, 5, entonces δ₀ = 5.
+    </div>
+  </section>
+
+  <!-- ======== BLOQUE 1 · 1 POBLACIÓN ======== -->
+  <section class="b1" id="b1">
+    <span class="tag">📂 Bloque 1 · Una población</span>
+    <h2>Tests para una sola población</h2>
+
+    <h3>1A · Media con σ desconocida → t-test</h3>
+    <p class="lead">Caso más frecuente en el listado: te dan X̄, s y n, y piden contrastar si la media es igual a un valor μ₀.</p>
+    <div class="formula">
+      <span class="cap">Estadístico calculado</span>
+      $$t_c = \frac{\bar X - \mu_0}{s/\sqrt{n}}, \qquad gl = n-1$$
+    </div>
+    <div class="formula">
+      <span class="cap">Varianza pooled (solo para 2 pob. · no aplica aquí)</span>
+    </div>
+    <div class="note ok">
+      <span class="lbl">Truco: el denominador</span>
+      $s/\sqrt{n}$ se llama <strong>error estándar de la media</strong>. Primero calcula $\sqrt{n}$, luego divide <span class="var">s</span> entre ese resultado. No hagas $s/n$ directamente o te olvidarás de la raíz.
+    </div>
+
+    <h3>1B · Proporción → Z-test</h3>
+    <p class="lead">Te dan el número de "éxitos" <span class="var">x</span> y el tamaño de muestra <span class="var">n</span>. H₀ dice que la proporción real es p₀.</p>
+    <div class="formula">
+      <span class="cap">Proporción muestral y estadístico</span>
+      $$\hat p = \frac{x}{n}, \qquad Z_c = \frac{\hat p - p_0}{\sqrt{p_0 q_0/n}}$$
+    </div>
+    <div class="note">
+      <span class="lbl">Ojo · usa p₀ en el denominador</span>
+      El denominador lleva <strong>p₀ y q₀ = 1−p₀</strong> (el valor bajo H₀), <em>no</em> p̂. Es diferente al IC, donde sí va p̂.
+    </div>
+  </section>
+
+  <!-- ======== BLOQUE 2 · 2 POBLACIONES ======== -->
+  <section class="b2" id="b2">
+    <span class="tag">📂 Bloque 2 · Dos poblaciones</span>
+    <h2>Tests para dos poblaciones</h2>
+
+    <h3>2A · Diferencia de medias · varianzas desconocidas iguales</h3>
+    <p class="lead">El enunciado dice "se asumen varianzas iguales" y entrega s₁, s₂. Primero calcula la varianza pooled.</p>
+    <div class="formula">
+      <span class="cap">Paso 1 · Varianza pooled</span>
+      $$s_p^2 = \frac{(n_1-1)\,s_1^2 + (n_2-1)\,s_2^2}{n_1+n_2-2}$$
+    </div>
+    <div class="formula">
+      <span class="cap">Paso 2 · Estadístico (δ₀ = 0 cuando H₀: μ₁ = μ₂)</span>
+      $$t_c = \frac{(\bar X_1 - \bar X_2) - \delta_0}{s_p\sqrt{\dfrac{1}{n_1}+\dfrac{1}{n_2}}}, \qquad gl = n_1+n_2-2$$
+    </div>
+
+    <h3>2B · Diferencia de proporciones</h3>
+    <p class="lead">H₀: p₁ = p₂. Se calcula una <strong>proporción combinada</strong> p̂ que mezcla ambas muestras (solo para la PH, no para el IC).</p>
+    <div class="formula">
+      <span class="cap">Proporción combinada · mezcla los dos grupos</span>
+      $$\hat p = \frac{x_1 + x_2}{n_1 + n_2}$$
+    </div>
+    <div class="formula">
+      <span class="cap">Estadístico</span>
+      $$Z_c = \frac{\hat p_1 - \hat p_2}{\sqrt{\hat p\,(1-\hat p)\!\left(\dfrac{1}{n_1}+\dfrac{1}{n_2}\right)}}$$
+    </div>
+    <div class="mean">
+      <span class="lbl">Por qué se mezclan aquí y no en el IC</span>
+      En la PH partimos de que H₀ es cierta, o sea p₁ = p₂ = p. Como no conocemos ese p común, lo estimamos mezclando toda la información disponible: $\hat p = (x_1+x_2)/(n_1+n_2)$. En el IC, en cambio, <em>no</em> asumimos que son iguales — por eso cada grupo mantiene su propio p̂.
+    </div>
+  </section>
+
+  <!-- ======== EJEMPLO 1 · t, 1 POBLACIÓN ======== -->
+  <section class="solved" id="ej1">
+    <span class="tag">✅ Ejemplo 1 · t-test · Una población · Listado 4</span>
+    <h2>Diámetro de tornillos</h2>
+    <div class="note ok">
+      <span class="lbl">Enunciado</span>
+      Una fábrica afirma que el diámetro medio de sus tornillos es <strong>μ₀ = 5.00 mm</strong>. Se toma una muestra de <strong>n = 16</strong> tornillos y se obtiene <strong>X̄ = 5.12 mm</strong>, <strong>s = 0.20 mm</strong>. Con <strong>α = 0.05</strong>, ¿hay evidencia de que el diámetro medio difiere del valor declarado?
+    </div>
+
+    <h3><span class="step">Paso 1</span>H₀ y H₁</h3>
+    <div class="formula">
+      $$H_0:\mu = 5.00 \qquad H_1:\mu \neq 5.00 \quad\text{(bilateral, "difiere")}$$
+    </div>
+
+    <h3><span class="step">Paso 2</span>Nivel de significancia</h3>
+    <p class="lead">α = 0.05 (dado). Prueba bilateral → el valor crítico será $t_{\alpha/2,\,gl} = t_{0.025,\,15}$.</p>
+
+    <h3><span class="step">Paso 3</span>Estadístico calculado</h3>
+    <ul class="data">
+      <li><span class="k">gl</span><span>n − 1 = 16 − 1 = <strong>15</strong></span></li>
+      <li><span class="k">SE</span><span>s/√n = 0.20/√16 = 0.20/4 = <strong>0.05</strong></span></li>
+    </ul>
+    <div class="formula">
+      $$t_c = \frac{\bar X - \mu_0}{s/\sqrt{n}} = \frac{5.12 - 5.00}{0.05} = \frac{0.12}{0.05} = \mathbf{2.40}$$
+    </div>
+
+    <h3><span class="step">Paso 4</span>Región de rechazo</h3>
+    <p class="lead">De tabla t con 15 gl y α/2 = 0.025: <span class="var">t<sub>0.025, 15</sub> = 2.131</span></p>
+    <p class="lead">Región de rechazo: <span class="var">|tc| > 2.131</span></p>
+
+    <h3><span class="step">Paso 5</span>Conclusión</h3>
+    <div class="formula">
+      $$|t_c| = 2.40 \;>\; 2.131 = t^* \quad\Rightarrow\quad \textbf{Se rechaza }H_0$$
+    </div>
+    <div class="result reject">
+      <span class="rk">Decisión</span>
+      <span class="rv">Rechazar H₀</span>
+    </div>
+    <p style="margin-top:12px">Con un nivel de significancia del 5%, hay evidencia estadística suficiente para afirmar que el diámetro medio de los tornillos <strong>difiere de 5.00 mm</strong>.</p>
+  </section>
+
+  <!-- ======== EJEMPLO 2 · Z, 1 POBLACIÓN, PROPORCIÓN ======== -->
+  <section class="solved" id="ej2">
+    <span class="tag">✅ Ejemplo 2 · Z-test proporción · Una población · Listado 4</span>
+    <h2>Proporción de productos defectuosos</h2>
+    <div class="note ok">
+      <span class="lbl">Enunciado</span>
+      Históricamente el <strong>20%</strong> de los productos de una planta son defectuosos. Tras un cambio de proceso, se toma una muestra de <strong>n = 200</strong> productos y se encuentran <strong>50 defectuosos</strong>. Con <strong>α = 0.05</strong>, ¿ha aumentado la proporción de defectuosos?
+    </div>
+
+    <h3><span class="step">Paso 1</span>H₀ y H₁</h3>
+    <div class="formula">
+      $$H_0: p = 0.20 \qquad H_1: p > 0.20 \quad\text{(unilateral derecha, "ha aumentado")}$$
+    </div>
+
+    <h3><span class="step">Paso 2</span>Nivel de significancia</h3>
+    <p class="lead">α = 0.05. Prueba unilateral derecha → valor crítico $Z_\alpha = Z_{0.05} = \mathbf{1.645}$.</p>
+
+    <h3><span class="step">Paso 3</span>Estadístico calculado</h3>
+    <ul class="data">
+      <li><span class="k">p̂</span><span>x/n = 50/200 = <strong>0.25</strong></span></li>
+      <li><span class="k">p₀·q₀</span><span>0.20 × 0.80 = 0.16</span></li>
+      <li><span class="k">SE</span><span>√(0.16/200) = √0.0008 = <strong>0.02828</strong></span></li>
+    </ul>
+    <div class="formula">
+      $$Z_c = \frac{\hat p - p_0}{\sqrt{p_0 q_0/n}} = \frac{0.25 - 0.20}{0.02828} = \frac{0.05}{0.02828} = \mathbf{1.768}$$
+    </div>
+
+    <h3><span class="step">Paso 4</span>Región de rechazo</h3>
+    <p class="lead">Región de rechazo (cola derecha): <span class="var">Zc > 1.645</span></p>
+
+    <h3><span class="step">Paso 5</span>Conclusión</h3>
+    <div class="formula">
+      $$Z_c = 1.768 \;>\; 1.645 = Z^* \quad\Rightarrow\quad \textbf{Se rechaza }H_0$$
+    </div>
+    <div class="result reject">
+      <span class="rk">Decisión</span>
+      <span class="rv">Rechazar H₀</span>
+    </div>
+    <p style="margin-top:12px">Con α = 0.05, hay evidencia estadística de que la proporción de defectuosos <strong>ha aumentado</strong> respecto al 20% histórico.</p>
+  </section>
+
+  <!-- ======== EJEMPLO 3 · t, 2 POBLACIONES ======== -->
+  <section class="solved2" id="ej3">
+    <span class="tag">✅ Ejemplo 3 · t-test · Dos poblaciones · Listado 4</span>
+    <h2>Comparación de métodos de enseñanza</h2>
+    <div class="note warn">
+      <span class="lbl">Enunciado</span>
+      Se compara el rendimiento de dos métodos de enseñanza:<br><br>
+      Método A: <strong>n₁ = 15</strong>, X̄₁ = <strong>78</strong>, s₁ = <strong>8</strong><br>
+      Método B: <strong>n₂ = 12</strong>, X̄₂ = <strong>72</strong>, s₂ = <strong>9</strong><br><br>
+      Asumiendo varianzas iguales y con <strong>α = 0.05</strong>, ¿existe diferencia significativa en el rendimiento promedio?
+    </div>
+
+    <h3><span class="step">Paso 1</span>H₀ y H₁</h3>
+    <div class="formula">
+      $$H_0:\mu_1 = \mu_2 \qquad H_1:\mu_1 \neq \mu_2 \quad\text{(bilateral, "¿diferencia?")}$$
+    </div>
+
+    <h3><span class="step">Paso 2</span>Nivel de significancia</h3>
+    <p class="lead">α = 0.05. Bilateral → $t_{0.025,\;gl}$, con $gl = 15+12-2 = \mathbf{25}$.</p>
+    <p class="lead">De tabla: <span class="var">t<sub>0.025, 25</sub> = 2.060</span>.</p>
+
+    <h3><span class="step">Paso 3</span>Varianza pooled y estadístico</h3>
+    <div class="formula">
+      $$s_p^2 = \frac{(15-1)(64)+(12-1)(81)}{15+12-2} = \frac{14\times64 + 11\times81}{25} = \frac{896+891}{25} = \frac{1{,}787}{25} = 71.48$$
+    </div>
+    <div class="formula">
+      $$s_p = \sqrt{71.48} = 8.455$$
+    </div>
+    <div class="formula">
+      $$SE = 8.455\cdot\sqrt{\frac{1}{15}+\frac{1}{12}} = 8.455\cdot\sqrt{0.0667+0.0833} = 8.455\times 0.3873 = 3.273$$
+    </div>
+    <div class="formula">
+      $$t_c = \frac{(78-72)-0}{3.273} = \frac{6}{3.273} = \mathbf{1.834}$$
+    </div>
+
+    <h3><span class="step">Paso 4</span>Región de rechazo</h3>
+    <p class="lead">Región de rechazo: <span class="var">|tc| > 2.060</span></p>
+
+    <h3><span class="step">Paso 5</span>Conclusión</h3>
+    <div class="formula">
+      $$|t_c| = 1.834 \;<\; 2.060 = t^* \quad\Rightarrow\quad \textbf{No se rechaza }H_0$$
+    </div>
+    <div class="result">
+      <span class="rk">Decisión</span>
+      <span class="rv">No rechazar H₀</span>
+    </div>
+    <p style="margin-top:12px">Con α = 0.05, <strong>no hay evidencia suficiente</strong> para afirmar que el rendimiento medio difiere entre los dos métodos de enseñanza.</p>
+  </section>
+
+  <!-- ======== EJEMPLO 4 · Z, 2 POBLACIONES, PROPORCIÓN ======== -->
+  <section class="solved2" id="ej4">
+    <span class="tag">✅ Ejemplo 4 · Z-test proporción · Dos poblaciones · Listado 4</span>
+    <h2>Tasa de respuesta en dos campañas</h2>
+    <div class="note warn">
+      <span class="lbl">Enunciado</span>
+      Empresa A: <strong>120 respuestas positivas</strong> de <strong>400 contactos</strong>.<br>
+      Empresa B: <strong>95 respuestas positivas</strong> de <strong>350 contactos</strong>.<br><br>
+      Con <strong>α = 0.05</strong>, ¿difieren las tasas de respuesta de ambas empresas?
+    </div>
+
+    <h3><span class="step">Paso 1</span>H₀ y H₁</h3>
+    <div class="formula">
+      $$H_0: p_1 = p_2 \qquad H_1: p_1 \neq p_2 \quad\text{(bilateral, "¿difieren?")}$$
+    </div>
+
+    <h3><span class="step">Paso 2</span>Nivel de significancia</h3>
+    <p class="lead">α = 0.05. Bilateral → $Z_{\alpha/2} = Z_{0.025} = \mathbf{1.96}$.</p>
+
+    <h3><span class="step">Paso 3</span>Proporción combinada y estadístico</h3>
+    <ul class="data">
+      <li><span class="k">p̂₁</span><span>120/400 = <strong>0.300</strong></span></li>
+      <li><span class="k">p̂₂</span><span>95/350 = <strong>0.2714</strong></span></li>
+      <li><span class="k">p̂</span><span>(120+95)/(400+350) = 215/750 = <strong>0.2867</strong></span></li>
+    </ul>
+    <div class="formula">
+      $$SE = \sqrt{0.2867\times 0.7133\times\left(\frac{1}{400}+\frac{1}{350}\right)}$$
+    </div>
+    <div class="formula">
+      $$SE = \sqrt{0.2044\times 0.005357} = \sqrt{0.001095} = 0.03309$$
+    </div>
+    <div class="formula">
+      $$Z_c = \frac{0.300-0.2714}{0.03309} = \frac{0.0286}{0.03309} = \mathbf{0.865}$$
+    </div>
+
+    <h3><span class="step">Paso 4</span>Región de rechazo</h3>
+    <p class="lead">Región de rechazo: <span class="var">|Zc| > 1.96</span></p>
+
+    <h3><span class="step">Paso 5</span>Conclusión</h3>
+    <div class="formula">
+      $$|Z_c| = 0.865 \;<\; 1.96 = Z^* \quad\Rightarrow\quad \textbf{No se rechaza }H_0$$
+    </div>
+    <div class="result">
+      <span class="rk">Decisión</span>
+      <span class="rv">No rechazar H₀</span>
+    </div>
+    <p style="margin-top:12px">Con α = 0.05, <strong>no hay evidencia estadística</strong> para afirmar que las tasas de respuesta de ambas empresas son distintas.</p>
+  </section>
+
+  <footer>
+    Prueba de Hipótesis · Listado 4 &nbsp;·&nbsp; Genera PDF con <strong>Ctrl/Cmd + P</strong>
+  </footer>
+
+</div>
+
+<script>
+  window.addEventListener('beforeprint', function () {
+    document.querySelectorAll('details').forEach(function (d) {
+      d.dataset._open = d.open ? '1' : '0'; d.open = true;
+    });
+  });
+  window.addEventListener('afterprint', function () {
+    document.querySelectorAll('details').forEach(function (d) {
+      if (d.dataset._open === '0') d.open = false;
+    });
+  });
+</script>
+</body>
+</html>

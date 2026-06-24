@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamaño de Muestra · Protocolo de Examen</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<script>
+  window.MathJax = {
+    loader: { load: ['[tex]/cancel', '[tex]/color'] },
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      packages: { '[+]': ['cancel', 'color'] }
+    },
+    svg: { fontCache: 'global' },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root{
+    --paper:#F6F7FB;
+    --card:#FFFFFF;
+    --ink:#1A2230;
+    --ink-soft:#4A5468;
+    --line:#E4E7F0;
+    --indigo:#3B4FB0;
+    --indigo-deep:#2A3680;
+    --fase:#0E8C8C;      /* Fase 0  - filtro */
+    --b1:#1E7A4D;        /* Bloque 1 - MAS */
+    --b2:#C2570B;        /* Bloque 2 - Estratificado */
+    --solved:#1E7A4D;    /* ejemplo resuelto */
+    --mathbg:#F2F4FC;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px 90px}
+
+  /* ---------- Header ---------- */
+  header.top{
+    padding:56px 0 30px;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:34px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--indigo);font-weight:700;margin:0 0 14px;
+  }
+  header.top h1{
+    font-family:'Spectral',serif;
+    font-weight:800;font-size:clamp(2rem,5.5vw,3.1rem);
+    line-height:1.05;margin:0 0 12px;letter-spacing:-.01em;
+  }
+  header.top p.sub{
+    font-size:1.02rem;color:var(--ink-soft);margin:0;max-width:60ch;
+  }
+
+  /* ---------- Table of contents ---------- */
+  nav.toc{
+    display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 40px;
+  }
+  nav.toc a{
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:500;
+    text-decoration:none;color:var(--ink);
+    border:1px solid var(--line);background:var(--card);
+    padding:8px 14px;border-radius:999px;transition:.15s;
+  }
+  nav.toc a:hover{border-color:var(--indigo);color:var(--indigo);transform:translateY(-1px)}
+
+  /* ---------- Section cards ---------- */
+  section{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:30px 32px;margin:0 0 28px;
+    box-shadow:0 1px 2px rgba(26,34,48,.03),0 8px 24px rgba(26,34,48,.04);
+    scroll-margin-top:20px;
+  }
+  section.fase{border-top:4px solid var(--fase)}
+  section.b1{border-top:4px solid var(--b1)}
+  section.b2{border-top:4px solid var(--b2)}
+  section.solved{border-top:4px solid var(--solved);background:#FAFFFB}
+
+  .tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;
+    padding:5px 11px;border-radius:6px;margin-bottom:14px;
+  }
+  .fase .tag{background:rgba(14,140,140,.1);color:var(--fase)}
+  .b1 .tag{background:rgba(30,122,77,.1);color:var(--b1)}
+  .b2 .tag{background:rgba(194,87,11,.1);color:var(--b2)}
+  .solved .tag{background:rgba(30,122,77,.12);color:var(--solved)}
+
+  h2{
+    font-family:'Spectral',serif;font-weight:800;
+    font-size:1.7rem;line-height:1.15;margin:0 0 6px;letter-spacing:-.01em;
+  }
+  h3{
+    font-family:'Spectral',serif;font-weight:600;
+    font-size:1.18rem;margin:26px 0 8px;
+  }
+  h3 .step{
+    font-family:'JetBrains Mono',monospace;font-size:.85em;
+    color:var(--indigo);font-weight:700;margin-right:6px;
+  }
+  p{margin:0 0 12px}
+  .lead{color:var(--ink-soft);font-size:1rem;margin:0 0 8px}
+
+  strong{font-weight:700}
+  em{color:var(--ink-soft)}
+
+  ul,ol{margin:0 0 14px;padding-left:22px}
+  li{margin:0 0 7px}
+  li::marker{color:var(--indigo)}
+
+  /* inline variable chip */
+  .var{
+    font-family:'JetBrains Mono',monospace;font-size:.92em;font-weight:700;
+    background:var(--mathbg);color:var(--indigo-deep);
+    padding:1px 6px;border-radius:5px;
+  }
+
+  /* callout */
+  .note{
+    border-left:3px solid var(--indigo);background:var(--mathbg);
+    border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;
+    font-size:.95rem;
+  }
+  .note.warn{border-left-color:var(--b2);background:rgba(194,87,11,.06)}
+  .note .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:3px;
+    color:var(--indigo);
+  }
+  .note.warn .lbl{color:var(--b2)}
+
+  /* meaning / intuición */
+  .mean{
+    border-left:3px solid var(--indigo);
+    background:rgba(59,79,176,.05);
+    border-radius:0 8px 8px 0;padding:11px 15px;margin:10px 0 0;font-size:.93rem;
+  }
+  .mean .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--indigo);
+  }
+  .mean b{color:var(--indigo-deep)}
+  .intuition{
+    margin:18px 0 0;padding:16px 20px;border-radius:12px;
+    background:rgba(59,79,176,.07);border:1px solid rgba(59,79,176,.22);
+  }
+  .intuition .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:6px;color:var(--indigo);
+  }
+  .intuition p{margin:0 0 8px}
+  .intuition .recipe{
+    font-family:'Spectral',serif;font-size:1.05rem;font-style:italic;
+    color:var(--indigo-deep);margin:6px 0 0;line-height:1.5;
+  }
+
+  /* enlace directo a ejemplo resuelto */
+  .see-ex{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'JetBrains Mono',monospace;font-size:.74rem;font-weight:600;
+    text-decoration:none;color:var(--solved);
+    border:1px solid rgba(30,122,77,.35);border-radius:999px;padding:5px 13px;
+    margin:-4px 0 8px;transition:.15s;
+  }
+  .see-ex:hover{background:rgba(30,122,77,.1);transform:translateY(-1px)}
+  .see-ex::after{content:'→'}
+
+  /* formula block */
+  .formula{
+    background:var(--mathbg);border:1px solid var(--line);
+    border-radius:10px;padding:8px 18px;margin:14px 0;
+    overflow-x:auto;
+  }
+  .formula .cap{
+    display:block;font-size:.82rem;color:var(--ink-soft);
+    font-weight:600;margin-bottom:-4px;padding-top:4px;
+  }
+
+  /* data list (the 4 values to hunt) */
+  .data{list-style:none;padding:0;margin:14px 0}
+  .data li{
+    display:flex;gap:12px;align-items:baseline;
+    padding:9px 0;border-bottom:1px dashed var(--line);
+  }
+  .data li:last-child{border-bottom:none}
+  .data .k{
+    font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--indigo-deep);
+    min-width:46px;flex-shrink:0;
+  }
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.94rem}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  th{
+    font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-soft);font-weight:700;
+    border-bottom:2px solid var(--ink);
+  }
+  td.num{font-family:'JetBrains Mono',monospace;text-align:right}
+  tr.total td{font-weight:700;border-top:2px solid var(--ink);border-bottom:none}
+
+  /* decision pills */
+  .branch{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;
+  }
+  .branch>div{
+    border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff;
+  }
+  .branch .h{
+    font-weight:700;font-size:.92rem;margin-bottom:4px;
+  }
+  .branch .h .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px}
+
+  .result{
+    margin-top:18px;padding:16px 20px;border-radius:12px;
+    background:rgba(30,122,77,.08);border:1px solid rgba(30,122,77,.25);
+  }
+  .result .rk{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--solved);display:block;margin-bottom:4px;
+  }
+  .result .rv{font-family:'Spectral',serif;font-size:1.5rem;font-weight:800}
+
+  /* ---------- Derivación paso a paso ---------- */
+  .deriv{
+    margin:18px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    background:#fff;
+  }
+  .deriv-head{
+    background:rgba(194,87,11,.08);padding:14px 18px;border-bottom:1px solid var(--line);
+    cursor:pointer;list-style:none;position:relative;padding-right:46px;
+    transition:background .15s;
+  }
+  .deriv:not([open]) .deriv-head{border-bottom:none}
+  .deriv-head:hover{background:rgba(194,87,11,.13)}
+  .deriv-head::-webkit-details-marker{display:none}
+  .deriv-head::marker{content:''}
+  .chev{
+    position:absolute;right:18px;top:50%;width:11px;height:11px;
+    border-right:2px solid var(--b2);border-bottom:2px solid var(--b2);
+    transform:translateY(-70%) rotate(45deg);transition:transform .2s;
+  }
+  .deriv[open] .chev{transform:translateY(-30%) rotate(225deg)}
+  .deriv-head .k{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--b2);display:block;margin-bottom:3px;
+  }
+  .deriv-head .t{font-family:'Spectral',serif;font-weight:700;font-size:1.18rem}
+  .dstep{display:flex;gap:14px;padding:16px 18px;border-top:1px solid var(--line)}
+  .dstep:first-of-type{border-top:none}
+  .dnum{
+    flex-shrink:0;width:28px;height:28px;border-radius:50%;
+    background:var(--b2);color:#fff;font-family:'JetBrains Mono',monospace;
+    font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;
+    margin-top:2px;
+  }
+  .dbody{flex:1;min-width:0}
+  .dbody .dt{font-size:.95rem;margin:0 0 4px}
+  .dbody .formula{margin:8px 0 0}
+  .dstep.final{background:rgba(30,122,77,.07)}
+  .dstep.final .dnum{background:var(--solved)}
+  .ear{
+    font-size:.86rem;color:var(--ink-soft);margin:8px 0 0;
+    border-left:2px solid var(--b2);padding-left:12px;
+  }
+  .ear b{color:var(--b2)}
+
+  footer{
+    text-align:center;color:var(--ink-soft);font-size:.82rem;
+    margin-top:40px;padding-top:20px;border-top:1px solid var(--line);
+  }
+
+  @media(max-width:560px){
+    section{padding:24px 20px}
+    .branch{grid-template-columns:1fr}
+  }
+
+  /* ---- Site nav ---- */
+  .site-nav{background:var(--ink);position:sticky;top:0;z-index:100;border-bottom:2px solid var(--b1)}
+  .nav-wrap-top{max-width:880px;margin:0 auto;padding:0 22px;display:flex;align-items:center}
+  .nav-home{font-family:'Spectral',serif;font-size:.95rem;font-weight:800;color:#fff;text-decoration:none;padding:13px 0;margin-right:auto}
+  .nav-links{display:flex}
+  .nav-links a{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,255,255,.6);text-decoration:none;
+    padding:14px 13px;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s;
+  }
+  .nav-links a:hover,.nav-links a.active{color:#fff;border-bottom-color:var(--b1)}
+
+  @media(max-width:560px){
+    .nav-links a{padding:13px 9px;font-size:.62rem}
+  }
+
+  @media print{
+    .site-nav{display:none}
+    body{background:#fff}
+    nav.toc{display:none}
+    section{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+    .formula{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-wrap-top">
+    <a class="nav-home" href="index.html">Estadística</a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="intervalos_2pob.html">IC · 2 Pob.</a>
+      <a href="prueba_hipotesis.html">Hipótesis</a>
+      <a href="Apunte_Tamano_Muestra (2).html" class="active">Muestreo</a>
+      <a href="certamen_anterior.html">Certamen Ant.</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">Estadística · Muestreo · Protocolo de examen</p>
+    <h1>Tamaño de Muestra</h1>
+    <p class="sub">Guía de decisión y cálculo para Muestreo Aleatorio Simple (M.A.S.) y Muestreo Estratificado (M.E.), con el ejemplo de afijación proporcional resuelto paso a paso.</p>
+  </header>
+
+  <nav class="toc">
+    <a href="#fase0">Fase 0 · Filtro</a>
+    <a href="#bloque1">Bloque 1 · M.A.S.</a>
+    <a href="#ej-mas">Ej. M.A.S.</a>
+    <a href="#bloque2">Bloque 2 · Estratificado</a>
+    <a href="#ej-proporcional">Ej. proporcional</a>
+    <a href="#ej-constante">Ej. constante</a>
+  </nav>
+
+  <!-- ============ FASE 0 ============ -->
+  <section class="fase" id="fase0">
+    <span class="tag">🔍 Fase 0 · Primeros 30 segundos</span>
+    <h2>El filtro de entrada</h2>
+    <p class="lead">Antes de escribir un solo número, lee el enunciado y respóndete dos preguntas para saber qué bloque aplicar.</p>
+
+    <h3>1 · ¿Hay subgrupos definidos en el texto?</h3>
+    <ul>
+      <li><strong>NO</strong> → es Muestreo Aleatorio Simple. Ve al <a href="#bloque1">Bloque 1</a>.</li>
+      <li><strong>SÍ</strong> (te hablan de Pueblos A y B, Hombres y Mujeres, estratos…) → es Muestreo Estratificado. Ve al <a href="#bloque2">Bloque 2</a>.</li>
+    </ul>
+
+    <h3>2 · ¿Qué me piden estimar?</h3>
+    <ul>
+      <li>Promedios, sueldos medios, horas → problema de <strong>Medias</strong> <span class="var">μ</span>.</li>
+      <li>Porcentajes, proporciones o tasas → problema de <strong>Proporciones</strong> <span class="var">P</span>.</li>
+    </ul>
+  </section>
+
+  <!-- ============ BLOQUE 1 ============ -->
+  <section class="b1" id="bloque1">
+    <span class="tag">📂 Bloque 1 · M.A.S.</span>
+    <h2>Muestreo Aleatorio Simple</h2>
+
+    <h3><span class="step">Paso 1</span>Cazar los datos del enunciado</h3>
+    <p class="lead">Anota en una esquina de la hoja estos cuatro valores:</p>
+    <ul class="data">
+      <li><span class="k">N</span><span>Total de la población (universo). <em>Si no lo mencionan, se asume infinito y te saltas el Paso 4.</em></span></li>
+      <li><span class="k">e</span><span>Error máximo permitido. <strong>¡OJO!</strong> Si es proporciones (porcentajes), conviértelo a decimales: <span class="var">4% = 0,04</span>.</span></li>
+      <li><span class="k">Z</span><span>Valor de tabla según la confianza: 90% = 1,64 · 95% = 1,96 · 99% = 2,575.</span></li>
+      <li><span class="k">var.</span><span>La variabilidad (ver Paso 2).</span></li>
+    </ul>
+
+    <h3><span class="step">Paso 2</span>El cálculo previo de la variabilidad</h3>
+    <ul>
+      <li><strong>Para Medias:</strong> necesitas la varianza <span class="var">s²</span> o <span class="var">σ²</span>. Si te dan una lista de datos piloto, mételos a la calculadora en modo SD para obtener <span class="var">s²</span>.</li>
+      <li><strong>Para Proporciones:</strong> necesitas <span class="var">p</span>. Si el texto no da ningún porcentaje previo, aplica la ley del mínimo esfuerzo: <span class="var">p = 0,5</span> y por tanto <span class="var">q = 0,5</span>.</li>
+    </ul>
+
+    <h3><span class="step">Paso 3</span>Calcular el tamaño base <span class="var">n₀</span></h3>
+    <div class="formula">
+      <span class="cap">Para Medias</span>
+      $$ n_0 = \frac{Z^2 \cdot s^2}{e^2} $$
+    </div>
+    <div class="formula">
+      <span class="cap">Para Proporciones</span>
+      $$ n_0 = \frac{Z^2 \cdot p \cdot q}{e^2} $$
+    </div>
+    <a class="see-ex" href="#ej-mas">Ver ejemplo resuelto · M.A.S. para proporciones</a>
+
+    <h3><span class="step">Paso 4</span>El filtro del 5% y ajuste final</h3>
+    <ol>
+      <li>Divide el resultado anterior por la población total: <span class="var">n₀ / N</span>.</li>
+      <li>Si es <strong>menor o igual a 0,05</strong> → te quedas con <span class="var">n₀</span>.</li>
+      <li>Si es <strong>mayor a 0,05</strong> → aplicas la corrección:</li>
+    </ol>
+    <div class="formula">
+      $$ n = \frac{n_0}{\,1 + \dfrac{n_0}{N}\,} $$
+    </div>
+    <div class="note warn">
+      <span class="lbl">Redondeo</span>
+      El número que te dé, aproxímalo <strong>siempre al entero de arriba</strong> (ej.: 18,12 → 19).
+    </div>
+  </section>
+
+  <!-- ============ EJEMPLO 1 · M.A.S. PROPORCIONES ============ -->
+  <section class="solved" id="ej-mas">
+    <span class="tag">✅ Ejemplo 1 · M.A.S. para proporciones</span>
+    <h2>El antropólogo y el grupo sanguíneo</h2>
+	<h3> Ejercicio en PDF clase 2, pagina 25
+
+    <div class="note">
+      <span class="lbl">Enunciado</span>
+      Un antropólogo desea estimar el <strong>% de habitantes</strong> de una isla que pertenece a un grupo sanguíneo X, con un error de muestreo no mayor al <strong>4%</strong> y un nivel de confianza del <strong>95%</strong>. Basándose en antecedentes étnicos, afirma que la <strong>varianza es 0,25</strong>. La isla tiene alrededor de <strong>8.000 habitantes</strong>. ¿Cuál debe ser el tamaño de muestra?
+    </div>
+
+    <div class="mean">
+      <span class="lbl">¿Por qué proporciones y no medias?</span>
+      Lo que se quiere estimar es un <b>porcentaje</b> (% de habitantes con el grupo sanguíneo X). Según la <a href="#fase0">Fase 0</a>, si te piden porcentajes, proporciones o tasas → es un problema de <b>proporciones</b>, así que va $n_0 = Z^2 p\,q / e^2$ y <b>no</b> la de medias ($Z^2 s^2 / e^2$). <br><br>El dato "varianza = 0,25" lo confirma: en una proporción la varianza es <span class="var">p·q</span>, y su valor <b>máximo</b> ocurre justo en $p = q = 0{,}5$, dando $0{,}5 \times 0{,}5 = 0{,}25$. Ese 0,25 no es una varianza de datos continuos (como horas o pesos, que iría en la fórmula de medias); es la <b>variabilidad máxima de una proporción</b>. Verlo te dice de inmediato que estás en el caso proporciones con $p = q = 0{,}5$.
+    </div>
+
+    <h3><span class="step">Paso 1</span>Cazar los datos del enunciado</h3>
+    <ul class="data">
+      <li><span class="k">N</span><span>= 8.000 habitantes (población finita, así que el Paso 4 sí aplica).</span></li>
+      <li><span class="k">e</span><span>= 4% = <strong>0,04</strong>. Como es proporciones, el error <strong>se convierte a decimal</strong>.</span></li>
+      <li><span class="k">Z</span><span>= 1,96 (confianza del 95%).</span></li>
+      <li><span class="k">p·q</span><span>= 0,25 (la variabilidad; ver Paso 2).</span></li>
+    </ul>
+    <div class="mean">
+      <span class="lbl">De dónde sale el Z = 1,96</span>
+      Con 95% de confianza queda un 5% repartido en las dos colas, es decir $\alpha = 0{,}05$. Se busca en la tabla el valor que deja $1 - \tfrac{\alpha}{2} = 1 - 0{,}025 = 0{,}975$ de área acumulada, y ese punto es <b>Z = 1,96</b>.
+    </div>
+
+    <h3><span class="step">Paso 2</span>La variabilidad (caso proporciones)</h3>
+    <p class="lead">En proporciones la variabilidad es <span class="var">p · q</span>. El enunciado entrega varianza 0,25, que corresponde a $p = q = 0{,}5$ (máxima variabilidad). Si no hubieran dado nada, igual usaríamos $p = 0{,}5$ por la ley del mínimo esfuerzo.</p>
+    <div class="formula">
+      $$ p \cdot q = 0{,}5 \times 0{,}5 = 0{,}25 $$
+    </div>
+
+    <h3><span class="step">Paso 3</span>Calcular el tamaño base <span class="var">n₀</span></h3>
+    <div class="formula">
+      $$ n_0 = \frac{Z^2 \cdot p \cdot q}{e^2} = \frac{(1{,}96)^2 \cdot 0{,}25}{(0{,}04)^2} = \frac{3{,}8416 \cdot 0{,}25}{0{,}0016} = \frac{0{,}9604}{0{,}0016} = 600{,}25 $$
+    </div>
+    <div class="mean">
+      <span class="lbl">Qué significa este número</span>
+      Es el tamaño que pediría la precisión <b>si la población fuera infinita</b>. Arriba va lo que <b>empuja a pedir más muestra</b> (más confianza Z² y más variabilidad p·q); abajo va el error² que toleras, que <b>la reduce</b>. Todavía no mira el tamaño real de la isla. Aquí: <b>600,25</b>.
+    </div>
+
+    <h3><span class="step">Paso 4</span>El filtro del 5% y ajuste final</h3>
+    <p class="lead">Dividimos el tamaño base por la población total para ver cuánto pesa:</p>
+    <div class="formula">
+      $$ \frac{n_0}{N} = \frac{600{,}25}{8.000} = 0{,}075 $$
+    </div>
+    <p class="lead">Como <strong>0,075 &gt; 0,05</strong>, la muestra base representa más del 5% de la isla, así que <strong>aplicamos la corrección</strong> por población finita:</p>
+    <div class="formula">
+      $$ n = \frac{n_0}{\,1 + \dfrac{n_0}{N}\,} = \frac{600{,}25}{1 + 0{,}075} = \frac{600{,}25}{1{,}075} = 558{,}37 $$
+    </div>
+    <div class="intuition">
+      <span class="lbl">La receta del M.A.S. (coherente con los 4 pasos)</span>
+      <p class="recipe">n₀ &nbsp;=&nbsp; (confianza² &nbsp;×&nbsp; variabilidad) &nbsp;÷&nbsp; error²</p>
+      <p style="margin-top:8px">Es decir: mientras <b>más confianza exiges</b> (Z) o <b>más variable</b> es la población (p·q), más muestra pide; mientras <b>más error toleras</b> (e), menos pide. Eso es el Paso 3.</p>
+      <p>Luego el Paso 4 es un <b>reality check</b>: si ese n₀ pesa más del 5% de la población real, significa que la población es lo bastante chica como para "ayudarte", y la corrección lo baja un poco. Si pesara 5% o menos, te quedarías con n₀ tal cual.</p>
+      <p class="recipe">n &nbsp;=&nbsp; n₀ &nbsp;÷&nbsp; (1 + cuánto pesa n₀ en la población)</p>
+    </div>
+
+    <div class="result">
+      <span class="rk">Tamaño de muestra (redondeo hacia arriba)</span>
+      <span class="rv">n = 559 personas</span>
+    </div>
+    <p style="margin-top:14px">El tamaño de muestra que se debe considerar en la investigación es de <strong>559 personas</strong>.</p>
+  </section>
+
+  <!-- ============ BLOQUE 2 ============ -->
+  <section class="b2" id="bloque2">
+    <span class="tag">📂 Bloque 2 · Estratificado</span>
+    <h2>Muestreo Estratificado</h2>
+
+    <h3><span class="step">Paso 1</span>Organizar la información por columnas</h3>
+    <p class="lead">Como hay varios grupos (estratos), arma una pequeña tabla con los datos de cada grupo <span class="var">h</span> para no marearte:</p>
+    <ul>
+      <li><span class="var">N<sub>h</sub></span> · el tamaño de cada grupo.</li>
+      <li><span class="var">σ²<sub>h</sub></span> o <span class="var">s²<sub>h</sub></span> · la varianza de cada grupo.</li>
+      <li><span class="var">N</span> · la suma de todos los <span class="var">N<sub>h</sub></span> (total del universo).</li>
+    </ul>
+
+    <h3><span class="step">Paso 2</span>Calcular el factor de error <span class="var">D</span></h3>
+    <div class="formula">
+      <span class="cap">Si piden estimar la Media (μ)</span>
+      $$ D = \frac{e^2}{Z^2} $$
+    </div>
+    <div class="formula">
+      <span class="cap">Si piden estimar el Total (Y)</span>
+      $$ D = \frac{e^2}{Z^2 \cdot N^2} $$
+    </div>
+
+    <h3><span class="step">Paso 3</span>Identificar el criterio de reparto (ponderaciones <span class="var">w<sub>h</sub></span>)</h3>
+    <p class="lead">Mira qué palabra clave usó el profesor para el reparto y calcula el peso de cada grupo:</p>
+    <div class="formula">
+      <span class="cap">"Constante" — todos los grupos pesan lo mismo (L = nº de grupos)</span>
+      $$ w_h = \frac{1}{L} $$
+    </div>
+    <a class="see-ex" href="#ej-constante">Ver ejemplo resuelto · afijación constante</a>
+    <div class="formula">
+      <span class="cap">"Proporcional" — el que tiene más población pesa más</span>
+      $$ w_h = \frac{N_h}{N} $$
+    </div>
+    <a class="see-ex" href="#ej-proporcional">Ver ejemplo resuelto · afijación proporcional</a>
+    <div class="formula">
+      <span class="cap">"Neyman (Óptimo)" — depende de población y desviación σₕ</span>
+      $$ w_h = \frac{N_h \cdot \sigma_h}{\sum N_h \cdot \sigma_h} $$
+    </div>
+
+    <h3><span class="step">Paso 4</span>Resolver la fórmula maestra por partes</h3>
+    <div class="formula">
+      $$ n = \frac{\displaystyle\sum \frac{N_h^2 \cdot \sigma_h^2}{w_h}}{\,N^2 \cdot D + \displaystyle\sum N_h \cdot \sigma_h^2\,} $$
+    </div>
+    <div class="note">
+      <span class="lbl">Truco de examen</span>
+      Desármala en la calculadora:
+      <ol style="margin:8px 0 0">
+        <li><strong>Numerador:</strong> suma de $\big(N_h^2 \cdot \sigma_h^2\big)/w_h$ de cada grupo.</li>
+        <li><strong>Denominador parte 1:</strong> $N^2 \cdot D$.</li>
+        <li><strong>Denominador parte 2:</strong> suma de $N_h \cdot \sigma_h^2$ de cada grupo.</li>
+        <li>Une todo: Numerador / (Parte 1 + Parte 2) y redondea hacia arriba.</li>
+      </ol>
+    </div>
+
+    <details class="deriv">
+      <summary class="deriv-head">
+        <span class="k">Caso especial · reparto proporcional · toca para desplegar</span>
+        <span class="t">¿Por qué desaparece la <span class="var">w<sub>h</sub></span> y la <span class="var">N²</span> se vuelve <span class="var">N</span>?</span>
+        <span class="chev"></span>
+      </summary>
+
+      <div class="dstep">
+        <span class="dnum">0</span>
+        <div class="dbody">
+          <p class="dt">Partimos de la <strong>fórmula maestra</strong> general (sirve para cualquier reparto):</p>
+          <div class="formula">$$ n = \frac{\displaystyle\sum \dfrac{N_h^2 \cdot \sigma_h^2}{w_h}}{\,N^2 \cdot D + \displaystyle\sum N_h \cdot \sigma_h^2\,} $$</div>
+        </div>
+      </div>
+
+      <div class="dstep">
+        <span class="dnum">1</span>
+        <div class="dbody">
+          <p class="dt">Como elegimos <strong>reparto proporcional</strong>, ya sabemos por definición cuánto vale el peso de cada estrato:</p>
+          <div class="formula">$$ w_h = \frac{N_h}{N} $$</div>
+        </div>
+      </div>
+
+      <div class="dstep">
+        <span class="dnum">2</span>
+        <div class="dbody">
+          <p class="dt">Lo metemos dentro del numerador. Cada término queda como <em>una fracción dividida por otra fracción</em>:</p>
+          <div class="formula">$$ \frac{N_h^2 \cdot \sigma_h^2}{w_h} \;=\; \frac{N_h^2 \cdot \sigma_h^2}{\;\dfrac{N_h}{N}\;} $$</div>
+        </div>
+      </div>
+
+      <div class="dstep">
+        <span class="dnum">3</span>
+        <div class="dbody">
+          <p class="dt"><strong>Regla de la oreja.</strong> Para dividir por una fracción, se da vuelta la de abajo y se multiplica: los términos se cruzan en forma de oreja. El <span class="var">N</span> de abajo sube multiplicando arriba, y el <span class="var">N<sub>h</sub></span> de abajo se queda dividiendo:</p>
+          <div class="formula">$$ \frac{N_h^2 \sigma_h^2}{1} \;\div\; \frac{N_h}{N} \;=\; \frac{N_h^2 \sigma_h^2 \,\cdot\, \color{#C2570B}{N}}{1 \,\cdot\, \color{#3B4FB0}{N_h}} $$</div>
+          <p class="ear">La <b>oreja</b>: el de arriba (<span class="var">N<sub>h</sub>²σ<sub>h</sub>²</span>) se multiplica por el <b>denominador</b> de la fracción de abajo (<span class="var">N</span>), todo sobre el <b>numerador</b> de la fracción de abajo (<span class="var">N<sub>h</sub></span>).</p>
+        </div>
+      </div>
+
+      <div class="dstep">
+        <span class="dnum">4</span>
+        <div class="dbody">
+          <p class="dt">Simplificamos la <span class="var">N<sub>h</sub></span>. Arriba hay <span class="var">N<sub>h</sub>²</span> (es decir <span class="var">N<sub>h</sub> · N<sub>h</sub></span>) y abajo una sola <span class="var">N<sub>h</sub></span>: se cancela una contra la otra.</p>
+          <div class="formula">$$ \frac{N \cdot N_h^{\cancel{2}} \cdot \sigma_h^2}{\cancel{N_h}} \;=\; N \cdot N_h \cdot \sigma_h^2 $$</div>
+        </div>
+      </div>
+
+      <div class="dstep">
+        <span class="dnum">5</span>
+        <div class="dbody">
+          <p class="dt">Reescribimos el numerador completo. Como cada término quedó multiplicado por <span class="var">N</span> (que es constante, no depende del grupo <span class="var">h</span>), la sacamos fuera de la suma:</p>
+          <div class="formula">$$ \sum \frac{N_h^2 \sigma_h^2}{w_h} \;=\; \sum N \cdot N_h \sigma_h^2 \;=\; N \cdot \sum N_h \sigma_h^2 $$</div>
+        </div>
+      </div>
+
+      <div class="dstep">
+        <span class="dnum">6</span>
+        <div class="dbody">
+          <p class="dt">Así queda la maestra con el numerador ya simplificado (pero con números todavía grandes por la <span class="var">N²</span>):</p>
+          <div class="formula">$$ n = \frac{N \cdot \displaystyle\sum N_h \sigma_h^2}{\,N^2 \cdot D + \displaystyle\sum N_h \sigma_h^2\,} $$</div>
+        </div>
+      </div>
+
+      <div class="dstep">
+        <span class="dnum">7</span>
+        <div class="dbody">
+          <p class="dt">Para "limpiar" la fórmula y que la calculadora no maneje cifras enormes, <strong>dividimos arriba y abajo por <span class="var">N</span></strong> (dividir todo por lo mismo no cambia el resultado):</p>
+          <ul>
+            <li><strong>Arriba:</strong> $\dfrac{N \cdot \sum N_h \sigma_h^2}{N} = \sum N_h \sigma_h^2$ &nbsp;→ la <span class="var">N</span> de afuera desaparece.</li>
+            <li><strong>Abajo, término 1:</strong> $\dfrac{N^2 \cdot D}{N} = N \cdot D$ &nbsp;→ se elimina un cuadrado de la <span class="var">N²</span>.</li>
+            <li><strong>Abajo, término 2:</strong> $\dfrac{\sum N_h \sigma_h^2}{N} = \dfrac{1}{N}\sum N_h \sigma_h^2$ &nbsp;→ recibe el <span class="var">1/N</span> adelante.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dstep final">
+        <span class="dnum">✓</span>
+        <div class="dbody">
+          <p class="dt"><strong>Fórmula simplificada</strong> (la que usamos en el ejemplo):</p>
+          <div class="formula">$$ n = \frac{\displaystyle\sum N_h \cdot \sigma_h^2}{\,N \cdot D + \dfrac{1}{N}\displaystyle\sum N_h \cdot \sigma_h^2\,} $$</div>
+        </div>
+      </div>
+    </details>
+
+    <h3><span class="step">Paso 5</span>El reparto final <span class="var">n<sub>h</sub></span></h3>
+    <p>Con el tamaño total <span class="var">n</span>, calcula cuántos sujetos le tocan a cada grupo multiplicando por su peso del Paso 3:</p>
+    <div class="formula">
+      $$ n_h = n \cdot w_h $$
+    </div>
+  </section>
+
+  <!-- ============ EJEMPLO RESUELTO ============ -->
+  <section class="solved" id="ej-proporcional">
+    <span class="tag">✅ Ejemplo 2 · Afijación proporcional</span>
+    <h2>Horas de TV por hogar </h2>
+	<h3> PDF Clase 3 pag 29 <h3>
+    <p class="lead">Tres estratos, desviación estándar común de 10, error de 2 horas con <span class="var">Z = 2</span>, reparto proporcional.</p>
+
+    <h3>Datos del enunciado</h3>
+    <table>
+      <thead>
+        <tr><th>Estrato</th><th>N<sub>h</sub></th><th>σ²<sub>h</sub></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pueblo A</td><td class="num">155</td><td class="num">100</td></tr>
+        <tr><td>Pueblo B</td><td class="num">62</td><td class="num">100</td></tr>
+        <tr><td>Área Rural</td><td class="num">93</td><td class="num">100</td></tr>
+        <tr class="total"><td>Total (N)</td><td class="num">310</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+    <p class="lead">Como σ = 10, entonces σ² = 100 para todos. El factor de error, al pedir la media:</p>
+    <div class="formula">
+      $$ D = \frac{e^2}{Z^2} = \frac{2^2}{2^2} = 1 $$
+    </div>
+
+    <h3>Fórmulas (caso proporcional)</h3>
+    <div class="formula">
+      <span class="cap">Tamaño total — versión simplificada para reparto proporcional</span>
+      $$ n = \frac{\displaystyle\sum N_h \cdot \sigma_h^2}{\,N \cdot D + \dfrac{1}{N}\displaystyle\sum N_h \cdot \sigma_h^2\,} \qquad n_h = n \cdot \frac{N_h}{N} $$
+    </div>
+    <div class="note">
+      <span class="lbl">De dónde sale</span>
+      Es la fórmula maestra con $w_h = N_h/N$, ya simplificada. El desarrollo completo paso a paso (con la regla de la oreja) está en el <a href="#bloque2">Bloque 2, Paso 4</a>.
+    </div>
+
+    <h3><span class="step">Bloque A</span>Término común <span class="var">Σ N<sub>h</sub>·σ²<sub>h</sub></span></h3>
+    <table>
+      <tbody>
+        <tr><td>Pueblo A</td><td class="num">155 × 100 = 15.500</td></tr>
+        <tr><td>Pueblo B</td><td class="num">62 × 100 = 6.200</td></tr>
+        <tr><td>Área Rural</td><td class="num">93 × 100 = 9.300</td></tr>
+        <tr class="total"><td>Suma</td><td class="num">31.000</td></tr>
+      </tbody>
+    </table>
+    <div class="mean">
+      <span class="lbl">Qué significa este número</span>
+      Es <b>toda la variabilidad junta de la población</b>. Por cada pueblo multiplicas cuántos hogares tiene por lo dispersos que son sus datos, y luego lo sumas todo. En palabras simples: es <b>"cuánta diversidad hay que medir"</b>. Mientras más distintos sean los hogares entre sí (varianza alta) o más hogares haya, más grande es este número… y más muestra vas a necesitar para captar esa diversidad. Aquí: <b>31.000</b>.
+    </div>
+
+    <h3><span class="step">Bloque B</span>Denominador parte 1 <span class="var">(N·D)</span></h3>
+    <div class="formula">$$ N \cdot D = 310 \cdot 1 = 310 $$</div>
+    <div class="mean">
+      <span class="lbl">Qué significa este número</span>
+      Es tu <b>presupuesto de error</b>: cuánta imprecisión estás dispuesto a aceptar. El factor <span class="var">D = e²/Z²</span> resume las dos exigencias: el error que permites (<span class="var">e</span>) y la confianza que pides (<span class="var">Z</span>). Mientras <b>más error toleras</b> (e grande), más grande es este bloque y <b>menos muestra</b> necesitas; mientras <b>más confianza exiges</b> (Z grande), más chico se vuelve y <b>más muestra</b> pide. Aquí, con e = 2 y Z = 2, da D = 1, y escalado a los 310 hogares queda en <b>310</b>.
+    </div>
+
+    <h3><span class="step">Bloque C</span>Denominador parte 2 <span class="var">(1/N)·Σ</span></h3>
+    <div class="formula">$$ \frac{1}{310} \cdot 31{.}000 = 100 $$</div>
+    <div class="mean">
+      <span class="lbl">Qué significa este número</span>
+      Es la <b>variabilidad promedio de un solo hogar</b> (la diversidad total repartida entre los 310: 31.000 ÷ 310 = 100). Funciona como <b>ajuste por población finita</b>: como la población <b>no es infinita</b>, este término reconoce que no puedes —ni necesitas— encuestar más hogares de los que existen, y evita que la muestra se dispare. Aquí: <b>100</b>.
+    </div>
+
+    <h3><span class="step">Bloque D</span>Reemplazo en la fórmula de <span class="var">n</span></h3>
+    <div class="formula">
+      $$ n = \frac{31{.}000}{310 + 100} = \frac{31{.}000}{410} = 75{,}609 $$
+    </div>
+    <div class="intuition">
+      <span class="lbl">Por qué la fórmula funciona así</span>
+      <p>Arriba pones <b>el problema</b>: toda la diversidad que hay que medir (31.000). Abajo pones <b>cuánto margen te das</b>: el error que toleras (310) más el colchón por ser una población limitada (100). Sumar esos dos bloques del denominador (310 + 100 = 410) es juntar "todo lo que te ahorra muestra": tu tolerancia al error y el hecho de que la población es finita.</p>
+      <p>Dividir el problema por ese margen te dice <b>cuántos hogares hacen falta para que la diversidad quede bien capturada dentro del error que aceptaste</b>:</p>
+      <p class="recipe">diversidad total a medir &nbsp;÷&nbsp; (error que toleras &nbsp;+&nbsp; ajuste por población finita) &nbsp;=&nbsp; tamaño de muestra</p>
+      <p style="margin-top:8px">Por eso la lógica es coherente: si la población fuera <b>más diversa</b>, el numerador crece y <b>pide más muestra</b>; si <b>aceptaras más error</b>, el denominador crece y <b>pide menos muestra</b>.</p>
+    </div>
+
+    <div class="result">
+      <span class="rk">Tamaño de muestra total (redondeo hacia arriba)</span>
+      <span class="rv">n = 76 hogares</span>
+    </div>
+
+    <h3>Reparto de la muestra <span class="var">n<sub>h</sub></span></h3>
+    <table>
+      <thead>
+        <tr><th>Estrato</th><th>Cálculo</th><th>n<sub>h</sub></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pueblo A</td><td class="num">76 × (155/310) = 76 × 0,5</td><td class="num">38</td></tr>
+        <tr><td>Pueblo B</td><td class="num">76 × (62/310) = 76 × 0,2 = 15,2</td><td class="num">15</td></tr>
+        <tr><td>Área Rural</td><td class="num">76 × (93/310) = 76 × 0,3 = 22,8</td><td class="num">23</td></tr>
+        <tr class="total"><td>Verificación</td><td class="num">38 + 15 + 23</td><td class="num">76 ✓</td></tr>
+      </tbody>
+    </table>
+    <div class="note warn">
+      <span class="lbl">Ojo con el redondeo del reparto</span>
+      Aquí los <span class="var">n<sub>h</sub></span> se ajustan (15,2 → 15 y 22,8 → 23) de modo que la suma cuadre exactamente con el total <span class="var">n = 76</span>, en lugar de redondear todo hacia arriba.
+    </div>
+  </section>
+
+  <!-- ============ EJEMPLO 2 · CONSTANTE ============ -->
+  <section class="solved" id="ej-constante">
+    <span class="tag">✅ Ejemplo 3 · Afijación constante</span>
+    <h2>horas de TV por hogar</h2>
+	<h3> PDF Clase 3 Pag 23:<h3>
+    <p class="lead">Una empresa publicitaria quiere estimar el <strong>promedio de horas semanales de TV</strong> en los hogares de un municipio con tres estratos. El directorio exige error máximo <span class="var">e = 2</span> horas con <span class="var">Z = 2</span>, y pide repartir con <strong>afijación constante</strong>.</p>
+
+    <h3>Datos del enunciado</h3>
+    <table>
+      <thead>
+        <tr><th>Estrato</th><th>N<sub>h</sub></th><th>σ²<sub>h</sub></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pueblo A</td><td class="num">155</td><td class="num">25</td></tr>
+        <tr><td>Pueblo B</td><td class="num">62</td><td class="num">225</td></tr>
+        <tr><td>Área Rural</td><td class="num">93</td><td class="num">100</td></tr>
+        <tr class="total"><td>Total (N)</td><td class="num">310</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+    <p class="lead">Acá las varianzas <strong>sí son distintas</strong> entre estratos. Factor de error (estimamos la media):</p>
+    <div class="formula">
+      $$ D = \frac{e^2}{Z^2} = \frac{2^2}{2^2} = 1 $$
+    </div>
+    <p class="lead">Y como el criterio es constante, el peso es igual para los <span class="var">L = 3</span> grupos:</p>
+    <div class="formula">
+      $$ w_h = \frac{1}{L} = \frac{1}{3} $$
+    </div>
+
+    <h3>Fórmula (caso general: la maestra)</h3>
+    <div class="formula">
+      <span class="cap">Con afijación constante NO se simplifica: se usa la maestra completa</span>
+      $$ n = \frac{\displaystyle\sum \dfrac{N_h^2 \cdot \sigma_h^2}{w_h}}{\,N^2 \cdot D + \displaystyle\sum N_h \cdot \sigma_h^2\,} \qquad n_h = n \cdot w_h $$
+    </div>
+
+    <h3><span class="step">Bloque A</span>Numerador <span class="var">Σ (N²<sub>h</sub>·σ²<sub>h</sub>) / w<sub>h</sub></span></h3>
+    <p class="lead">Como <span class="var">w<sub>h</sub> = 1/3</span>, dividir por 1/3 es lo mismo que <strong>multiplicar por 3</strong>:</p>
+    <table>
+      <thead>
+        <tr><th>Estrato</th><th>N²<sub>h</sub>·σ²<sub>h</sub></th><th>÷ w<sub>h</sub> (× 3)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pueblo A</td><td class="num">155² × 25 = 600.625</td><td class="num">1.801.875</td></tr>
+        <tr><td>Pueblo B</td><td class="num">62² × 225 = 864.900</td><td class="num">2.594.700</td></tr>
+        <tr><td>Área Rural</td><td class="num">93² × 100 = 864.900</td><td class="num">2.594.700</td></tr>
+        <tr class="total"><td>Suma (numerador)</td><td class="num">—</td><td class="num">6.991.275</td></tr>
+      </tbody>
+    </table>
+    <div class="mean">
+      <span class="lbl">Qué significa este número</span>
+      Es <b>la variabilidad total a captar, pero corregida por cuánta muestra le toca a cada grupo</b>. Cada estrato se divide por su peso <span class="var">w<sub>h</sub></span>: si le das poco peso (1/3), su aporte se <b>infla</b> (× 3). En la práctica esto castiga el forzar la <b>misma cantidad de encuestas</b> a grupos de tamaño y variabilidad muy distintos. Aquí: <b>6.991.275</b>.
+    </div>
+
+    <h3><span class="step">Bloque B</span>Denominador parte 1 <span class="var">(N²·D)</span></h3>
+    <div class="formula">$$ N^2 \cdot D = 310^2 \cdot 1 = 96{.}100 $$</div>
+    <div class="mean">
+      <span class="lbl">Qué significa este número</span>
+      Es el <b>presupuesto de error</b> a escala de toda la población (por eso va <span class="var">N²</span>). Más error tolerado o menos confianza → más grande → <b>menos muestra</b>. Aquí, con D = 1: <b>96.100</b>.
+    </div>
+
+    <h3><span class="step">Bloque C</span>Denominador parte 2 <span class="var">Σ N<sub>h</sub>·σ²<sub>h</sub></span></h3>
+    <table>
+      <tbody>
+        <tr><td>Pueblo A</td><td class="num">155 × 25 = 3.875</td></tr>
+        <tr><td>Pueblo B</td><td class="num">62 × 225 = 13.950</td></tr>
+        <tr><td>Área Rural</td><td class="num">93 × 100 = 9.300</td></tr>
+        <tr class="total"><td>Suma</td><td class="num">27.125</td></tr>
+      </tbody>
+    </table>
+    <div class="mean">
+      <span class="lbl">Qué significa este número</span>
+      Es la <b>variabilidad bruta total de la población</b> (sin inflar por pesos). Hace de <b>ajuste por población finita</b>: reconoce que la población no es infinita y evita que la muestra se dispare. Aquí: <b>27.125</b>.
+    </div>
+
+    <h3><span class="step">Bloque D</span>Reemplazo en la fórmula de <span class="var">n</span></h3>
+    <div class="formula">
+      $$ n = \frac{6{.}991{.}275}{96{.}100 + 27{.}125} = \frac{6{.}991{.}275}{123{.}225} = 56{,}74 $$
+    </div>
+    <div class="intuition">
+      <span class="lbl">Por qué la fórmula funciona así</span>
+      <p>Misma lógica que el Ejemplo 2: arriba está <b>el problema</b> (la variabilidad a medir, ya ajustada por los pesos), abajo está <b>tu margen</b> (presupuesto de error 96.100 + ajuste por población finita 27.125). Dividir el problema por el margen total (123.225) da cuántas encuestas hacen falta.</p>
+      <p class="recipe">variabilidad a medir (ajustada por pesos) &nbsp;÷&nbsp; (error que toleras &nbsp;+&nbsp; ajuste por población finita) &nbsp;=&nbsp; tamaño de muestra</p>
+    </div>
+
+    <div class="result">
+      <span class="rk">Tamaño de muestra total (redondeo hacia arriba)</span>
+      <span class="rv">n = 57 encuestas</span>
+    </div>
+
+    <h3>Reparto de la muestra <span class="var">n<sub>h</sub></span></h3>
+    <p class="lead">Con afijación constante, todos reciben lo mismo: <span class="var">n<sub>h</sub> = n · (1/3)</span>.</p>
+    <table>
+      <thead>
+        <tr><th>Estrato</th><th>Cálculo</th><th>n<sub>h</sub></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pueblo A</td><td class="num">57 × (1/3)</td><td class="num">19</td></tr>
+        <tr><td>Pueblo B</td><td class="num">57 × (1/3)</td><td class="num">19</td></tr>
+        <tr><td>Área Rural</td><td class="num">57 × (1/3)</td><td class="num">19</td></tr>
+        <tr class="total"><td>Verificación</td><td class="num">19 + 19 + 19</td><td class="num">57 ✓</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <span class="lbl">La idea clave de la afijación constante</span>
+      El reparto es <strong>idéntico para todos</strong> (19 / 19 / 19) sin importar que el Pueblo B sea el más chico pero el más variable (σ² = 225). Por eso este criterio suele ser <strong>menos eficiente</strong> que el proporcional o el de Neyman cuando los estratos difieren mucho en tamaño o variabilidad: reparte "a ciegas", en partes iguales.
+    </div>
+  </section>
+
+  <footer>
+    Apunte de muestreo · M.A.S. + Estratificado · Genera el PDF con <strong>Ctrl/Cmd + P</strong>
+  </footer>
+
+</div>
+<script>
+  // Al imprimir/exportar PDF, desplegar el bloque para que no se pierda; restaurar después.
+  window.addEventListener('beforeprint', function () {
+    document.querySelectorAll('details').forEach(function (d) {
+      d.dataset._open = d.open ? '1' : '0';
+      d.open = true;
+    });
+  });
+  window.addEventListener('afterprint', function () {
+    document.querySelectorAll('details').forEach(function (d) {
+      if (d.dataset._open === '0') d.open = false;
+    });
+  });
+</script>
+</body>
+</html>

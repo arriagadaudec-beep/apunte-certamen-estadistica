@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estadística · Apuntes Certamen 2</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,800;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<script>
+  window.MathJax = {
+    loader: { load: ['[tex]/cancel', '[tex]/color'] },
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      packages: { '[+]': ['cancel', 'color'] }
+    },
+    svg: { fontCache: 'global' },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root{
+    --paper:#F6F7FB;
+    --card:#FFFFFF;
+    --ink:#1A2230;
+    --ink-soft:#4A5468;
+    --line:#E4E7F0;
+    --indigo:#3B4FB0;
+    --indigo-deep:#2A3680;
+    --ic:#7C3AED;
+    --ph:#B91C1C;
+    --mu:#1E7A4D;
+    --cert:#0E7490;
+    --mathbg:#F2F4FC;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- Nav ---- */
+  .site-nav{
+    background:var(--ink);
+    position:sticky;top:0;z-index:100;
+    border-bottom:2px solid var(--indigo);
+  }
+  .nav-wrap{
+    max-width:880px;margin:0 auto;padding:0 22px;
+    display:flex;align-items:center;
+  }
+  .nav-home{
+    font-family:'Spectral',serif;font-size:.95rem;font-weight:800;
+    color:#fff;text-decoration:none;padding:13px 0;margin-right:auto;
+  }
+  .nav-links{display:flex}
+  .nav-links a{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,255,255,.6);text-decoration:none;
+    padding:14px 13px;border-bottom:2px solid transparent;margin-bottom:-2px;
+    transition:.15s;
+  }
+  .nav-links a:hover,.nav-links a.active{color:#fff;border-bottom-color:var(--indigo)}
+
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px 90px}
+
+  /* ---- Header ---- */
+  header.top{
+    padding:56px 0 30px;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:34px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--indigo);font-weight:700;margin:0 0 14px;
+  }
+  header.top h1{
+    font-family:'Spectral',serif;
+    font-weight:800;font-size:clamp(2rem,5.5vw,3.1rem);
+    line-height:1.05;margin:0 0 12px;letter-spacing:-.01em;
+  }
+  header.top p.sub{
+    font-size:1.02rem;color:var(--ink-soft);margin:0;max-width:60ch;
+  }
+
+  h2{
+    font-family:'Spectral',serif;font-weight:800;
+    font-size:1.55rem;line-height:1.15;margin:0 0 6px;
+  }
+  h3{font-family:'Spectral',serif;font-weight:600;font-size:1.12rem;margin:20px 0 8px}
+  p{margin:0 0 12px}
+  .lead{color:var(--ink-soft);font-size:.97rem;margin:0 0 8px}
+  strong{font-weight:700}
+
+  /* ---- Exam topics box ---- */
+  .exam-box{
+    background:#fff;border:2px solid var(--indigo);border-radius:14px;
+    padding:24px 28px;margin:0 0 34px;
+  }
+  .exam-box .box-label{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);
+    display:block;margin-bottom:10px;
+  }
+  .exam-box h2{margin:0 0 16px}
+  .topic-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  .topic-list li{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:12px 16px;border-radius:10px;background:var(--mathbg);
+    border:1px solid var(--line);
+  }
+  .topic-list .num{
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;
+    color:var(--indigo-deep);flex-shrink:0;margin-top:1px;min-width:20px;
+  }
+  .topic-list .txt{font-size:.95rem}
+  .topic-list .txt strong{color:var(--ink)}
+  .topic-list .txt em{font-size:.85rem;color:var(--ink-soft);font-style:normal}
+
+  /* ---- Cards grid ---- */
+  .cards{
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 34px;
+  }
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:26px 24px 22px;
+    box-shadow:0 1px 2px rgba(26,34,48,.03),0 6px 18px rgba(26,34,48,.04);
+    text-decoration:none;color:var(--ink);
+    transition:.18s;display:flex;flex-direction:column;gap:0;
+    border-top:4px solid var(--card-color, var(--indigo));
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(26,34,48,.05),0 12px 32px rgba(26,34,48,.08)}
+  .card-tag{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--card-color, var(--indigo));
+    display:block;margin-bottom:10px;
+  }
+  .card h3{
+    font-family:'Spectral',serif;font-weight:800;font-size:1.2rem;
+    margin:0 0 8px;letter-spacing:-.01em;
+  }
+  .card p{font-size:.88rem;color:var(--ink-soft);margin:0 0 16px;flex:1}
+  .card .card-link{
+    font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;
+    color:var(--card-color, var(--indigo));display:inline-flex;align-items:center;gap:6px;
+  }
+  .card .card-link::after{content:'→'}
+
+  .card.ic{--card-color:var(--ic)}
+  .card.ph{--card-color:var(--ph)}
+  .card.mu{--card-color:var(--mu)}
+  .card.cert{--card-color:var(--cert)}
+
+  /* ---- Cheat sheet ---- */
+  section.sheet{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:28px 30px;margin:0 0 28px;
+    box-shadow:0 1px 2px rgba(26,34,48,.03),0 6px 18px rgba(26,34,48,.04);
+  }
+  .sheet-tag{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;
+    display:inline-block;padding:5px 11px;border-radius:6px;margin-bottom:14px;
+    background:rgba(59,79,176,.1);color:var(--indigo);
+  }
+
+  .ztable{width:100%;border-collapse:collapse;font-size:.91rem;margin:12px 0}
+  .ztable th,.ztable td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:center}
+  .ztable th{
+    font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-soft);font-weight:700;
+    border-bottom:2px solid var(--ink);
+  }
+  .ztable td:first-child{text-align:left;font-weight:600}
+  .ztable td.hi{font-weight:700;color:var(--indigo-deep)}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:16px 0 0}
+
+  .formula{
+    background:var(--mathbg);border:1px solid var(--line);
+    border-radius:10px;padding:8px 18px;margin:10px 0;overflow-x:auto;
+  }
+  .formula .cap{
+    display:block;font-size:.8rem;color:var(--ink-soft);
+    font-weight:600;margin-bottom:-4px;padding-top:4px;
+  }
+
+  footer{
+    text-align:center;color:var(--ink-soft);font-size:.82rem;
+    margin-top:40px;padding-top:20px;border-top:1px solid var(--line);
+  }
+
+  @media(max-width:600px){
+    .cards{grid-template-columns:1fr}
+    .two-col{grid-template-columns:1fr}
+    .nav-links a{padding:13px 9px;font-size:.62rem}
+  }
+
+  @media print{
+    .site-nav{display:none}
+    body{background:#fff}
+    .card:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-wrap">
+    <a class="nav-home" href="index.html">Estadística</a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Inicio</a>
+      <a href="intervalos_2pob.html">IC · 2 Pob.</a>
+      <a href="prueba_hipotesis.html">Hipótesis</a>
+      <a href="Apunte_Tamano_Muestra (2).html">Muestreo</a>
+      <a href="certamen_anterior.html">Certamen Ant.</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">Estadística · Certamen 2 · 2026</p>
+    <h1>Apuntes de Certamen</h1>
+    <p class="sub">Guía de decisión y ejemplos resueltos para los tres bloques del certamen: intervalos de confianza, prueba de hipótesis y muestreo.</p>
+  </header>
+
+  <!-- Lo que entra -->
+  <div class="exam-box">
+    <span class="box-label">Según el profesor · Materia que entra</span>
+    <h2>Temas del certamen</h2>
+    <ul class="topic-list">
+      <li>
+        <span class="num">1</span>
+        <div class="txt">
+          <strong>Intervalos de confianza para 2 poblaciones</strong><br>
+          <em>Listado 3, ejercicios 3 y 4 · Diferencia de medias y diferencia de proporciones</em>
+        </div>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <div class="txt">
+          <strong>Prueba de hipótesis — una y dos poblaciones</strong><br>
+          <em>Listado 4 completo · Protocolo de 5 pasos, Z-test y t-test</em>
+        </div>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <div class="txt">
+          <strong>Muestreo · Cálculo de tamaño de muestra</strong><br>
+          <em>Ejercicios de la PPT · Solo calcular tamaños de muestra (MAS y Estratificado)</em>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Cards -->
+  <div class="cards">
+    <a class="card ic" href="intervalos_2pob.html">
+      <span class="card-tag">Tema 1 · Listado 3</span>
+      <h3>Intervalos de Confianza · 2 Poblaciones</h3>
+      <p>Diferencia de medias (varianzas conocidas, desconocidas iguales y desiguales) y diferencia de proporciones.</p>
+      <span class="card-link">Abrir apunte</span>
+    </a>
+
+    <a class="card ph" href="prueba_hipotesis.html">
+      <span class="card-tag">Tema 2 · Listado 4</span>
+      <h3>Prueba de Hipótesis</h3>
+      <p>Protocolo de 5 pasos para una y dos poblaciones: media (Z y t) y proporción.</p>
+      <span class="card-link">Abrir apunte</span>
+    </a>
+
+    <a class="card mu" href="Apunte_Tamano_Muestra (2).html">
+      <span class="card-tag">Tema 3 · PPT Clases 2–3</span>
+      <h3>Muestreo · Tamaño de Muestra</h3>
+      <p>MAS y Estratificado (proporcional y constante). Filtro de 5% y corrección por población finita.</p>
+      <span class="card-link">Abrir apunte</span>
+    </a>
+
+    <a class="card cert" href="certamen_anterior.html">
+      <span class="card-tag">Práctica · Certamen anterior</span>
+      <h3>Certamen Año Anterior</h3>
+      <p>Imágenes de las preguntas y soluciones del certamen anterior para practicar bajo condiciones reales.</p>
+      <span class="card-link">Ver imágenes</span>
+    </a>
+  </div>
+
+  <!-- Cheat sheet valores Z y t -->
+  <section class="sheet">
+    <span class="sheet-tag">Valores críticos de referencia rápida</span>
+    <h2>Tabla Z y t más usados</h2>
+
+    <div class="two-col">
+      <div>
+        <h3 style="margin-top:0">Distribución Z (normal)</h3>
+        <table class="ztable">
+          <thead>
+            <tr><th>Confianza</th><th>α</th><th>Z<sub>α/2</sub> (bilateral)</th><th>Z<sub>α</sub> (unilateral)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>90%</td><td>0.10</td><td class="hi">1.645</td><td class="hi">1.282</td></tr>
+            <tr><td>95%</td><td>0.05</td><td class="hi">1.960</td><td class="hi">1.645</td></tr>
+            <tr><td>99%</td><td>0.01</td><td class="hi">2.576</td><td class="hi">2.326</td></tr>
+          </tbody>
+        </table>
+        <p class="lead" style="font-size:.83rem">Para PH: $Z_c > Z_{\alpha/2}$ rechaza en bilateral; $Z_c > Z_\alpha$ en cola derecha.</p>
+      </div>
+      <div>
+        <h3 style="margin-top:0">Distribución t (selección)</h3>
+        <table class="ztable">
+          <thead>
+            <tr><th>gl (df)</th><th>t<sub>0.025</sub></th><th>t<sub>0.05</sub></th></tr>
+          </thead>
+          <tbody>
+            <tr><td>10</td><td>2.228</td><td>1.812</td></tr>
+            <tr><td>15</td><td>2.131</td><td>1.753</td></tr>
+            <tr><td>20</td><td>2.086</td><td>1.725</td></tr>
+            <tr><td>25</td><td>2.060</td><td>1.708</td></tr>
+            <tr><td>30</td><td>2.042</td><td>1.697</td></tr>
+            <tr><td>40</td><td>2.021</td><td>1.684</td></tr>
+            <tr><td>60</td><td>2.000</td><td>1.671</td></tr>
+            <tr><td>∞</td><td class="hi">1.960</td><td class="hi">1.645</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <span class="sheet-tag">Resumen de fórmulas · Referencia ultra-rápida</span>
+    <h2>Formulario condensado</h2>
+    <div class="two-col">
+      <div>
+        <h3 style="margin-top:0">IC · 2 Poblaciones</h3>
+        <div class="formula">
+          <span class="cap">Diferencia de medias · σ conocidas</span>
+          $$(\bar X_1-\bar X_2)\pm Z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
+        </div>
+        <div class="formula">
+          <span class="cap">Diferencia de medias · σ desconocidas iguales</span>
+          $$(\bar X_1-\bar X_2)\pm t_{\alpha/2,\,n_1+n_2-2}\cdot s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}$$
+        </div>
+        <div class="formula">
+          <span class="cap">Diferencia de proporciones</span>
+          $$(\hat p_1-\hat p_2)\pm Z_{\alpha/2}\sqrt{\frac{\hat p_1\hat q_1}{n_1}+\frac{\hat p_2\hat q_2}{n_2}}$$
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-top:0">PH · Estadísticos de prueba</h3>
+        <div class="formula">
+          <span class="cap">1 pob · Media · σ conocida</span>
+          $$Z_c=\frac{\bar X-\mu_0}{\sigma/\sqrt{n}}$$
+        </div>
+        <div class="formula">
+          <span class="cap">1 pob · Media · σ desconocida</span>
+          $$t_c=\frac{\bar X-\mu_0}{s/\sqrt{n}},\quad gl=n-1$$
+        </div>
+        <div class="formula">
+          <span class="cap">1 pob · Proporción</span>
+          $$Z_c=\frac{\hat p-p_0}{\sqrt{p_0 q_0/n}}$$
+        </div>
+        <div class="formula">
+          <span class="cap">2 pob · Proporción (H₀: p₁=p₂)</span>
+          $$Z_c=\frac{\hat p_1-\hat p_2}{\sqrt{\hat p(1-\hat p)(1/n_1+1/n_2)}}$$
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Certamen 2 · 2026 · Estadística &nbsp;·&nbsp; Genera PDF con <strong>Ctrl/Cmd + P</strong>
+  </footer>
+
+</div>
+</body>
+</html>
