@@ -261,6 +261,18 @@
   .story p{margin:0 0 10px;font-size:.94rem}
   .story p:last-child{margin:0}
 
+  /* ---- Recordatorio teórico dentro de cada paso ---- */
+  .proto-ref{
+    background:rgba(59,79,176,.05);border-left:3px solid var(--indigo);
+    border-radius:0 6px 6px 0;padding:9px 14px;margin:0 0 12px;
+    font-size:.87rem;color:var(--ink-soft);
+  }
+  .proto-ref .pr-lbl{
+    font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);
+    display:block;margin-bottom:4px;
+  }
+
   /* ---- Section divider ---- */
   .sec-divider{border-top:3px dashed var(--line);margin:34px 0 26px;padding-top:26px}
   .sec-divider .eyebrow{margin:0 0 3px}
@@ -612,6 +624,14 @@
     </div>
 
     <h3>Paso previo · Prueba F de igualdad de varianzas</h3>
+    <div class="note blue">
+      <span class="lbl">¿Por qué el test F y el cálculo de Sp van ANTES de los 5 pasos?</span>
+      Los 5 pasos son el esqueleto formal del test. Pero en el <strong>Paso 3</strong> necesitas calcular el estadístico, y la fórmula de ese estadístico depende de si las varianzas poblacionales son iguales o no. Como no lo sabes, primero debes averiguarlo.<br><br>
+      <strong>Paso previo 1 — Prueba F:</strong> ¿son σ₁² y σ₂² iguales? → determina qué denominador usar.<br>
+      <strong>Paso previo 2 — Cálculo de Sp:</strong> si el F test dice "iguales", calcula la varianza combinada que irá en el denominador del Paso 3.<br>
+      <strong>Pasos 1 al 5:</strong> ahora sí ejecutas el protocolo con el denominador correcto ya listo.<br><br>
+      Analogía: es como preparar los ingredientes antes de cocinar. Los 5 pasos son la receta; el test F y el Sp son la mise en place.
+    </div>
     <p class="lead">Bilateral con α = 0,01. Decidimos si σ₁² = σ₂² antes de calcular el estadístico principal.</p>
     <div class="formula">
       <span class="cap">Hipótesis del paso previo</span>
@@ -671,6 +691,10 @@
     </div>
 
     <h3><span class="step">Paso 1</span>Plantear H₀ y H₁</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 1</span>
+      H₀ es lo que asumes cierto (la "no pasa nada"). H₁ es lo que quieres probar. El signo de H₁ determina la cola: <strong>≠ bilateral</strong> · <strong>&gt; cola derecha</strong> · <strong>&lt; cola izquierda</strong>.
+    </div>
     <div class="note">
       <span class="lbl">¿Cómo se construyen las hipótesis?</span>
       La empresa <em>afirma</em> que μ₁ − μ₂ &gt; 20. Lo que se afirma va en H₀ (lo que hay que intentar refutar). Si no se puede rechazar H₀, la afirmación es consistente con los datos.
@@ -680,12 +704,25 @@
     </div>
 
     <h3><span class="step">Paso 2</span>Nivel de significancia y valor crítico</h3>
-    <p class="lead">α = 0,01. Cola izquierda → se rechaza H₀ si $Z_c &lt; -Z_{0{,}99}$.</p>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 2</span>
+      El enunciado te da α (1%, 5%, 10%). Con α y el tipo de cola, buscas el valor crítico Z* en la tabla de la distribución normal estándar: la tabla acumula probabilidad P(Z &lt; z). Busca 1−α para una cola, o 1−α/2 para bilateral.
+    </div>
+    <div class="note blue">
+      <span class="lbl">Cómo se obtiene Z_{0,99} = 2,33 — lectura de la tabla Z</span>
+      Test de <strong>cola izquierda</strong> con α = 0,01. Se rechaza H₀ cuando Z_c es muy negativo (datos muy por debajo de lo que H₀ predice). El valor crítico z* es el número que deja exactamente α = 1% de probabilidad en la cola izquierda:<br><br>
+      P(Z &lt; −z*) = α = 0,01 &nbsp;↔&nbsp; P(Z &lt; z*) = 1 − 0,01 = <strong>0,99</strong><br><br>
+      En la tabla Z buscas el valor que acumula probabilidad 0,99 (el percentil 99%). Ese valor es <strong>z* = 2,33</strong>, por eso se escribe Z_{0,99} = 2,33. La región crítica queda en la cola izquierda: se rechaza H₀ si Z_c &lt; −2,33.
+    </div>
     <div class="formula">
-      $$Z_{0{,}99}=2{,}33 \qquad \text{Región crítica: } Z_c<-2{,}33$$
+      $$Z_{0{,}99}=2{,}33 \qquad \text{Región crítica (cola izquierda): } Z_c<-2{,}33$$
     </div>
 
     <h3><span class="step">Paso 3</span>Estadístico de prueba Z</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 3</span>
+      Estadístico = (estimador − valor_H₀) / error_estándar. El resultado es Z_c o t_c, el valor que "sale de los datos". El denominador ya lo determinaron el test F y el Sp en los pasos previos.
+    </div>
     <p class="lead">n₁ = n₂ = 60 ≥ 30 → TCL aplica → Z. Varianzas verificadas como iguales → denominador con Sp.</p>
     <div class="formula">
       <span class="cap">Error estándar con Sp pooled</span>
@@ -702,6 +739,10 @@
     </div>
 
     <h3><span class="step">Paso 4</span>Región de rechazo</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 4</span>
+      Compara Z_c con el valor crítico del Paso 2: &nbsp;<strong>Cola izquierda:</strong> rechaza si Z_c &lt; −Z* &nbsp;·&nbsp; <strong>Cola derecha:</strong> rechaza si Z_c &gt; Z* &nbsp;·&nbsp; <strong>Bilateral:</strong> rechaza si |Z_c| &gt; Z*_{α/2}
+    </div>
     <div class="conclusion">
       <div class="concl-r">
         <span class="cl">Región crítica (rechazar H₀)</span>
@@ -714,6 +755,10 @@
     </div>
 
     <h3><span class="step">Paso 5</span>Conclusión</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 5</span>
+      Si Z_c cae en la región crítica → <strong>Se rechaza H₀ al α%</strong>. Si no → <strong>No se rechaza H₀</strong>. Concluye siempre en palabras del problema. Nunca digas "se acepta H₀" — no rechazar no es lo mismo que probar que H₀ es verdad.
+    </div>
     <div class="formula">
       $$Z_c=2{,}068\;>\;-2{,}33\quad\Rightarrow\quad Z_c\text{ NO está en la región de rechazo}\quad\Rightarrow\quad\textbf{No se rechaza }H_0$$
     </div>
@@ -776,14 +821,32 @@
     </div>
 
     <h3><span class="step">Paso 1</span>H₀ y H₁</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 1</span>
+      H₀ es lo que asumes cierto. H₁ es lo que quieres probar. "¿Hay diferencias?" → H₁: ≠ → <strong>bilateral</strong>. "¿Es mayor?" → H₁: &gt; → cola derecha. "¿Es menor?" → H₁: &lt; → cola izquierda.
+    </div>
     <div class="formula">
       $$H_0:\mu_1=\mu_2 \qquad H_1:\mu_1\neq\mu_2 \qquad\text{(bilateral, "¿difieren?")}$$
     </div>
 
-    <h3><span class="step">Paso 2</span>Nivel de significancia</h3>
-    <p class="lead">α = 0,01. Bilateral → $Z_{\alpha/2}=Z_{0{,}005}=Z_{0{,}995}=\mathbf{2{,}58}$. Región de rechazo: $|Z_c|>2{,}58$.</p>
+    <h3><span class="step">Paso 2</span>Nivel de significancia y valor crítico</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 2</span>
+      El enunciado te da α. Busca Z* en la tabla: para bilateral, necesitas P(Z &lt; z*) = 1 − α/2. Para una cola, P(Z &lt; z*) = 1 − α.
+    </div>
+    <div class="note blue">
+      <span class="lbl">Cómo se obtiene Z_{0,995} = 2,58 — lectura de la tabla Z</span>
+      Test <strong>bilateral</strong> con α = 0,01: se divide entre dos colas, α/2 = 0,005 en cada extremo. El valor crítico z* deja 0,5% de probabilidad en la cola derecha:<br><br>
+      P(Z &gt; z*) = α/2 = 0,005 &nbsp;↔&nbsp; P(Z &lt; z*) = 1 − 0,005 = <strong>0,995</strong><br><br>
+      En la tabla Z busca el percentil 99,5%. Ese valor es <strong>z* = 2,58</strong>. Como el test es bilateral, rechazamos si el estadístico es demasiado positivo O demasiado negativo: región crítica |Z_c| &gt; 2,58.
+    </div>
+    <p class="lead">α = 0,01. Bilateral → $Z_{0{,}995}=\mathbf{2{,}58}$. Región de rechazo: $|Z_c|>2{,}58$.</p>
 
     <h3><span class="step">Paso 3</span>Estadístico Z con σ conocidas</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 3</span>
+      Estadístico = (estimador − valor_H₀) / error_estándar. Aquí σ es conocida → Z directo, sin pasos previos de F ni Sp. δ₀ = 0 → el numerador es solo $\bar X_1 − \bar X_2$.
+    </div>
     <div class="formula">
       <span class="cap">Error estándar — σ conocidas, sin pooling</span>
       $$SE=\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}=\sqrt{\frac{(1{,}6)^2}{40}+\frac{(1{,}4)^2}{32}}=\sqrt{\frac{2{,}56}{40}+\frac{1{,}96}{32}}=\sqrt{0{,}064+0{,}0613}=\sqrt{0{,}1253}=0{,}3539$$
@@ -793,7 +856,11 @@
       $$Z_c=\frac{\bar X_1-\bar X_2}{SE}=\frac{18{,}12-16{,}87}{0{,}3539}=\frac{1{,}25}{0{,}3539}=\mathbf{3{,}53}$$
     </div>
 
-    <h3><span class="step">Paso 4 y 5</span>Región de rechazo y conclusión</h3>
+    <h3><span class="step">Pasos 4 y 5</span>Región de rechazo y conclusión</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Pasos 4 y 5</span>
+      Bilateral: rechaza si |Z_c| &gt; Z*. Si cae en la región crítica: "se rechaza H₀ al α%, hay evidencia de que [H₁]". Si no: "no se rechaza H₀, los datos son compatibles con [H₀]".
+    </div>
     <div class="formula">
       $$|Z_c|=3{,}53\;>\;2{,}58=Z^*\quad\Rightarrow\quad\textbf{Se rechaza }H_0$$
     </div>
@@ -949,19 +1016,41 @@
     </div>
 
     <h3><span class="step">Paso 1</span>H₀ y H₁</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 1</span>
+      H₀ es lo que asumes cierto. El signo de H₁ determina la cola: ≠ bilateral · &gt; cola derecha · &lt; cola izquierda. Aquí "¿supera el 10%?" → H₁: p₁−p₂ &gt; 0,1 → cola derecha.
+    </div>
     <div class="formula">
       $$H_0:\,p_1-p_2\leq 0{,}1 \qquad H_1:\,p_1-p_2>0{,}1 \qquad\text{(cola derecha)}$$
     </div>
 
-    <h3><span class="step">Paso 2</span>Nivel de significancia</h3>
+    <h3><span class="step">Paso 2</span>Nivel de significancia y valor crítico</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 2</span>
+      El enunciado te da α. Para cola derecha: busca P(Z &lt; z*) = 1−α en la tabla Z.
+    </div>
+    <div class="note blue">
+      <span class="lbl">Cómo se obtiene Z_{0,95} = 1,65 — lectura de la tabla Z</span>
+      Test de <strong>cola derecha</strong> con α = 0,05. Se rechaza H₀ cuando Z_c es muy positivo. El valor crítico z* deja 5% de probabilidad en la cola derecha:<br><br>
+      P(Z &gt; z*) = α = 0,05 &nbsp;↔&nbsp; P(Z &lt; z*) = 1 − 0,05 = <strong>0,95</strong><br><br>
+      En la tabla Z busca el percentil 95%. Ese valor es <strong>z* = 1,65</strong>. La región crítica queda en la cola derecha: se rechaza H₀ si Z_c &gt; 1,65.
+    </div>
     <p class="lead">α = 0,05. Cola derecha → $Z_{0{,}95}=1{,}65$. Región de rechazo: $Z_c>1{,}65$.</p>
 
     <h3><span class="step">Paso 3</span>Estadístico Z</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Paso 3</span>
+      Estadístico = (estimador − valor_H₀) / SE. Aquí estimador = p̂₁−p̂₂ = 0,04, valor H₀ = δ₀ = 0,1, y SE ya calculado en parte a).
+    </div>
     <div class="formula">
       $$Z_c=\frac{(\hat p_1-\hat p_2)-\delta_0}{SE}=\frac{0{,}04-0{,}1}{0{,}01637}=\frac{-0{,}06}{0{,}01637}=\mathbf{-3{,}66}$$
     </div>
 
-    <h3><span class="step">Paso 4 y 5</span>Región de rechazo y conclusión</h3>
+    <h3><span class="step">Pasos 4 y 5</span>Región de rechazo y conclusión</h3>
+    <div class="proto-ref">
+      <span class="pr-lbl">Regla general · Pasos 4 y 5</span>
+      Cola derecha: rechaza si Z_c &gt; Z*. Si Z_c no alcanza el umbral (o es negativo como aquí), los datos van en sentido opuesto a H₁ y no se rechaza H₀.
+    </div>
     <div class="formula">
       $$Z_c=-3{,}66\;<\;1{,}65\quad\Rightarrow\quad Z_c\text{ NO está en la región de rechazo}\quad\Rightarrow\quad\textbf{No se rechaza }H_0$$
     </div>
