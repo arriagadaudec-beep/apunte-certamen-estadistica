@@ -642,23 +642,25 @@
       $$F_{obs}=\frac{S_1^2}{S_2^2}=\frac{(15{,}60)^2}{(18{,}20)^2}=\frac{243{,}36}{331{,}24}=0{,}735$$
     </div>
     <div class="note blue">
-      <span class="lbl">Cómo se obtienen los valores críticos de la tabla F — cuatro preguntas</span>
+      <span class="lbl">Desarrollo paso a paso — cómo llegar a los valores críticos y al intervalo</span>
 
-      <strong>1. ¿Por qué gl = n − 1 y no gl = n?</strong><br>
-      F_obs = S₁²/S₂² es un cociente de dos varianzas muestrales. Cada varianza muestral S² se calcula como Σ(Xᵢ − X̄)²/(n−1). Ese "(n−1)" aparece porque al usar X̄ en lugar de μ "consumimos" una observación. Resultado: cada S² tiene (n−1) grados de libertad, no n.<br>
-      gl₁ = n₁ − 1 = 60 − 1 = <strong>59 ≈ 60</strong> (numerador, proviene de S₁²)<br>
-      gl₂ = n₂ − 1 = 60 − 1 = <strong>59 ≈ 60</strong> (denominador, proviene de S₂²)<br><br>
+      <strong>1. Grados de libertad</strong> (cada S² tiene n−1 gl porque usa X̄ en lugar de μ):<br>
+      $$gl_1 = n_1 - 1 = 60 - 1 = 59 \approx 60 \qquad gl_2 = n_2 - 1 = 60 - 1 = 59 \approx 60$$
 
-      <strong>2. ¿Por qué α/2 = 0,005 si α = 0,01?</strong><br>
-      El test de F es <strong>bilateral</strong>: H₁ dice σ₁²/σ₂² ≠ 1, lo que incluye tanto "σ₁² mucho mayor" (F muy grande) como "σ₁² mucho menor" (F muy pequeño). Dividimos el error α entre las dos colas: 0,5% en la cola derecha y 0,5% en la cola izquierda. De ahí los percentiles 0,995 y 0,005.<br><br>
+      <strong>2. Percentiles a buscar</strong> (test bilateral → α se divide en dos colas, α/2 = 0,005):<br>
+      $$\text{Cola superior: percentil } 1-\tfrac{\alpha}{2} = 1-0{,}005 = 0{,}995 \qquad \text{Cola inferior: percentil } \tfrac{\alpha}{2} = 0{,}005$$
 
-      <strong>3. ¿De dónde sale F_{60,60;0,995} = 1,96?</strong><br>
-      Se lee directamente de la <strong>tabla de distribución F</strong> para (gl₁=60, gl₂=60) en el percentil 99,5% (columna que deja 0,5% en la cola derecha). Para esa combinación de grados de libertad, el valor tabulado es 1,96. Es coincidencia numérica con Z_{0,975}=1,96; son distribuciones distintas.<br><br>
+      <strong>3. Límite superior</strong> — se lee directamente de la tabla F para (gl₁=60, gl₂=60):<br>
+      $$F_{60,\,60;\;0{,}995} = 1{,}96$$
 
-      <strong>4. ¿Por qué el límite inferior = 1/1,96 = 0,510?</strong><br>
-      La distribución F tiene esta propiedad: $F_{gl_1,\,gl_2;\;\alpha} = 1\,/\,F_{gl_2,\,gl_1;\;1-\alpha}$. Cuando gl₁ = gl₂ = gl, se simplifica a $F_{gl,\,gl;\;\alpha/2} = 1\,/\,F_{gl,\,gl;\;1-\alpha/2}$.<br>
-      Entonces: $F_{60,60;\;0{,}005} = 1/F_{60,60;\;0{,}995} = 1/1{,}96 = 0{,}510$<br>
-      <em>Intuición:</em> si S₁²/S₂² = 0,510 (cociente muy pequeño), significa S₂²/S₁² = 1/0,510 = 1,96 (el cociente inverso es muy grande). La misma asimetría, detectada "al revés".
+      <strong>4. Límite inferior</strong> — propiedad de simetría de la distribución F: $F_{gl,\,gl;\;\alpha/2} = 1\,/\,F_{gl,\,gl;\;1-\alpha/2}$:<br>
+      $$F_{60,\,60;\;0{,}005} = \frac{1}{F_{60,\,60;\;0{,}995}} = \frac{1}{1{,}96} = 0{,}510$$
+
+      <strong>5. Intervalo de no rechazo</strong>:<br>
+      $$\bigl(\,0{,}510\;;\;1{,}96\,\bigr)$$
+
+      <strong>6. Comparar F_obs con el intervalo</strong>:<br>
+      $$0{,}510 \;<\; \underbrace{0{,}735}_{F_{obs}} \;<\; 1{,}96 \quad\Rightarrow\quad F_{obs}\in\text{región de no rechazo} \quad\Rightarrow\quad \textbf{No se rechaza }H_0^F$$
     </div>
     <div class="formula">
       <span class="cap">Comparación: F_obs debe caer fuera del intervalo (0,510 ; 1,96) para rechazar</span>
