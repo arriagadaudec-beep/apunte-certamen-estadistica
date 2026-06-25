@@ -177,6 +177,12 @@
     font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;
     display:flex;align-items:center;justify-content:center;margin-top:2px;
   }
+  .proto-num.cond{background:var(--indigo)}
+  .proto-step.cond{background:var(--ic-light, rgba(59,79,176,.05));border-radius:12px;padding:16px 18px;margin-bottom:6px}
+  .proto-substeps{display:flex;flex-direction:column;gap:8px;margin:8px 0 0}
+  .proto-substeps .sub{display:flex;gap:10px;align-items:baseline}
+  .proto-substeps .sub .sn{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--indigo);flex-shrink:0;min-width:32px}
+  .proto-substeps .sub .st{font-size:.92rem;color:var(--ink-soft)}
   .proto-body{flex:1;min-width:0}
   .proto-body .pt{font-weight:700;font-size:1rem;margin:0 0 4px;font-family:'Spectral',serif}
   .proto-body .ps{font-size:.92rem;color:var(--ink-soft);margin:0 0 6px}
@@ -327,6 +333,24 @@
     <p class="lead">Toda prueba de hipótesis sigue este mismo esquema, sin importar si es Z, t, una o dos poblaciones. Apréndetelo de memoria.</p>
 
     <div class="protocol">
+      <div class="proto-step cond">
+        <div class="proto-num cond">0</div>
+        <div class="proto-body">
+          <p class="pt">Verificar si las varianzas son iguales o no <span style="font-weight:500;font-size:.8rem;color:var(--ink-soft)">(solo 2 poblaciones · medias · σ desconocidas)</span></p>
+          <p class="ps">Si comparas medias de 2 poblaciones y el enunciado no te dice si σ₁² = σ₂², debes averiguarlo con el cociente muestral antes de calcular el estadístico del Paso 3 (el denominador depende de esta respuesta).</p>
+          <div class="proto-substeps">
+            <div class="sub"><span class="sn">0.1</span><span class="st"><strong>Dividir varianzas</strong> — cociente muestral $F_{obs}=S_1^2/S_2^2$.</span></div>
+            <div class="sub"><span class="sn">0.2</span><span class="st"><strong>F crítico superior</strong> — con $gl_1=n_1-1$, $gl_2=n_2-1$ y percentil $1-\alpha/2$, lectura directa en la tabla F.</span></div>
+            <div class="sub"><span class="sn">0.3</span><span class="st"><strong>F crítico inferior</strong> — propiedad reciproca: $F_{crít,\,inf}=1/F_{crít,\,sup}$ (no se busca un segundo valor en la tabla).</span></div>
+            <div class="sub"><span class="sn">✓</span><span class="st"><strong>Verificación</strong> — ¿$F_{obs}$ cae entre $F_{crít,\,inf}$ y $F_{crít,\,sup}$? Sí → varianzas iguales (usa $S_p$ pooled). No → varianzas distintas (Welch).</span></div>
+          </div>
+          <div class="note" style="margin-top:10px">
+            <span class="lbl">Por qué es "Paso 0" y no "Paso 1"</span>
+            Se ejecuta antes de plantear H₀/H₁ del test que realmente te están pidiendo (medias, diferencia de medias). Es un test F auxiliar, no el test principal del ejercicio. Ver desarrollo completo en <a href="#l4ej1">L4 Ejercicio 1</a>.
+          </div>
+        </div>
+      </div>
+
       <div class="proto-step">
         <div class="proto-num">1</div>
         <div class="proto-body">
