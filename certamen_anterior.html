@@ -279,71 +279,71 @@
 
       <div class="note">
         <span class="lbl">Enunciado</span>
-        Se desea comparar el puntaje obtenido en una prueba estandarizada por estudiantes sometidos a dos métodos de estudio distintos. Se supone que los puntajes se distribuyen aproximadamente normal en ambos grupos. En cada grupo se obtuvo una muestra aleatoria de tamaño 7 y se calcularon los siguientes estadísticos:
+        Se desea comparar la contaminación atmosférica existente entre una localidad industrializada y otra localidad como control que está libre de industrias. Suponga que la concentración de material particulado respirable PM10 se distribuye aproximadamente normal en ambas zonas. En cada localidad se obtiene una muestra aleatoria de tamaño 6 y se calcularon los siguientes estadísticos:
       </div>
 
       <table>
         <thead>
-          <tr><th>Estadístico</th><th>Método A</th><th>Método B</th></tr>
+          <tr><th>Estadístico</th><th>Localidad contaminada</th><th>Localidad control</th></tr>
         </thead>
         <tbody>
-          <tr><td>Media muestral</td><td class="num">x̄ = 78 pts</td><td class="num">ȳ = 68 pts</td></tr>
-          <tr><td>Desv. estándar muestral</td><td class="num">s<sub>A</sub> = 14 pts</td><td class="num">s<sub>B</sub> = 10 pts</td></tr>
-          <tr><td>Tamaño de muestra</td><td class="num">n<sub>A</sub> = 7</td><td class="num">n<sub>B</sub> = 7</td></tr>
+          <tr><td>Media muestral</td><td class="num">x̄ = 51 ug/Nm³</td><td class="num">ȳ = 43 ug/Nm³</td></tr>
+          <tr><td>Desv. estándar muestral</td><td class="num">s₁ = 13</td><td class="num">s₂ = 11</td></tr>
+          <tr><td>Tamaño de muestra</td><td class="num">n₁ = 6</td><td class="num">n₂ = 6</td></tr>
         </tbody>
       </table>
 
-      <p><strong>a)</strong> Compruebe el supuesto de igualdad de varianzas poblacionales mediante el intervalo de confianza para el cociente de varianzas $\sigma_B^2/\sigma_A^2$, al <strong>95% de confianza</strong>.</p>
+      <p><strong>a)</strong> Compruebe el supuesto de igualdad de varianzas poblacionales mediante el intervalo de confianza para el cociente de varianzas $\sigma_2^2/\sigma_1^2$, al <strong>95% de confianza</strong>.</p>
 
       <details class="sol-block" open>
         <summary class="sol-head">
           <span class="sol-head-k">Solución · Parte a</span>
-          <span class="sol-head-t">IC al 95% para el cociente σ²<sub>B</sub>/σ²<sub>A</sub></span>
+          <span class="sol-head-t">IC al 95% para el cociente σ²₂/σ²₁</span>
           <span class="chev"></span>
         </summary>
         <div class="sol-body">
 
           <h3><span class="step">Identificar</span>los datos y el caso</h3>
-          <p class="lead">Las varianzas poblacionales son <strong>desconocidas</strong>. Queremos ver si podemos asumir $\sigma_A^2 = \sigma_B^2$. Para eso construimos un IC para el cociente y verificamos si contiene el valor 1.</p>
+          <p class="lead">Las varianzas poblacionales son <strong>desconocidas</strong>. Queremos ver si podemos asumir $\sigma_1^2 = \sigma_2^2$. Para eso construimos un IC para el cociente y verificamos si contiene el valor 1.</p>
           <ul class="data">
-            <li><span class="k">s²<sub>A</sub></span><span>14² = <strong>196</strong></span></li>
-            <li><span class="k">s²<sub>B</sub></span><span>10² = <strong>100</strong></span></li>
-            <li><span class="k">n<sub>A</sub>=n<sub>B</sub></span><span>7 → gl = n−1 = <strong>6</strong> para ambos</span></li>
-            <li><span class="k">F crítico</span><span>$F_{6,\,6;\,0{,}975} = \mathbf{5{,}82}$ &nbsp;(tabla F, 95% bilateral)</span></li>
+            <li><span class="k">s²₁</span><span>13² = <strong>169</strong></span></li>
+            <li><span class="k">s²₂</span><span>11² = <strong>121</strong></span></li>
+            <li><span class="k">n₁=n₂</span><span>6 → gl = n−1 = <strong>5</strong> para ambos</span></li>
+            <li><span class="k">F crítico</span><span>$F_{5,\,5;\,0{,}975} = \mathbf{7{,}15}$ &nbsp;(tabla F, 95% bilateral)</span></li>
           </ul>
 
           <h3><span class="step">Fórmula</span>del IC para el cociente (muestras iguales)</h3>
-          <p class="lead">Como $n_A = n_B$, el valor F crítico es el mismo en ambos extremos del intervalo:</p>
+          <p class="lead">Como $n_1 = n_2$, el valor F crítico es el mismo en ambos extremos del intervalo:</p>
           <div class="formula">
-            $$IC_{95\%}\!\left(\frac{\sigma_B^2}{\sigma_A^2}\right) = \left(\frac{s_B^2}{s_A^2}\cdot\frac{1}{F_{6,6;\,0{,}975}}\;;\;\frac{s_B^2}{s_A^2}\cdot F_{6,6;\,0{,}975}\right)$$
+            $$IC_{95\%}\!\left(\frac{\sigma_2^2}{\sigma_1^2}\right) = \left(\frac{s_2^2}{s_1^2}\cdot\frac{1}{F_{5,5;\,0{,}975}}\;;\;\frac{s_2^2}{s_1^2}\cdot F_{5,5;\,0{,}975}\right)$$
           </div>
 
           <h3><span class="step">Calcular</span>el cociente muestral</h3>
           <div class="formula">
-            $$\frac{s_B^2}{s_A^2} = \frac{100}{196} = 0{,}5102$$
+            $$\frac{s_2^2}{s_1^2} = \frac{121}{169} = 0{,}716$$
           </div>
 
           <h3><span class="step">Construir</span>el intervalo</h3>
           <div class="formula">
-            $$IC_{95\%} = \left(\frac{0{,}5102}{5{,}82}\;;\;0{,}5102\times 5{,}82\right)$$
+            $$IC_{95\%} = \left(\frac{0{,}716}{7{,}15}\;;\;0{,}716\times 7{,}15\right)$$
           </div>
           <div class="formula">
-            $$IC_{95\%} = \left(0{,}0877\;;\;2{,}969\right)$$
+            $$IC_{95\%} = \left(0{,}1001\;;\;5{,}1192\right)$$
           </div>
 
           <h3><span class="step">Decisión</span>¿contiene el 1?</h3>
           <div class="note sol">
             <span class="lbl">Regla de decisión</span>
-            Si <strong>1 ∈ IC</strong> → no se puede rechazar $\sigma_A^2 = \sigma_B^2$ → se asumen <strong>varianzas iguales</strong>.<br>
+            Si <strong>1 ∈ IC</strong> → no se puede rechazar $\sigma_1^2 = \sigma_2^2$ → se asumen <strong>varianzas iguales</strong>.<br>
             Si <strong>1 ∉ IC</strong> → se rechaza la igualdad → varianzas distintas (usar Welch).
           </div>
-          <p>Como $0{,}0877 < \mathbf{1} < 2{,}969$, el valor 1 <strong>pertenece al intervalo</strong>.</p>
+          <p>Como $0{,}1001 < \mathbf{1} < 5{,}1192$, el valor 1 <strong>pertenece al intervalo</strong>.</p>
 
           <div class="result">
             <span class="rk">Conclusión</span>
-            <span class="rv">IC = (0,088 ; 2,969) → 1 ∈ IC → Varianzas desconocidas pero iguales</span>
+            <span class="rv">IC = (0,1001 ; 5,1192) → 1 ∈ IC → Varianzas desconocidas pero iguales</span>
           </div>
-          <p style="margin-top:12px">Con un 95% de confianza, no hay evidencia suficiente para rechazar que $\sigma_A^2 = \sigma_B^2$. Se concluye que las varianzas son <strong>desconocidas pero iguales</strong>, lo que habilita el uso de la varianza pooled $s_p$ en los análisis siguientes.</p>
+          <p style="margin-top:12px">Con un 95% de confianza, no hay evidencia suficiente para rechazar que $\sigma_1^2 = \sigma_2^2$. Se concluye que las varianzas son <strong>desconocidas pero iguales</strong>, lo que habilita el uso de la varianza pooled $s_p$ en los análisis siguientes.</p>
         </div>
       </details>
 
@@ -360,69 +360,69 @@
 
       <div class="note">
         <span class="lbl">Enunciado</span>
-        Usando los mismos datos de la Pregunta 1 y la conclusión obtenida en ella, compruebe mediante un contraste de hipótesis la siguiente afirmación: <em>"la diferencia de puntajes medios entre el Método A y el Método B es superior a 15 puntos"</em>. Use $\alpha = 0{,}05$.
+        De lo concluido en el ejercicio 1 anterior, compruebe la siguiente afirmación mediante un contraste de hipótesis: <em>"la diferencia de medias poblacionales entre la localidad contaminada y la de control es superior a 6 ug/Nm³"</em>. Use $\alpha = 0{,}05$.
       </div>
 
       <div class="note info">
         <span class="lbl">Conexión con P1</span>
-        De la Pregunta 1 sabemos que las varianzas son <strong>desconocidas pero iguales</strong> → se usa el estadístico t con varianza pooled $s_p$ y $gl = n_A + n_B - 2 = 12$.
+        De la Pregunta 1 sabemos que las varianzas son <strong>desconocidas pero iguales</strong> → se usa el estadístico t con varianza pooled $s_p$ y $gl = n_1 + n_2 - 2 = 10$, con muestras pequeñas (n = 6 en cada grupo).
       </div>
 
       <details class="sol-block" open>
         <summary class="sol-head">
           <span class="sol-head-k">Solución · Parte a</span>
-          <span class="sol-head-t">Test t de 5 pasos · cola izquierda · δ₀ = 15</span>
+          <span class="sol-head-t">Test t de 5 pasos · cola izquierda · δ₀ = 6</span>
           <span class="chev"></span>
         </summary>
         <div class="sol-body">
 
           <h3><span class="step stepph">Paso 1</span>Hipótesis</h3>
-          <p class="lead">La afirmación es que la diferencia $\mu_A - \mu_B > 15$. Para verificarla, la ponemos como H₀ (lo que queremos "convencer de rechazar"). Si no se puede rechazar, los datos son consistentes con la afirmación.</p>
+          <p class="lead">La afirmación es que la diferencia $\mu_1 - \mu_2 > 6$. Para verificarla, la ponemos como H₀ (lo que queremos "convencer de rechazar"). Si no se puede rechazar, los datos son consistentes con la afirmación.</p>
           <div class="formula">
-            $$H_0: \mu_A - \mu_B \geq 15 \qquad H_1: \mu_A - \mu_B < 15 \quad\text{(cola izquierda)}$$
+            $$H_0: \mu_1 - \mu_2 \geq 6 \qquad H_1: \mu_1 - \mu_2 < 6 \quad\text{(cola izquierda)}$$
           </div>
 
           <h3><span class="step stepph">Paso 2</span>Nivel de significancia</h3>
-          <p class="lead">α = 0,05. Prueba unilateral izquierda → valor crítico $-t_{12;\,0{,}95}$.</p>
-          <p>De tabla t: $t_{12;\,0{,}95} = 1{,}782$, así que el valor crítico es $\mathbf{-1{,}782}$.</p>
+          <p class="lead">α = 0,05. Prueba unilateral izquierda → valor crítico $-t_{10;\,0{,}95}$.</p>
+          <p>De tabla t: $t_{10;\,0{,}95} = 1{,}81$, así que el valor crítico es $\mathbf{-1{,}81}$.</p>
 
           <h3><span class="step stepph">Paso 3</span>Estadístico calculado</h3>
 
           <p class="lead"><strong>Sub-paso A · Varianza pooled:</strong></p>
           <div class="formula">
-            $$s_p^2 = \frac{(n_A-1)\,s_A^2 + (n_B-1)\,s_B^2}{n_A+n_B-2} = \frac{(6)(196)+(6)(100)}{12} = \frac{1{.}176+600}{12} = \frac{1{.}776}{12} = 148$$
+            $$s_p^2 = \frac{(n_1-1)\,s_1^2 + (n_2-1)\,s_2^2}{n_1+n_2-2} = \frac{(5)(169)+(5)(121)}{10} = \frac{845+605}{10} = \frac{1{.}450}{10} = 145$$
           </div>
           <div class="formula">
-            $$s_p = \sqrt{148} = 12{,}166$$
+            $$s_p = \sqrt{145} = 12{,}042$$
           </div>
 
           <p class="lead"><strong>Sub-paso B · Error estándar:</strong></p>
           <div class="formula">
-            $$SE = s_p\sqrt{\frac{1}{n_A}+\frac{1}{n_B}} = 12{,}166\cdot\sqrt{\frac{1}{7}+\frac{1}{7}} = 12{,}166\cdot\sqrt{\frac{2}{7}} = 12{,}166\times 0{,}5345 = 6{,}503$$
+            $$SE = s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}} = 12{,}042\cdot\sqrt{\frac{1}{6}+\frac{1}{6}} = 12{,}042\cdot\sqrt{\frac{2}{6}} = 12{,}042\times 0{,}5774 = 6{,}95$$
           </div>
 
-          <p class="lead"><strong>Sub-paso C · Estadístico t (con δ₀ = 15):</strong></p>
+          <p class="lead"><strong>Sub-paso C · Estadístico T (con δ₀ = 6):</strong></p>
           <div class="formula">
-            $$t_c = \frac{(\bar x_A - \bar x_B) - \delta_0}{SE} = \frac{(78 - 68) - 15}{6{,}503} = \frac{10 - 15}{6{,}503} = \frac{-5}{6{,}503} = \mathbf{-0{,}769}$$
+            $$T = \frac{(\bar x - \bar y) - \delta_0}{SE} = \frac{(51 - 43) - 6}{6{,}95} = \frac{8 - 6}{6{,}95} = \frac{2}{6{,}95} = \mathbf{0{,}288}$$
           </div>
 
           <h3><span class="step stepph">Paso 4</span>Región de rechazo</h3>
-          <p class="lead">Cola izquierda: rechazar H₀ si $t_c < -t_{12;\,0{,}95} = -1{,}782$.</p>
+          <p class="lead">Cola izquierda: rechazar H₀ si $T_{obs} < -t_{10;\,0{,}95} = -1{,}81$.</p>
 
           <h3><span class="step stepph">Paso 5</span>Conclusión</h3>
           <div class="formula">
-            $$t_c = -0{,}769 \;>\; -1{,}782 \quad\Rightarrow\quad \textbf{No se rechaza }H_0$$
+            $$T_{obs} = 0{,}288 \;\not<\; -1{,}81 \quad\Rightarrow\quad \textbf{No se rechaza }H_0$$
           </div>
 
           <div class="result">
             <span class="rk">Decisión</span>
-            <span class="rv">No rechazar H₀: μ_A − μ_B ≥ 15</span>
+            <span class="rv">No rechazar H₀: μ₁ − μ₂ ≥ 6, al nivel del 5%</span>
           </div>
-          <p style="margin-top:12px">Con α = 0,05, <strong>no hay evidencia estadística suficiente</strong> para afirmar que la diferencia de puntajes medios entre el Método A y el Método B sea superior a 15 puntos. Los datos son consistentes con la afirmación planteada.</p>
+          <p style="margin-top:12px">Con α = 0,05, <strong>no se puede concluir</strong> que la diferencia de medias poblacionales entre la localidad contaminada y la de control sea mayor a 6 ug/Nm³.</p>
 
           <div class="note info" style="margin-top:12px">
-            <span class="lbl">Por qué H₀ es μ_A − μ_B ≥ 15 y no μ_A − μ_B = 15</span>
-            El enunciado pide "comprobar" (verificar) que la diferencia <em>es mayor a 15</em>. Al plantear esto como H₀ (lo que asumimos cierto), una región de rechazo cola izquierda nos dice si los datos echan abajo esa afirmación. Como no la echan abajo, los datos son compatibles con la afirmación.
+            <span class="lbl">Por qué H₀ es μ₁ − μ₂ ≥ 6 y no μ₁ − μ₂ = 6</span>
+            El enunciado pide "comprobar" (verificar) que la diferencia <em>es mayor a 6</em>. Al plantear esto como H₀ (lo que asumimos cierto), una región de rechazo cola izquierda nos dice si los datos echan abajo esa afirmación. Como no la echan abajo, no se puede concluir que la diferencia sea mayor a 6.
           </div>
         </div>
       </details>
@@ -440,7 +440,7 @@
 
       <div class="note">
         <span class="lbl">Enunciado</span>
-        Una investigadora desea estimar la <strong>proporción de hogares</strong> de una ciudad que utilizan algún tipo de energía solar. El error de muestreo no debe exceder el <strong>4%</strong> y se trabaja con un nivel de confianza del <strong>95%</strong>. La investigadora no cuenta con información previa sobre la proporción real. La ciudad tiene aproximadamente <strong>5.000 hogares</strong>. ¿Cuál debe ser el tamaño de muestra?
+        Un antropólogo desea estimar el <strong>% de habitantes</strong> de una isla que pertenece a un grupo sanguíneo X, con un error de muestreo no mayor al <strong>2%</strong> y con un nivel de confianza del <strong>90%</strong>. El antropólogo afirma, basándose en antecedentes étnicos, que la varianza es <strong>0,35</strong>, valor que debe considerar en su investigación. El número de habitantes de la isla es de alrededor de <strong>7.500</strong>. ¿Cuál debe ser el tamaño de muestra?
       </div>
 
       <details class="sol-block" open>
@@ -452,45 +452,45 @@
         <div class="sol-body">
 
           <h3><span class="step stepmu">Filtro</span>Identificar el tipo de problema</h3>
-          <p class="lead">El enunciado pide estimar una <strong>proporción</strong> → fórmula de proporciones. No hay subgrupos → <strong>MAS</strong> (no estratificado). La población es finita (N = 5.000) → se aplica el filtro del 5%.</p>
+          <p class="lead">El enunciado pide estimar una <strong>proporción</strong> → fórmula de proporciones. No hay subgrupos → <strong>MAS</strong> (no estratificado). La población es finita (N = 7.500) → se aplica el filtro del 5%.</p>
 
           <h3><span class="step stepmu">Paso 1</span>Cazar los datos</h3>
           <ul class="data">
-            <li><span class="k">N</span><span>5.000 hogares (población finita)</span></li>
-            <li><span class="k">e</span><span>4% = <strong>0,04</strong> (convertir a decimal; es proporción)</span></li>
-            <li><span class="k">Z<sub>α/2</sub></span><span>95% → <strong>1,96</strong></span></li>
-            <li><span class="k">p · q</span><span>Sin información previa → <strong>p = q = 0,5</strong> → p·q = <strong>0,25</strong></span></li>
+            <li><span class="k">N</span><span>7.500 habitantes (población finita)</span></li>
+            <li><span class="k">e</span><span>2% = <strong>0,02</strong> (convertir a decimal; es proporción)</span></li>
+            <li><span class="k">α</span><span>90% de confianza → α = 0,1 → <strong>Z<sub>0,95</sub> = 1,64</strong></span></li>
+            <li><span class="k">p · q</span><span>El antropólogo entrega la varianza directamente → <strong>p·q = 0,35</strong></span></li>
           </ul>
           <div class="note sol">
-            <span class="lbl">Por qué p = 0,5</span>
-            "Sin información previa" es la señal para aplicar la <strong>ley del mínimo esfuerzo</strong>: se usa p = 0,5 porque entrega la variabilidad máxima posible (p·q = 0,25), garantizando que la muestra sea suficientemente grande para cualquier proporción real.
+            <span class="lbl">Por qué se usa p·q = 0,35 directamente</span>
+            A diferencia del caso "sin información previa" (donde se usa p = q = 0,5), aquí el enunciado ya entrega la varianza p·q = 0,35 basada en antecedentes étnicos, así que se reemplaza directamente en la fórmula sin necesidad de estimar p y q por separado.
           </div>
 
           <h3><span class="step stepmu">Paso 2</span>Calcular el tamaño base n₀</h3>
           <div class="formula">
-            $$n_0 = \frac{Z^2\cdot p\cdot q}{e^2} = \frac{(1{,}96)^2\times 0{,}25}{(0{,}04)^2} = \frac{3{,}8416\times 0{,}25}{0{,}0016} = \frac{0{,}9604}{0{,}0016} = 600{,}25$$
+            $$n_0 = \frac{Z^2\cdot (p\cdot q)}{e^2} = \frac{(1{,}64)^2\times 0{,}35}{(0{,}02)^2} = \frac{2{,}6896\times 0{,}35}{0{,}0004} = \frac{0{,}94136}{0{,}0004} = 2{.}353{,}4$$
           </div>
 
           <h3><span class="step stepmu">Paso 3</span>Filtro del 5%</h3>
           <div class="formula">
-            $$\frac{n_0}{N} = \frac{600{,}25}{5{.}000} = 0{,}120$$
+            $$\frac{n_0}{N} = \frac{2{.}353{,}4}{7{.}500} = 0{,}314$$
           </div>
-          <p class="lead">Como $0{,}120 > 0{,}05$, la muestra base representa más del 5% de la población. <strong>Se aplica la corrección por población finita.</strong></p>
+          <p class="lead">Como $0{,}314 > 0{,}05$, la muestra base representa más del 5% de la población. <strong>Se aplica la corrección por población finita.</strong></p>
 
           <h3><span class="step stepmu">Paso 4</span>Corrección y redondeo</h3>
           <div class="formula">
-            $$n = \frac{n_0}{1+\dfrac{n_0}{N}} = \frac{600{,}25}{1+0{,}120} = \frac{600{,}25}{1{,}120} = 535{,}9$$
+            $$n = \frac{n_0}{1+\dfrac{n_0}{N}} = \frac{2{.}353{,}4}{1+0{,}314} = \frac{2{.}353{,}4}{1{,}314} = 1{.}791{,}02$$
           </div>
 
           <div class="result">
             <span class="rk">Tamaño de muestra (redondeo hacia arriba)</span>
-            <span class="rv">n = 536 hogares</span>
+            <span class="rv">n = 1.792 habitantes</span>
           </div>
-          <p style="margin-top:12px">El tamaño de muestra necesario para estimar la proporción de hogares con energía solar, con error máximo del 4% y 95% de confianza, es de <strong>536 hogares</strong>.</p>
+          <p style="margin-top:12px">El tamaño de muestra necesario para estimar la proporción de habitantes con grupo sanguíneo X, con error máximo del 2% y 90% de confianza, es de <strong>1.792 personas</strong>.</p>
 
           <div class="note info" style="margin-top:12px">
             <span class="lbl">Efecto de la corrección</span>
-            Sin corrección (si la población fuera "infinita"), necesitaríamos <strong>601 hogares</strong>. La corrección por ser una población finita de 5.000 lo reduce a <strong>536</strong>, un ahorro de 65 encuestas (~11%). El motivo: cuando la muestra pesa más del 5% de la población, la población misma "ayuda" — no es necesario encuestar tanto porque la cobertura relativa ya es alta.
+            Sin corrección (si la población fuera "infinita"), necesitaríamos <strong>2.354 personas</strong>. La corrección por ser una población finita de 7.500 lo reduce a <strong>1.792</strong>, un ahorro considerable. El motivo: cuando la muestra pesa más del 5% de la población, la población misma "ayuda" — no es necesario encuestar tanto porque la cobertura relativa ya es alta.
           </div>
 
         </div>
@@ -527,7 +527,7 @@
       </table>
       <div class="note info">
         <span class="lbl">Cómo leer la tabla</span>
-        Si tienes $n_1 = n_2 = 7$ (como en este certamen), entonces $gl = 6$ y para IC del 95% usas <strong>F = 5,82</strong>. El intervalo queda: $(s_2^2/s_1^2 \cdot 1/5{,}82 \;;\; s_2^2/s_1^2 \cdot 5{,}82)$.
+        Si tienes $n_1 = n_2 = 6$ (como en la Pregunta 1), entonces $gl = 5$ y para IC del 95% usas <strong>F = 7,15</strong>. El intervalo queda: $(s_2^2/s_1^2 \cdot 1/7{,}15 \;;\; s_2^2/s_1^2 \cdot 7{,}15)$.
       </div>
     </div>
   </div>

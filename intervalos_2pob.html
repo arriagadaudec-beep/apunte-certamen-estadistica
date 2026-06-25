@@ -461,83 +461,92 @@
   <!-- ======== EJEMPLO 1 · MEDIAS ======== -->
   <section class="solved" id="ej-medias">
     <span class="tag">✅ Ejemplo 1 · Diferencia de medias — Listado 3, Ej. 3</span>
-    <h2>Rendimiento de dos métodos de capacitación</h2>
+    <h2>Permeabilidad del concreto de asfalto (3% vs 7%)</h2>
     <div class="note ok">
       <span class="lbl">Enunciado</span>
-      Se aplican dos métodos de capacitación a grupos independientes de trabajadores y se mide su rendimiento (puntaje sobre 100). Los resultados son:<br><br>
-      Método A: <strong>n₁ = 10</strong>, X̄₁ = <strong>78.4</strong>, s₁ = <strong>8.2</strong><br>
-      Método B: <strong>n₂ = 12</strong>, X̄₂ = <strong>71.9</strong>, s₂ = <strong>9.1</strong><br><br>
-      Asumiendo varianzas iguales, construya un <strong>IC del 95%</strong> para la diferencia de rendimiento medio μ₁ − μ₂.
+      Se prepararon 4 especímenes de concreto de asfalto con 3% de contenido de asfalto y 4 especímenes con 7%. Se midió la permeabilidad al agua (pulg/hora) de cada especímen:<br><br>
+      Asfalto 3% (X): <strong>1189, 840, 1020, 980</strong><br>
+      Asfalto 7% (Y): <strong>853, 900, 733, 785</strong><br><br>
+      a) Construya un <strong>IC del 90%</strong> para la diferencia entre las permeabilidades medias μ<sub>X</sub> − μ<sub>Y</sub>. Interprete.<br>
+      b) Mencione los supuestos necesarios para que el resultado sea válido.
     </div>
 
-    <h3><span class="step">Paso 1</span>Identificar el caso y los datos</h3>
-    <p class="lead">El enunciado dice "varianzas iguales" y entrega <span class="var">s₁, s₂</span> (muestrales, no σ). → <strong>Caso B: t con sp</strong>.</p>
+    <h3><span class="step">Paso 1</span>Datos muestrales y varianzas desconocidas</h3>
+    <p class="lead">Las varianzas poblacionales son desconocidas, así que <strong>antes</strong> de construir el IC de la diferencia de medias hay que verificar si pueden asumirse iguales, usando el IC del <a href="#casef">cociente de varianzas</a>.</p>
     <ul class="data">
-      <li><span class="k">n₁, n₂</span><span>10 y 12</span></li>
-      <li><span class="k">X̄₁ − X̄₂</span><span>78.4 − 71.9 = <strong>6.5</strong></span></li>
-      <li><span class="k">s₁², s₂²</span><span>8.2² = 67.24 &nbsp;|&nbsp; 9.1² = 82.81</span></li>
-      <li><span class="k">gl</span><span>n₁ + n₂ − 2 = 10 + 12 − 2 = <strong>20</strong></span></li>
-      <li><span class="k">t<sub>0.025, 20</sub></span><span><strong>2.086</strong> (tabla t, 95% bilateral, 20 gl)</span></li>
+      <li><span class="k">n<sub>X</sub>, n<sub>Y</sub></span><span>4 y 4</span></li>
+      <li><span class="k">X̄, Ȳ</span><span>X̄ = 1007.2 &nbsp;|&nbsp; Ȳ = 817.75</span></li>
+      <li><span class="k">s²<sub>X</sub>, s²<sub>Y</sub></span><span>s<sub>X</sub> = 143.65 → s²<sub>X</sub> = 20,635.3 &nbsp;|&nbsp; s<sub>Y</sub> = 73.626 → s²<sub>Y</sub> = 5,420.8</span></li>
     </ul>
 
-    <h3><span class="step">Paso 2</span>Varianza pooled <span class="var">s²<sub>p</sub></span></h3>
+    <h3><span class="step">Paso 2</span>Verificar igualdad de varianzas (IC para σ²Y/σ²X)</h3>
+    <p class="lead">Con n<sub>X</sub> = n<sub>Y</sub> = 4, gl = 3 y 3, y usando F<sub>3,3;0.95</sub> = 9.28 (mismo valor en ambos extremos, IC 90%):</p>
     <div class="formula">
-      $$s_p^2 = \frac{(10-1)(67.24)+(12-1)(82.81)}{10+12-2} = \frac{9\times 67.24 + 11\times 82.81}{20}$$
+      $$IC_{90\%}\!\left(\frac{\sigma_Y^2}{\sigma_X^2}\right) = \left(\frac{s_Y^2}{s_X^2}\cdot\frac{1}{F_{3,3;0.95}}\;;\;\frac{s_Y^2}{s_X^2}\cdot F_{3,3;0.95}\right) = \left(0.263\cdot\frac{1}{9.28}\;;\;0.263\times 9.28\right)$$
     </div>
     <div class="formula">
-      $$s_p^2 = \frac{605.16 + 910.91}{20} = \frac{1{,}516.07}{20} = 75.80$$
+      $$IC_{90\%}\!\left(\frac{\sigma_Y^2}{\sigma_X^2}\right) = (0.028\;;\;2.441)$$
     </div>
-    <div class="formula">
-      $$s_p = \sqrt{75.80} = 8.706$$
-    </div>
-    <div class="mean">
-      <span class="lbl">Verificación</span>
-      67.24 &lt; <strong>75.80</strong> &lt; 82.81 ✓ — el pooled queda entre las dos varianzas, como debe ser.
+    <div class="note ok">
+      <span class="lbl">Decisión</span>
+      Como <strong>1 ∈ (0.028 ; 2.441)</strong> → no se rechaza σ²X = σ²Y → varianzas <strong>desconocidas pero iguales</strong> → se usa <strong>Caso B</strong> con sp y distribución t.
     </div>
 
-    <h3><span class="step">Paso 3</span>Error estándar</h3>
+    <h3><span class="step">Paso 3</span>Varianza pooled <span class="var">s²<sub>p</sub></span></h3>
     <div class="formula">
-      $$SE = 8.706\cdot\sqrt{\frac{1}{10}+\frac{1}{12}} = 8.706\cdot\sqrt{0.1+0.0833} = 8.706\cdot\sqrt{0.1833}$$
+      $$s_p^2 = \frac{(4-1)\,s_X^2 + (4-1)\,s_Y^2}{4+4-2} = \frac{3(20{,}635.3) + 3(5{,}420.8)}{6} = \frac{78{,}168.3}{6} = 13{,}028.05$$
     </div>
     <div class="formula">
-      $$SE = 8.706\times 0.4282 = 3.728$$
+      $$s_p = \sqrt{13{,}028.05} = 114.14$$
     </div>
 
-    <h3><span class="step">Paso 4</span>Semiancho y construcción del IC</h3>
+    <h3><span class="step">Paso 4</span>Error estándar y grados de libertad</h3>
     <div class="formula">
-      $$\text{semiancho} = t_{0.025,20}\cdot SE = 2.086\times 3.728 = 7.781$$
+      $$SE = s_p\sqrt{\frac{1}{4}+\frac{1}{4}} = 114.14\times\sqrt{0.5} = 80.72$$
+    </div>
+    <ul class="data">
+      <li><span class="k">gl</span><span>n<sub>X</sub> + n<sub>Y</sub> − 2 = 4 + 4 − 2 = <strong>6</strong></span></li>
+      <li><span class="k">t<sub>0.05, 6</sub></span><span><strong>1.943</strong> (IC 90% bilateral, α/2 = 0.05, 6 gl)</span></li>
+    </ul>
+
+    <h3><span class="step">Paso 5</span>Semiancho y construcción del IC</h3>
+    <div class="formula">
+      $$\text{semiancho} = t_{0.05,6}\cdot SE = 1.94\times 80.72 = 156.58$$
     </div>
     <div class="formula">
-      $$IC(\mu_1-\mu_2) = 6.5\;\pm\;7.781$$
+      $$IC(\mu_X-\mu_Y) = (1007.2-817.75)\;\pm\;156.58 = 189.45\;\pm\;156.58$$
     </div>
 
     <div class="result">
-      <span class="rk">Intervalo de confianza del 95%</span>
-      <span class="rv">IC(μ₁ − μ₂) = (−1.28 &nbsp;;&nbsp; 14.28)</span>
+      <span class="rk">Intervalo de confianza del 90%</span>
+      <span class="rv">IC(μ<sub>X</sub> − μ<sub>Y</sub>) = (32.87 &nbsp;;&nbsp; 346.03)</span>
     </div>
 
     <div class="note">
-      <span class="lbl">Conclusión</span>
-      El intervalo <strong>incluye el cero</strong>, por lo que con un 95% de confianza <strong>no hay evidencia suficiente</strong> para afirmar que el rendimiento medio difiere entre los dos métodos de capacitación.
+      <span class="lbl">Conclusión (parte a)</span>
+      El intervalo <strong>no incluye el cero</strong> (y es completamente positivo), por lo que con un 90% de confianza hay evidencia de que la permeabilidad media del concreto con 3% de asfalto es <strong>mayor</strong> que con 7%.
+    </div>
+    <div class="mean">
+      <span class="lbl">Supuestos necesarios (parte b)</span>
+      Tanto X como Y deben distribuirse <strong>Normal</strong>: $X\sim N(\mu_X,\sigma_X^2)$ y $Y\sim N(\mu_Y,\sigma_Y^2)$, con muestras aleatorias e independientes entre sí.
     </div>
   </section>
 
   <!-- ======== EJEMPLO 2 · PROPORCIONES ======== -->
   <section class="solved-p" id="ej-prop">
     <span class="tag" style="background:rgba(194,87,11,.1);color:var(--icp)">✅ Ejemplo 2 · Diferencia de proporciones — Listado 3, Ej. 4</span>
-    <h2>Satisfacción laboral en dos empresas</h2>
+    <h2>Accidentes automovilísticos según color del auto</h2>
     <div class="note warn">
       <span class="lbl">Enunciado</span>
-      En una encuesta sobre satisfacción laboral:<br><br>
-      Empresa A: <strong>180 de 300</strong> empleados están satisfechos.<br>
-      Empresa B: <strong>140 de 250</strong> empleados están satisfechos.<br><br>
-      Construya un <strong>IC del 90%</strong> para la diferencia de proporciones p₁ − p₂.
+      Se desea estudiar si hay diferencias en las probabilidades de ocurrencia de accidentes automovilísticos dependiendo del color de los autos. A <strong>100 propietarios</strong> de vehículos de color rojo y a <strong>200 propietarios</strong> de autos color blanco se les consultó si habían tenido algún accidente automovilístico durante el tiempo que han sido dueños de los autos. Se obtuvo que <strong>45</strong> de los dueños de autos rojos y <strong>70</strong> de los dueños de autos blancos habían tenido al menos un accidente.<br><br>
+      Construya un <strong>IC del 90%</strong> para la diferencia de las probabilidades de que ocurra al menos un accidente automovilístico.
     </div>
 
     <h3><span class="step">Paso 1</span>Calcular las proporciones muestrales</h3>
+    <p class="lead">X = "tiene al menos un accidente" en autos rojos; Y = lo mismo en autos blancos.</p>
     <ul class="data">
-      <li><span class="k">p̂₁</span><span>180 / 300 = <strong>0.60</strong>, &nbsp; q̂₁ = 1 − 0.60 = <strong>0.40</strong></span></li>
-      <li><span class="k">p̂₂</span><span>140 / 250 = <strong>0.56</strong>, &nbsp; q̂₂ = 1 − 0.56 = <strong>0.44</strong></span></li>
+      <li><span class="k">p̂<sub>X</sub></span><span>45 / 100 = <strong>0.45</strong>, &nbsp; q̂<sub>X</sub> = 1 − 0.45 = <strong>0.55</strong></span></li>
+      <li><span class="k">p̂<sub>Y</sub></span><span>70 / 200 = <strong>0.35</strong>, &nbsp; q̂<sub>Y</sub> = 1 − 0.35 = <strong>0.65</strong></span></li>
       <li><span class="k">Z<sub>0.05</sub></span><span><strong>1.645</strong> (90% bilateral → α/2 = 0.05)</span></li>
     </ul>
     <div class="mean">
@@ -547,35 +556,32 @@
 
     <h3><span class="step">Paso 2</span>Error estándar de la diferencia</h3>
     <div class="formula">
-      $$SE = \sqrt{\frac{(0.60)(0.40)}{300}+\frac{(0.56)(0.44)}{250}}$$
+      $$SE = \sqrt{\frac{(0.45)(0.55)}{100}+\frac{(0.35)(0.65)}{200}}$$
     </div>
     <div class="formula">
-      $$SE = \sqrt{\frac{0.24}{300}+\frac{0.2464}{250}} = \sqrt{0.000800 + 0.000986} = \sqrt{0.001786}$$
-    </div>
-    <div class="formula">
-      $$SE = 0.04226$$
+      $$SE = \sqrt{0.002475 + 0.001138} = \sqrt{0.003613} = 0.0601$$
     </div>
 
     <h3><span class="step">Paso 3</span>Construir el IC</h3>
     <div class="formula">
-      $$\text{semiancho} = 1.645\times 0.04226 = 0.06952$$
+      $$\text{semiancho} = 1.645\times 0.0601 = 0.0985$$
     </div>
     <div class="formula">
-      $$IC(p_1-p_2) = (0.60-0.56)\;\pm\;0.06952 = 0.04\;\pm\;0.06952$$
+      $$IC(p_X-p_Y) = (0.45-0.35)\;\pm\;0.0985 = 0.10\;\pm\;0.0985$$
     </div>
 
     <div class="result">
       <span class="rk">Intervalo de confianza del 90%</span>
-      <span class="rv">IC(p₁ − p₂) = (−0.030 &nbsp;;&nbsp; 0.110)</span>
+      <span class="rv">IC(p<sub>X</sub> − p<sub>Y</sub>) = (0.0015 &nbsp;;&nbsp; 0.1985)</span>
     </div>
 
     <div class="note warn">
       <span class="lbl">Conclusión</span>
-      El intervalo <strong>incluye el cero</strong>. Con 90% de confianza, no hay evidencia suficiente para afirmar que la proporción de satisfacción laboral difiere entre las dos empresas.
+      Como <strong>0 ∉ IC</strong>, con 90% de confianza hay evidencia de que la probabilidad de tener al menos un accidente <strong>difiere</strong> entre dueños de autos rojos y blancos (p<sub>X</sub> ≠ p<sub>Y</sub>).
     </div>
     <div class="mean">
       <span class="lbl">Interpretación práctica del intervalo</span>
-      El intervalo (−0.030 ; 0.110) dice que la diferencia real p₁ − p₂ podría ser desde −3 pp (Empresa B mejor) hasta +11 pp (Empresa A mejor), pasando por cero. Como el rango es amplio y cruza el cero, los datos no son suficientemente informativos para decidir cuál empresa tiene mayor satisfacción.
+      El intervalo (0.0015 ; 0.1985) está completamente sobre cero, aunque por muy poco en el extremo inferior. Esto indica que la proporción de accidentes es mayor en autos rojos que en blancos, aunque la diferencia real podría ser tan pequeña como 0.15 puntos porcentuales.
     </div>
   </section>
 
