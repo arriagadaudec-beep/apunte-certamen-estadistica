@@ -624,52 +624,51 @@
       La <strong>prueba F</strong> es el árbitro: decide a cuál de estos dos casos pertenece el problema. Sin ella, no sabes qué denominador usar.
     </div>
 
-    <h3>Paso previo · Prueba F de igualdad de varianzas</h3>
+    <h3><span class="step">Paso 0</span>Verificar si las varianzas son iguales o no</h3>
     <div class="note blue">
       <span class="lbl">¿Por qué el test F y el cálculo de Sp van ANTES de los 5 pasos?</span>
-      Los 5 pasos son el esqueleto formal del test. Pero en el <strong>Paso 3</strong> necesitas calcular el estadístico, y la fórmula de ese estadístico depende de si las varianzas poblacionales son iguales o no. Como no lo sabes, primero debes averiguarlo.<br><br>
-      <strong>Paso previo 1 — Prueba F:</strong> ¿son σ₁² y σ₂² iguales? → determina qué denominador usar.<br>
-      <strong>Paso previo 2 — Cálculo de Sp:</strong> si el F test dice "iguales", calcula la varianza combinada que irá en el denominador del Paso 3.<br>
-      <strong>Pasos 1 al 5:</strong> ahora sí ejecutas el protocolo con el denominador correcto ya listo.<br><br>
-      Analogía: es como preparar los ingredientes antes de cocinar. Los 5 pasos son la receta; el test F y el Sp son la mise en place.
+      Los 5 pasos son el esqueleto formal del test. Pero en el <strong>Paso 3</strong> necesitas calcular el estadístico, y la fórmula de ese estadístico depende de si las varianzas poblacionales son iguales o no. Como el enunciado no lo dice, el <strong>Paso 0</strong> lo averigua usando el cociente muestral $F_{obs}$, <em>antes</em> de entrar a los 5 pasos formales del test principal — por eso va numerado como "0", no como "1".<br><br>
+      Analogía: es como preparar los ingredientes antes de cocinar. Los 5 pasos son la receta; el Paso 0 y el cálculo de Sp son la mise en place.
     </div>
-    <p class="lead">Bilateral con α = 0,01. Decidimos si σ₁² = σ₂² antes de calcular el estadístico principal.</p>
-    <div class="formula">
-      <span class="cap">Hipótesis del paso previo</span>
+    <p class="lead">Bilateral con α = 0,01. Verificamos si σ₁² = σ₂² antes de calcular el estadístico principal.</p>
+    <div class="note">
+      <span class="lbl">Hipótesis del Paso 0 (referencia)</span>
       $$H_0^F:\;\frac{\sigma_1^2}{\sigma_2^2}=1 \qquad H_1^F:\;\frac{\sigma_1^2}{\sigma_2^2}\neq 1 \qquad \alpha=0{,}01$$
     </div>
+
+    <h3 style="margin-top:18px">0.1 · Dividir varianzas — cociente muestral</h3>
     <div class="formula">
-      <span class="cap">Estadístico F observado</span>
-      $$F_{obs}=\frac{S_1^2}{S_2^2}=\frac{(15{,}60)^2}{(18{,}20)^2}=\frac{243{,}36}{331{,}24}=0{,}735$$
+      <span class="cap">F_obs (cociente muestral)</span>
+      $$F_{obs}\;(\text{cociente muestral})=\frac{S_1^2}{S_2^2}=\frac{(15{,}60)^2}{(18{,}20)^2}=\frac{243{,}36}{331{,}24}=0{,}735$$
     </div>
+
+    <h3 style="margin-top:18px">0.2 · Calcular F crítico superior</h3>
     <div class="note blue">
-      <span class="lbl">Desarrollo paso a paso — cómo llegar a los valores críticos y al intervalo</span>
-
-      <strong>1. Grados de libertad</strong> (cada S² tiene n−1 gl porque usa X̄ en lugar de μ):<br>
+      <strong>Grados de libertad</strong> (cada S² tiene n−1 gl porque usa X̄ en lugar de μ):<br>
       $$gl_1 = n_1 - 1 = 60 - 1 = 59 \approx 60 \qquad gl_2 = n_2 - 1 = 60 - 1 = 59 \approx 60$$
-
-      <strong>2. Percentiles a buscar</strong> (test bilateral → α se divide en dos colas, α/2 = 0,005):<br>
-      $$\text{Cola superior: percentil } 1-\tfrac{\alpha}{2} = 1-0{,}005 = 0{,}995 \qquad \text{Cola inferior: percentil } \tfrac{\alpha}{2} = 0{,}005$$
-
-      <strong>3. Límite superior</strong> — se lee directamente de la tabla F para (gl₁=60, gl₂=60):<br>
-      $$F_{60,\,60;\;0{,}995} = 1{,}96$$
-
-      <strong>4. Límite inferior</strong> — propiedad de simetría de la distribución F: $F_{gl,\,gl;\;\alpha/2} = 1\,/\,F_{gl,\,gl;\;1-\alpha/2}$:<br>
-      $$F_{60,\,60;\;0{,}005} = \frac{1}{F_{60,\,60;\;0{,}995}} = \frac{1}{1{,}96} = 0{,}510$$
-
-      <strong>5. Intervalo de no rechazo</strong>:<br>
-      $$\bigl(\,0{,}510\;;\;1{,}96\,\bigr)$$
-
-      <strong>6. Comparar F_obs con el intervalo</strong>:<br>
-      $$0{,}510 \;<\; \underbrace{0{,}735}_{F_{obs}} \;<\; 1{,}96 \quad\Rightarrow\quad F_{obs}\in\text{región de no rechazo} \quad\Rightarrow\quad \textbf{No se rechaza }H_0^F$$
+      <strong>Percentil a buscar</strong> (test bilateral → α se divide en dos colas, α/2 = 0,005):<br>
+      $$\text{percentil } 1-\tfrac{\alpha}{2} = 1-0{,}005 = 0{,}995$$
+      <strong>Lectura directa en la tabla F</strong> para (gl₁=60, gl₂=60):<br>
+      $$F_{crít,\,sup} = F_{60,\,60;\;0{,}995} = 1{,}96$$
     </div>
+
+    <h3 style="margin-top:18px">0.3 · Calcular F crítico inferior</h3>
+    <div class="note blue">
+      Propiedad de simetría de la distribución F: $F_{gl,\,gl;\;\alpha/2} = 1\,/\,F_{gl,\,gl;\;1-\alpha/2}$. No se busca un segundo valor en la tabla — se invierte el F crítico superior:<br>
+      $$F_{crít,\,inf} = \frac{1}{F_{crít,\,sup}} = \frac{1}{1{,}96} = 0{,}510$$
+    </div>
+
+    <h3 style="margin-top:18px">Verificación · ¿F_obs cae entre los dos F críticos?</h3>
     <div class="formula">
-      <span class="cap">Comparación: F_obs debe caer fuera del intervalo (0,510 ; 1,96) para rechazar</span>
-      $$0{,}510 \;<\; 0{,}735 \;<\; 1{,}96 \quad\Rightarrow\quad F_{obs}\text{ está DENTRO} \Rightarrow \textbf{No se rechaza }H_0^F$$
+      $$\underbrace{0{,}510}_{F_{crít,\,inf}} \;<\; \underbrace{0{,}735}_{F_{obs}\,(\text{cociente muestral})} \;<\; \underbrace{1{,}96}_{F_{crít,\,sup}} \quad\Rightarrow\quad F_{obs}\in\text{región de no rechazo} \quad\Rightarrow\quad \textbf{No se rechaza }H_0^F$$
     </div>
     <div class="result">
-      <span class="rk">Conclusión paso previo</span>
+      <span class="rk">Conclusión Paso 0</span>
       <span class="rv">Varianzas iguales: σ₁² = σ₂² → usar Sp pooled</span>
+    </div>
+    <div class="note">
+      <span class="lbl">Compara con el Intervalo de Confianza</span>
+      Este mismo procedimiento (F crítico superior/inferior + cociente muestral) construye el <a href="intervalos_2pob.html#casef">Intervalo de Confianza para el cociente de varianzas σ²₂/σ²₁</a>: en vez de comparar si $F_{obs}$ cae entre los F críticos, se multiplica el cociente muestral por esos mismos F críticos y se ve si el <strong>1</strong> cae dentro del intervalo resultante. Es la misma decisión, mirada al revés.
     </div>
     <div class="note ok">
       <span class="lbl">¿Por qué varianzas iguales implica usar Sp y no S₁ o S₂ por separado?</span>
